@@ -1,11 +1,21 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
+import { START_GAME } from '../store/actions'
+import { connect } from 'react-redux'
 
-const Homepage = () => {
+const Homepage = (props) => {
     return (
         <div>
             <h1>Homepage</h1>
+            <Link to='/play'><button onClick={props.onStartGame}>START GAME</button></Link>
         </div>
     )
 }
 
-export default Homepage
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onStartGame: () => dispatch({type: START_GAME})
+    }
+}
+
+export default connect(null, mapDispatchToProps)(Homepage)
