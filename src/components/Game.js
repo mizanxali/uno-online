@@ -32,6 +32,7 @@ const Game = (props) => {
                     </span>
                 ))}
             </div>
+            <a href='/'>home</a>
         </div>
     )
 }

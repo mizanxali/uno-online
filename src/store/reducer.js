@@ -9,6 +9,10 @@ const CARDS = [
     'W', 'W', 'W', 'W', 'D4W', 'D4W', 'D4W', 'D4W'
 ]
 
+//REVERSE - #
+//SKIP - 404
+//DRAW 2 - 252
+
 const initialState = {
     gameOver: true,
     turn: '',
@@ -165,13 +169,121 @@ const reducer = (state = initialState, action) => {
                             }
                         }
                     }
+                    else if(state.currentNumber === 404) {
+                        console.log('Numbers matched!');
+                        if(cardPlayedBy === 'Player 1') {
+                            const removeIndex = state.player1Deck.indexOf(action.payload.cardPlayed)
+                            return {
+                                ...state,
+                                playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), action.payload.cardPlayed, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
+                                player1Deck: [...state.player1Deck.slice(0, removeIndex), ...state.player1Deck.slice(removeIndex + 1)],
+                                currentColor: colorOfPlayedCard,
+                                currentNumber: 404
+                            }
+                        }
+                        else {
+                            const removeIndex = state.player2Deck.indexOf(action.payload.cardPlayed)
+                            return {
+                                ...state,
+                                playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), action.payload.cardPlayed, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
+                                player2Deck: [...state.player2Deck.slice(0, removeIndex), ...state.player2Deck.slice(removeIndex + 1)],
+                                currentColor: colorOfPlayedCard,
+                                currentNumber: 404
+                            }
+                        }
+                    }
                     else {
                         alert('Invalid Move!')
                     }
                     break;
                 }
 
-                
+                case 'D2R': case 'D2G': case 'D2B': case 'D2Y': {
+                    const colorOfPlayedCard = action.payload.cardPlayed.charAt(2)
+                    
+                    if(state.currentColor === colorOfPlayedCard) {
+                        console.log('colors matched!');
+                        if(cardPlayedBy === 'Player 1') {
+                            const removeIndex = state.player1Deck.indexOf(action.payload.cardPlayed)
+
+                            const copiedDrawCardPileArray = [...state.drawCardPile]
+                            //pull out last two elements from it
+                            const drawCard1 = copiedDrawCardPileArray.pop()
+                            const drawCard2 = copiedDrawCardPileArray.pop()
+
+                            return {
+                                ...state,
+                                playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), action.payload.cardPlayed, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
+                                player1Deck: [...state.player1Deck.slice(0, removeIndex), ...state.player1Deck.slice(removeIndex + 1)],
+                                player2Deck: [...state.player2Deck.slice(0, state.player2Deck.length), drawCard1, drawCard2, ...state.player2Deck.slice(state.player2Deck.length)],
+                                currentColor: colorOfPlayedCard,
+                                currentNumber: 252,
+                                drawCardPile: [...copiedDrawCardPileArray]
+                            }
+                        }
+                        
+                        else {
+                            const removeIndex = state.player2Deck.indexOf(action.payload.cardPlayed)
+
+                            const copiedDrawCardPileArray = [...state.drawCardPile]
+                            //pull out last two elements from it
+                            const drawCard1 = copiedDrawCardPileArray.pop()
+                            const drawCard2 = copiedDrawCardPileArray.pop()
+                            return {
+                                ...state,
+                                playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), action.payload.cardPlayed, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
+                                player2Deck: [...state.player2Deck.slice(0, removeIndex), ...state.player2Deck.slice(removeIndex + 1)],
+                                player1Deck: [...state.player1Deck.slice(0, state.player1Deck.length), drawCard1, drawCard2, ...state.player1Deck.slice(state.player1Deck.length)],
+                                currentColor: colorOfPlayedCard,
+                                currentNumber: 252,
+                                drawCardPile: [...copiedDrawCardPileArray]
+                            }
+                        }
+                    }
+                    if(state.currentNumber === 252) {
+                        console.log('colors matched!');
+                        if(cardPlayedBy === 'Player 1') {
+                            const removeIndex = state.player1Deck.indexOf(action.payload.cardPlayed)
+
+                            const copiedDrawCardPileArray = [...state.drawCardPile]
+                            //pull out last two elements from it
+                            const drawCard1 = copiedDrawCardPileArray.pop()
+                            const drawCard2 = copiedDrawCardPileArray.pop()
+
+                            return {
+                                ...state,
+                                playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), action.payload.cardPlayed, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
+                                player1Deck: [...state.player1Deck.slice(0, removeIndex), ...state.player1Deck.slice(removeIndex + 1)],
+                                player2Deck: [...state.player2Deck.slice(0, state.player2Deck.length), drawCard1, drawCard2, ...state.player2Deck.slice(state.player2Deck.length)],
+                                currentColor: colorOfPlayedCard,
+                                currentNumber: 252,
+                                drawCardPile: [...copiedDrawCardPileArray]
+                            }
+                        }
+                        
+                        else {
+                            const removeIndex = state.player2Deck.indexOf(action.payload.cardPlayed)
+
+                            const copiedDrawCardPileArray = [...state.drawCardPile]
+                            //pull out last two elements from it
+                            const drawCard1 = copiedDrawCardPileArray.pop()
+                            const drawCard2 = copiedDrawCardPileArray.pop()
+                            return {
+                                ...state,
+                                playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), action.payload.cardPlayed, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
+                                player2Deck: [...state.player2Deck.slice(0, removeIndex), ...state.player2Deck.slice(removeIndex + 1)],
+                                player1Deck: [...state.player1Deck.slice(0, state.player1Deck.length), drawCard1, drawCard2, ...state.player1Deck.slice(state.player1Deck.length)],
+                                currentColor: colorOfPlayedCard,
+                                currentNumber: 252,
+                                drawCardPile: [...copiedDrawCardPileArray]
+                            }
+                        }
+                    }
+                    else {
+                        alert('Invalid Move!')
+                    }
+                    break;
+                }
             }
         }
         
