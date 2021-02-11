@@ -136,9 +136,42 @@ const reducer = (state = initialState, action) => {
                     else {
                         alert('Invalid Move!')
                     }
-                    
                     break;
                 }
+
+                case 'skipR': case 'skipG': case 'skipB': case 'skipY': {
+                    const colorOfPlayedCard = action.payload.cardPlayed.charAt(4)
+
+                    if(state.currentColor === colorOfPlayedCard) {
+                        console.log('colors matched!');
+                        if(cardPlayedBy === 'Player 1') {
+                            const removeIndex = state.player1Deck.indexOf(action.payload.cardPlayed)
+                            return {
+                                ...state,
+                                playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), action.payload.cardPlayed, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
+                                player1Deck: [...state.player1Deck.slice(0, removeIndex), ...state.player1Deck.slice(removeIndex + 1)],
+                                currentColor: colorOfPlayedCard,
+                                currentNumber: 404
+                            }
+                        }
+                        else {
+                            const removeIndex = state.player2Deck.indexOf(action.payload.cardPlayed)
+                            return {
+                                ...state,
+                                playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), action.payload.cardPlayed, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
+                                player2Deck: [...state.player2Deck.slice(0, removeIndex), ...state.player2Deck.slice(removeIndex + 1)],
+                                currentColor: colorOfPlayedCard,
+                                currentNumber: 404
+                            }
+                        }
+                    }
+                    else {
+                        alert('Invalid Move!')
+                    }
+                    break;
+                }
+
+                
             }
         }
         
