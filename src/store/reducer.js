@@ -9,6 +9,7 @@ const CARDS = [
     'W', 'W', 'W', 'W', 'D4W', 'D4W', 'D4W', 'D4W'
 ]
 
+//NUMBER CODES FOR ACTION CARDS
 //REVERSE - #
 //SKIP - 404
 //DRAW 2 - 252
@@ -48,7 +49,7 @@ const reducer = (state = initialState, action) => {
             const player2Deck = shuffledCards.splice(0, 7)
 
             //extract random card from shuffledCards and check if its not an action card
-            let startingCardIndex = Math.floor(Math.random() * 94)
+            let startingCardIndex
             while(true) {
                 startingCardIndex = Math.floor(Math.random() * 94)
                 if(shuffledCards[startingCardIndex]==='skipR' || shuffledCards[startingCardIndex]==='#R' || shuffledCards[startingCardIndex]==='D2R' ||
@@ -68,6 +69,7 @@ const reducer = (state = initialState, action) => {
             //store all remaining cards into drawCardPile
             const drawCardPile = shuffledCards
 
+            //return new state
             return {
                 gameOver: false,
                 turn: 'Player 1',
@@ -81,16 +83,25 @@ const reducer = (state = initialState, action) => {
         }
 
         case CARD_PLAYED: {
+            //extract player who played the card
             const cardPlayedBy = state.turn
             switch(action.payload.cardPlayed) {
+                //if card played was a number card
                 case '0R': case '1R': case '2R': case '3R': case '4R': case '5R': case '6R': case '7R': case '8R': case '9R': case '#R': case '0G': case '1G': case '2G': case '3G': case '4G': case '5G': case '6G': case '7G': case '8G': case '9G': case '#G': case '0B': case '1B': case '2B': case '3B': case '4B': case '5B': case '6B': case '7B': case '8B': case '9B': case '#B': case '0Y': case '1Y': case '2Y': case '3Y': case '4Y': case '5Y': case '6Y': case '7Y': case '8Y': case '9Y': case '#Y': {
+                    //extract number and color of played card
                     const numberOfPlayedCard = action.payload.cardPlayed.charAt(0)
                     const colorOfPlayedCard = action.payload.cardPlayed.charAt(1)
 
+                    //check for color match
                     if(state.currentColor === colorOfPlayedCard) {
-                        console.log('colors matched!');
+                        console.log('colors matched!')
+                        //check who played the card and return new state accordingly
                         if(cardPlayedBy === 'Player 1') {
+                            //remove the played card from player1's deck and add it to playedCardsPile (immutably)
+                            //then update turn, currentColor and currentNumber
                             const removeIndex = state.player1Deck.indexOf(action.payload.cardPlayed)
+
+                            //return new state
                             return {
                                 ...state,
                                 turn: 'Player 2',
@@ -101,7 +112,11 @@ const reducer = (state = initialState, action) => {
                             }
                         }
                         else {
+                            //remove the played card from player2's deck and add it to playedCardsPile (immutably)
+                            //then update turn, currentColor and currentNumber
                             const removeIndex = state.player2Deck.indexOf(action.payload.cardPlayed)
+
+                            //return new state
                             return {
                                 ...state,
                                 turn: 'Player 1',
@@ -112,10 +127,17 @@ const reducer = (state = initialState, action) => {
                             }
                         }
                     }
+
+                    //check for number match
                     else if(state.currentNumber === numberOfPlayedCard) {
-                        console.log('numbers matched!');
+                        console.log('numbers matched!')
+                        //check who played the card and return new state accordingly
                         if(cardPlayedBy === 'Player 1') {
+                            //remove the played card from player1's deck and add it to playedCardsPile (immutably)
+                            //then update turn, currentColor and currentNumber
                             const removeIndex = state.player1Deck.indexOf(action.payload.cardPlayed)
+
+                            //return new state
                             return {
                                 ...state,
                                 turn: 'Player 2',
@@ -126,7 +148,11 @@ const reducer = (state = initialState, action) => {
                             }
                         }
                         else {
+                            //remove the played card from player2's deck and add it to playedCardsPile (immutably)
+                            //then update turn, currentColor and currentNumber
                             const removeIndex = state.player2Deck.indexOf(action.payload.cardPlayed)
+
+                            //return new state
                             return {
                                 ...state,
                                 turn: 'Player 1',
@@ -137,19 +163,29 @@ const reducer = (state = initialState, action) => {
                             }
                         }
                     }
+
+                    //if no color or number match, invalid move - do not update state
                     else {
                         alert('Invalid Move!')
+                        return state
                     }
-                    break;
                 }
 
+                //if card played was a skip card
                 case 'skipR': case 'skipG': case 'skipB': case 'skipY': {
+                    //extract color of played skip card
                     const colorOfPlayedCard = action.payload.cardPlayed.charAt(4)
 
+                    //check for color match
                     if(state.currentColor === colorOfPlayedCard) {
-                        console.log('colors matched!');
+                        console.log('colors matched!')
+                        //check who played the card and return new state accordingly
                         if(cardPlayedBy === 'Player 1') {
+                            //remove the played card from player1's deck and add it to playedCardsPile (immutably)
+                            //then update currentColor and currentNumber
                             const removeIndex = state.player1Deck.indexOf(action.payload.cardPlayed)
+
+                            //return new state
                             return {
                                 ...state,
                                 playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), action.payload.cardPlayed, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
@@ -159,7 +195,11 @@ const reducer = (state = initialState, action) => {
                             }
                         }
                         else {
+                            //remove the played card from player2's deck and add it to playedCardsPile (immutably)
+                            //then update currentColor and currentNumber
                             const removeIndex = state.player2Deck.indexOf(action.payload.cardPlayed)
+
+                            //return new state
                             return {
                                 ...state,
                                 playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), action.payload.cardPlayed, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
@@ -169,10 +209,18 @@ const reducer = (state = initialState, action) => {
                             }
                         }
                     }
+
+                    //check for number match - if skip card played on skip card
                     else if(state.currentNumber === 404) {
-                        console.log('Numbers matched!');
+                        console.log('Numbers matched!')
+
+                        //check who played the card and return new state accordingly
                         if(cardPlayedBy === 'Player 1') {
+                            //remove the played card from player1's deck and add it to playedCardsPile (immutably)
+                            //then update currentColor and currentNumber - turn will remain same
                             const removeIndex = state.player1Deck.indexOf(action.payload.cardPlayed)
+
+                            //return new state
                             return {
                                 ...state,
                                 playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), action.payload.cardPlayed, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
@@ -182,7 +230,11 @@ const reducer = (state = initialState, action) => {
                             }
                         }
                         else {
+                            //remove the played card from player2's deck and add it to playedCardsPile (immutably)
+                            //then update currentColor and currentNumber - turn will remain same
                             const removeIndex = state.player2Deck.indexOf(action.payload.cardPlayed)
+
+                            //return new state
                             return {
                                 ...state,
                                 playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), action.payload.cardPlayed, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
@@ -192,25 +244,35 @@ const reducer = (state = initialState, action) => {
                             }
                         }
                     }
+                    //if no color or number match, invalid move - do not update state
                     else {
                         alert('Invalid Move!')
+                        return state
                     }
-                    break;
                 }
 
+                //if card played was a draw 2 card
                 case 'D2R': case 'D2G': case 'D2B': case 'D2Y': {
+                    //extract color of played skip card
                     const colorOfPlayedCard = action.payload.cardPlayed.charAt(2)
                     
+                    //check for color match
                     if(state.currentColor === colorOfPlayedCard) {
-                        console.log('colors matched!');
+                        console.log('colors matched!')
+                        //check who played the card and return new state accordingly
                         if(cardPlayedBy === 'Player 1') {
+                            //remove the played card from player1's deck and add it to playedCardsPile (immutably)
+                            //remove 2 new cards from drawCardPile and add them to player2's deck (immutably)
+                            //then update turn, currentColor and currentNumber
                             const removeIndex = state.player1Deck.indexOf(action.payload.cardPlayed)
 
+                            //make a copy of drawCardPile array
                             const copiedDrawCardPileArray = [...state.drawCardPile]
                             //pull out last two elements from it
                             const drawCard1 = copiedDrawCardPileArray.pop()
                             const drawCard2 = copiedDrawCardPileArray.pop()
 
+                            //return new state
                             return {
                                 ...state,
                                 playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), action.payload.cardPlayed, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
@@ -223,12 +285,18 @@ const reducer = (state = initialState, action) => {
                         }
                         
                         else {
+                            //remove the played card from player2's deck and add it to playedCardsPile (immutably)
+                            //remove 2 new cards from drawCardPile and add them to player1's deck (immutably)
+                            //then update turn, currentColor and currentNumber
                             const removeIndex = state.player2Deck.indexOf(action.payload.cardPlayed)
 
+                            //make a copy of drawCardPile array
                             const copiedDrawCardPileArray = [...state.drawCardPile]
                             //pull out last two elements from it
                             const drawCard1 = copiedDrawCardPileArray.pop()
                             const drawCard2 = copiedDrawCardPileArray.pop()
+
+                            //return new state
                             return {
                                 ...state,
                                 playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), action.payload.cardPlayed, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
@@ -240,16 +308,25 @@ const reducer = (state = initialState, action) => {
                             }
                         }
                     }
-                    if(state.currentNumber === 252) {
-                        console.log('colors matched!');
+
+                    //check for number match - if draw 2 card played on draw 2 card
+                    else if(state.currentNumber === 252) {                        
+                        console.log('number matched!')
+
+                        //check who played the card and return new state accordingly
                         if(cardPlayedBy === 'Player 1') {
+                            //remove the played card from player1's deck and add it to playedCardsPile (immutably)
+                            //remove 2 new cards from drawCardPile and add them to player2's deck (immutably)
+                            //then update turn, currentColor and currentNumber
                             const removeIndex = state.player1Deck.indexOf(action.payload.cardPlayed)
 
+                            //make a copy of drawCardPile array
                             const copiedDrawCardPileArray = [...state.drawCardPile]
                             //pull out last two elements from it
                             const drawCard1 = copiedDrawCardPileArray.pop()
                             const drawCard2 = copiedDrawCardPileArray.pop()
-
+                            
+                            //return new state
                             return {
                                 ...state,
                                 playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), action.payload.cardPlayed, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
@@ -262,12 +339,18 @@ const reducer = (state = initialState, action) => {
                         }
                         
                         else {
+                            //remove the played card from player2's deck and add it to playedCardsPile (immutably)
+                            //remove 2 new cards from drawCardPile and add them to player1's deck (immutably)
+                            //then update turn, currentColor and currentNumber
                             const removeIndex = state.player2Deck.indexOf(action.payload.cardPlayed)
 
+                            //make a copy of drawCardPile array
                             const copiedDrawCardPileArray = [...state.drawCardPile]
                             //pull out last two elements from it
                             const drawCard1 = copiedDrawCardPileArray.pop()
                             const drawCard2 = copiedDrawCardPileArray.pop()
+
+                            //return new state
                             return {
                                 ...state,
                                 playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), action.payload.cardPlayed, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
@@ -279,11 +362,13 @@ const reducer = (state = initialState, action) => {
                             }
                         }
                     }
+                    //if no color or number match, invalid move - do not update state
                     else {
                         alert('Invalid Move!')
+                        return state
                     }
-                    break;
                 }
+            
             }
         }
         

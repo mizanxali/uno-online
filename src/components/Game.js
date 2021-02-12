@@ -7,7 +7,8 @@ import './Game.css'
 const Game = (props) => {
     const player1active = props.turn === 'Player 1'
     return (
-        <div>
+        props.gameOver ? <div><h1>GAME OVER</h1><a href='/'>Home</a></div> :
+        <div className='Game'>
             <h1>Turn: {props.turn}</h1>
             <div className='player1Deck' style={player1active ? null : {pointerEvents: 'none'}}>
                 {props.player1Deck.map((item) => (
@@ -32,7 +33,7 @@ const Game = (props) => {
                     </span>
                 ))}
             </div>
-            <a href='/'>home</a>
+            <a href='/'>Home</a>
         </div>
     )
 }
