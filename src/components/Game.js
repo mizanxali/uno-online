@@ -7,7 +7,7 @@ import './Game.css'
 const Game = (props) => {
     const player1active = props.turn === 'Player 1'
     return (
-        props.gameOver ? <div><h1>GAME OVER</h1><a href='/'>Home</a></div> :
+        props.gameOver ? <div><h1>GAME FORFEITED</h1>{props.winner !== '' && <><h1>GAME OVER</h1><h2>{props.winner} wins!</h2></>}<a href='/'>Home</a></div> :
         <div className='Game'>
             <h1>Turn: {props.turn}</h1>
             <div className='player1Deck' style={player1active ? null : {pointerEvents: 'none'}}>
@@ -42,6 +42,7 @@ const Game = (props) => {
 const mapStateToProps = (state) => {
     return {
         gameOver: state.gameOver,
+        winner: state.winner,
         turn: state.turn,
         player1Deck: state.player1Deck,
         player2Deck: state.player2Deck,

@@ -1,6 +1,6 @@
 import { CARD_DRAWN, CARD_PLAYED, START_GAME } from "./actions";
 
-//pack of 108 cards
+//pack of 108 cards (# = reverse)
 const CARDS = [
     '0R', '1R', '1R', '2R', '2R', '3R', '3R', '4R', '4R', '5R', '5R', '6R', '6R', '7R', '7R', '8R', '8R', '9R', '9R', 'skipR', 'skipR', '#R', '#R', 'D2R', 'D2R',
     '0G', '1G', '1G', '2G', '2G', '3G', '3G', '4G', '4G', '5G', '5G', '6G', '6G', '7G', '7G', '8G', '8G', '9G', '9G', 'skipG', 'skipG', '#G', '#G', 'D2G', 'D2G',
@@ -10,7 +10,6 @@ const CARDS = [
 ]
 
 //NUMBER CODES FOR ACTION CARDS
-//REVERSE - #
 //SKIP - 404
 //DRAW 2 - 252
 //WILD - 300
@@ -18,6 +17,7 @@ const CARDS = [
 
 const initialState = {
     gameOver: true,
+    winner: '',
     turn: '',
     player1Deck: [],
     player2Deck: [],
@@ -25,6 +25,14 @@ const initialState = {
     currentNumber: '',
     playedCardsPile: [],
     drawCardPile: []
+}
+
+const checkGameOver = (arr) => {
+    return arr.length === 1
+}
+
+const setWinner = (arr, player) => {
+    return arr.length === 1 ? player : ''
 }
 
 const reducer = (state = initialState, action) => {
@@ -106,6 +114,8 @@ const reducer = (state = initialState, action) => {
                             //return new state
                             return {
                                 ...state,
+                                gameOver: checkGameOver(state.player1Deck),
+                                winner: setWinner(state.player1Deck, 'Player 1'),
                                 turn: 'Player 2',
                                 playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), action.payload.cardPlayed, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
                                 player1Deck: [...state.player1Deck.slice(0, removeIndex), ...state.player1Deck.slice(removeIndex + 1)],
@@ -121,6 +131,8 @@ const reducer = (state = initialState, action) => {
                             //return new state
                             return {
                                 ...state,
+                                gameOver: checkGameOver(state.player2Deck),
+                                winner: setWinner(state.player1Deck, 'Player 2'),
                                 turn: 'Player 1',
                                 playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), action.payload.cardPlayed, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
                                 player2Deck: [...state.player2Deck.slice(0, removeIndex), ...state.player2Deck.slice(removeIndex + 1)],
@@ -142,6 +154,8 @@ const reducer = (state = initialState, action) => {
                             //return new state
                             return {
                                 ...state,
+                                gameOver: checkGameOver(state.player1Deck),
+                                winner: setWinner(state.player1Deck, 'Player 1'),
                                 turn: 'Player 2',
                                 playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), action.payload.cardPlayed, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
                                 player1Deck: [...state.player1Deck.slice(0, removeIndex), ...state.player1Deck.slice(removeIndex + 1)],
@@ -157,6 +171,8 @@ const reducer = (state = initialState, action) => {
                             //return new state
                             return {
                                 ...state,
+                                gameOver: checkGameOver(state.player2Deck),
+                                winner: setWinner(state.player1Deck, 'Player 2'),
                                 turn: 'Player 1',
                                 playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), action.payload.cardPlayed, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
                                 player2Deck: [...state.player2Deck.slice(0, removeIndex), ...state.player2Deck.slice(removeIndex + 1)],
@@ -190,6 +206,8 @@ const reducer = (state = initialState, action) => {
                             //return new state
                             return {
                                 ...state,
+                                gameOver: checkGameOver(state.player1Deck),
+                                winner: setWinner(state.player1Deck, 'Player 1'),
                                 playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), action.payload.cardPlayed, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
                                 player1Deck: [...state.player1Deck.slice(0, removeIndex), ...state.player1Deck.slice(removeIndex + 1)],
                                 currentColor: colorOfPlayedCard,
@@ -204,6 +222,8 @@ const reducer = (state = initialState, action) => {
                             //return new state
                             return {
                                 ...state,
+                                gameOver: checkGameOver(state.player2Deck),
+                                winner: setWinner(state.player1Deck, 'Player 2'),
                                 playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), action.payload.cardPlayed, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
                                 player2Deck: [...state.player2Deck.slice(0, removeIndex), ...state.player2Deck.slice(removeIndex + 1)],
                                 currentColor: colorOfPlayedCard,
@@ -225,6 +245,8 @@ const reducer = (state = initialState, action) => {
                             //return new state
                             return {
                                 ...state,
+                                gameOver: checkGameOver(state.player1Deck),
+                                winner: setWinner(state.player1Deck, 'Player 1'),
                                 playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), action.payload.cardPlayed, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
                                 player1Deck: [...state.player1Deck.slice(0, removeIndex), ...state.player1Deck.slice(removeIndex + 1)],
                                 currentColor: colorOfPlayedCard,
@@ -239,6 +261,8 @@ const reducer = (state = initialState, action) => {
                             //return new state
                             return {
                                 ...state,
+                                gameOver: checkGameOver(state.player2Deck),
+                                winner: setWinner(state.player1Deck, 'Player 2'),
                                 playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), action.payload.cardPlayed, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
                                 player2Deck: [...state.player2Deck.slice(0, removeIndex), ...state.player2Deck.slice(removeIndex + 1)],
                                 currentColor: colorOfPlayedCard,
@@ -277,6 +301,8 @@ const reducer = (state = initialState, action) => {
                             //return new state
                             return {
                                 ...state,
+                                gameOver: checkGameOver(state.player1Deck),
+                                winner: setWinner(state.player1Deck, 'Player 1'),
                                 playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), action.payload.cardPlayed, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
                                 player1Deck: [...state.player1Deck.slice(0, removeIndex), ...state.player1Deck.slice(removeIndex + 1)],
                                 player2Deck: [...state.player2Deck.slice(0, state.player2Deck.length), drawCard1, drawCard2, ...state.player2Deck.slice(state.player2Deck.length)],
@@ -301,6 +327,8 @@ const reducer = (state = initialState, action) => {
                             //return new state
                             return {
                                 ...state,
+                                gameOver: checkGameOver(state.player2Deck),
+                                winner: setWinner(state.player1Deck, 'Player 2'),
                                 playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), action.payload.cardPlayed, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
                                 player2Deck: [...state.player2Deck.slice(0, removeIndex), ...state.player2Deck.slice(removeIndex + 1)],
                                 player1Deck: [...state.player1Deck.slice(0, state.player1Deck.length), drawCard1, drawCard2, ...state.player1Deck.slice(state.player1Deck.length)],
@@ -331,6 +359,8 @@ const reducer = (state = initialState, action) => {
                             //return new state
                             return {
                                 ...state,
+                                gameOver: checkGameOver(state.player1Deck),
+                                winner: setWinner(state.player1Deck, 'Player 1'),
                                 playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), action.payload.cardPlayed, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
                                 player1Deck: [...state.player1Deck.slice(0, removeIndex), ...state.player1Deck.slice(removeIndex + 1)],
                                 player2Deck: [...state.player2Deck.slice(0, state.player2Deck.length), drawCard1, drawCard2, ...state.player2Deck.slice(state.player2Deck.length)],
@@ -355,6 +385,8 @@ const reducer = (state = initialState, action) => {
                             //return new state
                             return {
                                 ...state,
+                                gameOver: checkGameOver(state.player2Deck),
+                                winner: setWinner(state.player1Deck, 'Player 2'),
                                 playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), action.payload.cardPlayed, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
                                 player2Deck: [...state.player2Deck.slice(0, removeIndex), ...state.player2Deck.slice(removeIndex + 1)],
                                 player1Deck: [...state.player1Deck.slice(0, state.player1Deck.length), drawCard1, drawCard2, ...state.player1Deck.slice(state.player1Deck.length)],
@@ -376,13 +408,15 @@ const reducer = (state = initialState, action) => {
                     //check who played the card and return new state accordingly
                     if(cardPlayedBy === 'Player 1') {
                         //ask for new color
-                        const newColor = prompt('Enter new color: R / G / B / Y')
+                        const newColor = prompt('Enter first letter of new color in uppercase (R/G/B/Y)')
                         //remove the played card from player1's deck and add it to playedCardsPile (immutably)
                         const removeIndex = state.player1Deck.indexOf(action.payload.cardPlayed)
                         //then update turn, currentColor and currentNumber
                         //return new state
                         return {
                             ...state,
+                            gameOver: checkGameOver(state.player1Deck),
+                            winner: setWinner(state.player1Deck, 'Player 1'),
                             turn: 'Player 2',
                             playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), action.payload.cardPlayed, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
                             player1Deck: [...state.player1Deck.slice(0, removeIndex), ...state.player1Deck.slice(removeIndex + 1)],
@@ -393,7 +427,7 @@ const reducer = (state = initialState, action) => {
                     
                     else {
                         //ask for new color
-                        const newColor = prompt('Enter new color: R / G / B / Y')
+                        const newColor = prompt('Enter first letter of new color in uppercase (R/G/B/Y)')
                         //remove the played card from player2's deck and add it to playedCardsPile (immutably)
                         const removeIndex = state.player2Deck.indexOf(action.payload.cardPlayed)
 
@@ -401,6 +435,8 @@ const reducer = (state = initialState, action) => {
                         //return new state
                         return {
                             ...state,
+                            gameOver: checkGameOver(state.player2Deck),
+                            winner: setWinner(state.player1Deck, 'Player 1'),
                             turn: 'Player 1',
                             playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), action.payload.cardPlayed, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
                             player2Deck: [...state.player2Deck.slice(0, removeIndex), ...state.player2Deck.slice(removeIndex + 1)],
@@ -415,7 +451,7 @@ const reducer = (state = initialState, action) => {
                     //check who played the card and return new state accordingly
                     if(cardPlayedBy === 'Player 1') {
                         //ask for new color
-                        const newColor = prompt('Enter new color: R / G / B / Y')
+                        const newColor = prompt('Enter first letter of new color in uppercase (R/G/B/Y)')
                         //remove the played card from player1's deck and add it to playedCardsPile (immutably)
                         const removeIndex = state.player1Deck.indexOf(action.payload.cardPlayed)
 
@@ -432,6 +468,8 @@ const reducer = (state = initialState, action) => {
                         //return new state
                         return {
                             ...state,
+                            gameOver: checkGameOver(state.player1Deck),
+                            winner: setWinner(state.player1Deck, 'Player 1'),
                             playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), action.payload.cardPlayed, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
                             player1Deck: [...state.player1Deck.slice(0, removeIndex), ...state.player1Deck.slice(removeIndex + 1)],
                             player2Deck: [...state.player2Deck.slice(0, state.player2Deck.length), drawCard1, drawCard2, drawCard3, drawCard4, ...state.player2Deck.slice(state.player2Deck.length)],
@@ -443,7 +481,7 @@ const reducer = (state = initialState, action) => {
                     
                     else {
                         //ask for new color
-                        const newColor = prompt('Enter new color: R / G / B / Y')
+                        const newColor = prompt('Enter first letter of new color in uppercase (R/G/B/Y)')
                         //remove the played card from player2's deck and add it to playedCardsPile (immutably)
                         const removeIndex = state.player2Deck.indexOf(action.payload.cardPlayed)
 
@@ -460,6 +498,8 @@ const reducer = (state = initialState, action) => {
                         //return new state
                         return {
                             ...state,
+                            gameOver: checkGameOver(state.player2Deck),
+                            winner: setWinner(state.player1Deck, 'Player 1'),
                             playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), action.payload.cardPlayed, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
                             player2Deck: [...state.player2Deck.slice(0, removeIndex), ...state.player2Deck.slice(removeIndex + 1)],
                             player1Deck: [...state.player1Deck.slice(0, state.player1Deck.length), drawCard1, drawCard2, drawCard3, drawCard4, ...state.player1Deck.slice(state.player1Deck.length)],
