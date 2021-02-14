@@ -1,4 +1,4 @@
-import { CARD_PLAYED, START_GAME } from "./actions";
+import { CARD_DRAWN, CARD_PLAYED, START_GAME } from "./actions";
 
 //pack of 108 cards
 const CARDS = [
@@ -429,8 +429,8 @@ const reducer = (state = initialState, action) => {
                         const drawCard4 = copiedDrawCardPileArray.pop()
 
                         //then update currentColor and currentNumber - turn will remain same
-                         //return new state
-                         return {
+                        //return new state
+                        return {
                             ...state,
                             playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), action.payload.cardPlayed, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
                             player1Deck: [...state.player1Deck.slice(0, removeIndex), ...state.player1Deck.slice(removeIndex + 1)],
@@ -468,6 +468,104 @@ const reducer = (state = initialState, action) => {
                             drawCardPile: [...copiedDrawCardPileArray]
                         }
                     }
+                }
+            }
+        }
+        
+        case CARD_DRAWN: {
+            //extract player who drew the card
+            const cardDrawnBy = state.turn
+
+            //check who drew the card and return new state accordingly
+            if(cardDrawnBy === 'Player 1') {
+                //remove 1 new card from drawCardPile and add it to player1's deck (immutably)
+                //make a copy of drawCardPile array
+                const copiedDrawCardPileArray = [...state.drawCardPile]
+                //pull out last element from it
+                const drawCard = copiedDrawCardPileArray.pop()
+                console.log(drawCard);
+                
+                //extract number and color of drawn card
+                const colorOfDrawnCard = drawCard.charAt(drawCard.length - 1)
+                let numberOfDrawnCard = drawCard.charAt(0)
+                if(drawCard === 'skipR' || drawCard === 'skipG' || drawCard === 'skipB' || drawCard === 'skipY') {
+                    numberOfDrawnCard = 404
+                }
+                if(drawCard === 'D2R' || drawCard === 'D2G' || drawCard === 'D2B' || drawCard === 'D2Y') {
+                    numberOfDrawnCard = 252
+                }
+                if(drawCard === 'W') {
+                    numberOfDrawnCard = 300
+                }
+                if(drawCard === 'D4W') {
+                    numberOfDrawnCard = 600
+                }
+
+                //check if drawn card is playable
+                if(numberOfDrawnCard === state.currentNumber || colorOfDrawnCard === state.currentColor) {
+                    //return new state
+                    return {
+                        ...state,
+                        turn: 'Player 2',
+                        playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), drawCard, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
+                        currentColor: colorOfDrawnCard,
+                        currentNumber: numberOfDrawnCard
+                    }
+                }
+
+                //else add the drawn card to player1's deck
+                //return new state
+                return {
+                    ...state,
+                    turn: 'Player 2',
+                    player1Deck: [...state.player1Deck.slice(0, state.player1Deck.length), drawCard, ...state.player1Deck.slice(state.player1Deck.length)],
+                    drawCardPile: [...copiedDrawCardPileArray]
+                }
+                
+            }
+            else {
+                //remove 1 new card from drawCardPile and add it to player2's deck (immutably)
+                //make a copy of drawCardPile array
+                const copiedDrawCardPileArray = [...state.drawCardPile]
+                //pull out last element from it
+                const drawCard = copiedDrawCardPileArray.pop()
+                console.log(drawCard);
+                
+                //extract number and color of drawn card
+                const colorOfDrawnCard = drawCard.charAt(drawCard.length - 1)
+                let numberOfDrawnCard = drawCard.charAt(0)
+                if(drawCard === 'skipR' || drawCard === 'skipG' || drawCard === 'skipB' || drawCard === 'skipY') {
+                    numberOfDrawnCard = 404
+                }
+                if(drawCard === 'D2R' || drawCard === 'D2G' || drawCard === 'D2B' || drawCard === 'D2Y') {
+                    numberOfDrawnCard = 252
+                }
+                if(drawCard === 'W') {
+                    numberOfDrawnCard = 300
+                }
+                if(drawCard === 'D4W') {
+                    numberOfDrawnCard = 600
+                }
+
+                //check if drawn card is playable
+                if(numberOfDrawnCard === state.currentNumber || colorOfDrawnCard === state.currentColor) {
+                    //return new state
+                    return {
+                        ...state,
+                        turn: 'Player 1',
+                        playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), drawCard, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
+                        currentColor: colorOfDrawnCard,
+                        currentNumber: numberOfDrawnCard
+                    }
+                }
+
+                //else add the drawn card to player2's deck
+                //return new state
+                return {
+                    ...state,
+                    turn: 'Player 1',
+                    player2Deck: [...state.player2Deck.slice(0, state.player2Deck.length), drawCard, ...state.player2Deck.slice(state.player2Deck.length)],
+                    drawCardPile: [...copiedDrawCardPileArray]
                 }
             }
         }

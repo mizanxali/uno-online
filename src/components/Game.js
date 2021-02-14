@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { CARD_PLAYED } from '../store/actions'
+import { CARD_DRAWN, CARD_PLAYED } from '../store/actions'
 
 import './Game.css'
 
@@ -22,6 +22,7 @@ const Game = (props) => {
             <hr />
             <div>
                 <h1>Current Card: {props.playedCardsPile[props.playedCardsPile.length-1]}</h1>
+                <button onClick={props.onCardDrawn}>DRAW CARD</button>
             </div>
             <hr />
             <div className='player2Deck' style={player1active ? {pointerEvents: 'none'} : null}>
@@ -53,7 +54,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onCardPlayed: (card) => dispatch({type: CARD_PLAYED, payload: {cardPlayed: card}})
+        onCardPlayed: (card) => dispatch({type: CARD_PLAYED, payload: {cardPlayed: card}}),
+        onCardDrawn: () => dispatch({type: CARD_DRAWN})
     }
 }
 
