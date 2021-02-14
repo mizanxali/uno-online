@@ -13,6 +13,8 @@ const CARDS = [
 //REVERSE - #
 //SKIP - 404
 //DRAW 2 - 252
+//WILD - 300
+//DRAW 4 WILD - 600
 
 const initialState = {
     gameOver: true,
@@ -263,7 +265,7 @@ const reducer = (state = initialState, action) => {
                         if(cardPlayedBy === 'Player 1') {
                             //remove the played card from player1's deck and add it to playedCardsPile (immutably)
                             //remove 2 new cards from drawCardPile and add them to player2's deck (immutably)
-                            //then update turn, currentColor and currentNumber
+                            //then update currentColor and currentNumber - turn will remain same
                             const removeIndex = state.player1Deck.indexOf(action.payload.cardPlayed)
 
                             //make a copy of drawCardPile array
@@ -287,7 +289,7 @@ const reducer = (state = initialState, action) => {
                         else {
                             //remove the played card from player2's deck and add it to playedCardsPile (immutably)
                             //remove 2 new cards from drawCardPile and add them to player1's deck (immutably)
-                            //then update turn, currentColor and currentNumber
+                            //then update currentColor and currentNumber - turn will remain same
                             const removeIndex = state.player2Deck.indexOf(action.payload.cardPlayed)
 
                             //make a copy of drawCardPile array
@@ -317,7 +319,7 @@ const reducer = (state = initialState, action) => {
                         if(cardPlayedBy === 'Player 1') {
                             //remove the played card from player1's deck and add it to playedCardsPile (immutably)
                             //remove 2 new cards from drawCardPile and add them to player2's deck (immutably)
-                            //then update turn, currentColor and currentNumber
+                            //then update currentColor and currentNumber - turn will remain same
                             const removeIndex = state.player1Deck.indexOf(action.payload.cardPlayed)
 
                             //make a copy of drawCardPile array
@@ -341,7 +343,7 @@ const reducer = (state = initialState, action) => {
                         else {
                             //remove the played card from player2's deck and add it to playedCardsPile (immutably)
                             //remove 2 new cards from drawCardPile and add them to player1's deck (immutably)
-                            //then update turn, currentColor and currentNumber
+                            //then update currentColor and currentNumber - turn will remain same
                             const removeIndex = state.player2Deck.indexOf(action.payload.cardPlayed)
 
                             //make a copy of drawCardPile array
@@ -369,6 +371,104 @@ const reducer = (state = initialState, action) => {
                     }
                 }
             
+                //if card played was a wild card
+                case 'W': {
+                    //check who played the card and return new state accordingly
+                    if(cardPlayedBy === 'Player 1') {
+                        //ask for new color
+                        const newColor = prompt('Enter new color: R / G / B / Y')
+                        //remove the played card from player1's deck and add it to playedCardsPile (immutably)
+                        const removeIndex = state.player1Deck.indexOf(action.payload.cardPlayed)
+                        //then update turn, currentColor and currentNumber
+                        //return new state
+                        return {
+                            ...state,
+                            turn: 'Player 2',
+                            playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), action.payload.cardPlayed, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
+                            player1Deck: [...state.player1Deck.slice(0, removeIndex), ...state.player1Deck.slice(removeIndex + 1)],
+                            currentColor: newColor,
+                            currentNumber: 300,
+                        }
+                    }
+                    
+                    else {
+                        //ask for new color
+                        const newColor = prompt('Enter new color: R / G / B / Y')
+                        //remove the played card from player2's deck and add it to playedCardsPile (immutably)
+                        const removeIndex = state.player2Deck.indexOf(action.payload.cardPlayed)
+
+                        //then update turn, currentColor and currentNumber
+                        //return new state
+                        return {
+                            ...state,
+                            turn: 'Player 1',
+                            playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), action.payload.cardPlayed, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
+                            player2Deck: [...state.player2Deck.slice(0, removeIndex), ...state.player2Deck.slice(removeIndex + 1)],
+                            currentColor: newColor,
+                            currentNumber: 300,
+                        }
+                    }
+                }
+            
+                //if card played was a draw four wild card
+                case 'D4W': {
+                    //check who played the card and return new state accordingly
+                    if(cardPlayedBy === 'Player 1') {
+                        //ask for new color
+                        const newColor = prompt('Enter new color: R / G / B / Y')
+                        //remove the played card from player1's deck and add it to playedCardsPile (immutably)
+                        const removeIndex = state.player1Deck.indexOf(action.payload.cardPlayed)
+
+                        //remove 2 new cards from drawCardPile and add them to player2's deck (immutably)
+                        //make a copy of drawCardPile array
+                        const copiedDrawCardPileArray = [...state.drawCardPile]
+                        //pull out last four elements from it
+                        const drawCard1 = copiedDrawCardPileArray.pop()
+                        const drawCard2 = copiedDrawCardPileArray.pop()
+                        const drawCard3 = copiedDrawCardPileArray.pop()
+                        const drawCard4 = copiedDrawCardPileArray.pop()
+
+                        //then update currentColor and currentNumber - turn will remain same
+                         //return new state
+                         return {
+                            ...state,
+                            playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), action.payload.cardPlayed, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
+                            player1Deck: [...state.player1Deck.slice(0, removeIndex), ...state.player1Deck.slice(removeIndex + 1)],
+                            player2Deck: [...state.player2Deck.slice(0, state.player2Deck.length), drawCard1, drawCard2, drawCard3, drawCard4, ...state.player2Deck.slice(state.player2Deck.length)],
+                            currentColor: newColor,
+                            currentNumber: 600,
+                            drawCardPile: [...copiedDrawCardPileArray]
+                        }
+                    }
+                    
+                    else {
+                        //ask for new color
+                        const newColor = prompt('Enter new color: R / G / B / Y')
+                        //remove the played card from player2's deck and add it to playedCardsPile (immutably)
+                        const removeIndex = state.player2Deck.indexOf(action.payload.cardPlayed)
+
+                        //remove 2 new cards from drawCardPile and add them to player1's deck (immutably)
+                        //make a copy of drawCardPile array
+                        const copiedDrawCardPileArray = [...state.drawCardPile]
+                        //pull out last four elements from it
+                        const drawCard1 = copiedDrawCardPileArray.pop()
+                        const drawCard2 = copiedDrawCardPileArray.pop()
+                        const drawCard3 = copiedDrawCardPileArray.pop()
+                        const drawCard4 = copiedDrawCardPileArray.pop()
+
+                        //then update currentColor and currentNumber - turn will remain same
+                        //return new state
+                        return {
+                            ...state,
+                            playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), action.payload.cardPlayed, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
+                            player2Deck: [...state.player2Deck.slice(0, removeIndex), ...state.player2Deck.slice(removeIndex + 1)],
+                            player1Deck: [...state.player1Deck.slice(0, state.player1Deck.length), drawCard1, drawCard2, drawCard3, drawCard4, ...state.player1Deck.slice(state.player1Deck.length)],
+                            currentColor: newColor,
+                            currentNumber: 600,
+                            drawCardPile: [...copiedDrawCardPileArray]
+                        }
+                    }
+                }
             }
         }
         
