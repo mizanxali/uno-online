@@ -529,19 +529,70 @@ const reducer = (state = initialState, action) => {
                 const colorOfDrawnCard = drawCard.charAt(drawCard.length - 1)
                 let numberOfDrawnCard = drawCard.charAt(0)
                 if(drawCard === 'skipR' || drawCard === 'skipG' || drawCard === 'skipB' || drawCard === 'skipY') {
-                    numberOfDrawnCard = 404
+                    //return new state
+                    return {
+                        ...state,
+                        playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), drawCard, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
+                        currentColor: colorOfDrawnCard,
+                        currentNumber: 404
+                    }
                 }
                 if(drawCard === 'D2R' || drawCard === 'D2G' || drawCard === 'D2B' || drawCard === 'D2Y') {
-                    numberOfDrawnCard = 252
+                    //remove 2 new cards from drawCardPile and add them to player2's deck (immutably)
+                    //make a copy of drawCardPile array
+                    const copiedDrawCardPileArray = [...state.drawCardPile]
+                    //pull out last two elements from it
+                    const drawCard1 = copiedDrawCardPileArray.pop()
+                    const drawCard2 = copiedDrawCardPileArray.pop()
+
+                    //return new state
+                    return {
+                        ...state,
+                        playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), drawCard, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
+                        player2Deck: [...state.player2Deck.slice(0, state.player2Deck.length), drawCard1, drawCard2, ...state.player2Deck.slice(state.player2Deck.length)],
+                        currentColor: colorOfDrawnCard,
+                        currentNumber: 252,
+                        drawCardPile: [...copiedDrawCardPileArray]
+                    }
                 }
                 if(drawCard === 'W') {
-                    numberOfDrawnCard = 300
+                    //ask for new color
+                    const newColor = prompt('Enter first letter of new color in uppercase (R/G/B/Y)')
+
+                    //return new state
+                    return {
+                        ...state,
+                        turn: 'Player 2',
+                        playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), drawCard, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
+                        currentColor: newColor,
+                        currentNumber: 300,
+                    }
                 }
                 if(drawCard === 'D4W') {
-                    numberOfDrawnCard = 600
+                    //ask for new color
+                    const newColor = prompt('Enter first letter of new color in uppercase (R/G/B/Y)')
+
+                    //remove 2 new cards from drawCardPile and add them to player1's deck (immutably)
+                    //make a copy of drawCardPile array
+                    const copiedDrawCardPileArray = [...state.drawCardPile]
+                    //pull out last four elements from it
+                    const drawCard1 = copiedDrawCardPileArray.pop()
+                    const drawCard2 = copiedDrawCardPileArray.pop()
+                    const drawCard3 = copiedDrawCardPileArray.pop()
+                    const drawCard4 = copiedDrawCardPileArray.pop()
+
+                    //return new state
+                    return {
+                        ...state,
+                        playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), drawCard, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
+                        player1Deck: [...state.player1Deck.slice(0, state.player1Deck.length), drawCard1, drawCard2, drawCard3, drawCard4, ...state.player1Deck.slice(state.player1Deck.length)],
+                        currentColor: newColor,
+                        currentNumber: 600,
+                        drawCardPile: [...copiedDrawCardPileArray]
+                    }
                 }
 
-                //check if drawn card is playable
+                //if not special card - check if drawn card is playable
                 if(numberOfDrawnCard === state.currentNumber || colorOfDrawnCard === state.currentColor) {
                     //return new state
                     return {
@@ -549,7 +600,8 @@ const reducer = (state = initialState, action) => {
                         turn: 'Player 2',
                         playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), drawCard, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
                         currentColor: colorOfDrawnCard,
-                        currentNumber: numberOfDrawnCard
+                        currentNumber: numberOfDrawnCard,
+                        drawCardPile: [...copiedDrawCardPileArray]
                     }
                 }
 
@@ -575,19 +627,70 @@ const reducer = (state = initialState, action) => {
                 const colorOfDrawnCard = drawCard.charAt(drawCard.length - 1)
                 let numberOfDrawnCard = drawCard.charAt(0)
                 if(drawCard === 'skipR' || drawCard === 'skipG' || drawCard === 'skipB' || drawCard === 'skipY') {
-                    numberOfDrawnCard = 404
+                    //return new state
+                    return {
+                        ...state,
+                        playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), drawCard, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
+                        currentColor: colorOfDrawnCard,
+                        currentNumber: 404
+                    }
                 }
                 if(drawCard === 'D2R' || drawCard === 'D2G' || drawCard === 'D2B' || drawCard === 'D2Y') {
-                    numberOfDrawnCard = 252
+                    //remove 2 new cards from drawCardPile and add them to player2's deck (immutably)
+                    //make a copy of drawCardPile array
+                    const copiedDrawCardPileArray = [...state.drawCardPile]
+                    //pull out last two elements from it
+                    const drawCard1 = copiedDrawCardPileArray.pop()
+                    const drawCard2 = copiedDrawCardPileArray.pop()
+
+                    //return new state
+                    return {
+                        ...state,
+                        playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), drawCard, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
+                        player2Deck: [...state.player2Deck.slice(0, state.player2Deck.length), drawCard1, drawCard2, ...state.player2Deck.slice(state.player2Deck.length)],
+                        currentColor: colorOfDrawnCard,
+                        currentNumber: 252,
+                        drawCardPile: [...copiedDrawCardPileArray]
+                    }
                 }
                 if(drawCard === 'W') {
-                    numberOfDrawnCard = 300
+                    //ask for new color
+                    const newColor = prompt('Enter first letter of new color in uppercase (R/G/B/Y)')
+
+                    //return new state
+                    return {
+                        ...state,
+                        turn: 'Player 1',
+                        playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), drawCard, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
+                        currentColor: newColor,
+                        currentNumber: 300,
+                    }
                 }
                 if(drawCard === 'D4W') {
-                    numberOfDrawnCard = 600
+                    //ask for new color
+                    const newColor = prompt('Enter first letter of new color in uppercase (R/G/B/Y)')
+
+                    //remove 2 new cards from drawCardPile and add them to player1's deck (immutably)
+                    //make a copy of drawCardPile array
+                    const copiedDrawCardPileArray = [...state.drawCardPile]
+                    //pull out last four elements from it
+                    const drawCard1 = copiedDrawCardPileArray.pop()
+                    const drawCard2 = copiedDrawCardPileArray.pop()
+                    const drawCard3 = copiedDrawCardPileArray.pop()
+                    const drawCard4 = copiedDrawCardPileArray.pop()
+
+                    //return new state
+                    return {
+                        ...state,
+                        playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), drawCard, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
+                        player1Deck: [...state.player1Deck.slice(0, state.player1Deck.length), drawCard1, drawCard2, drawCard3, drawCard4, ...state.player1Deck.slice(state.player1Deck.length)],
+                        currentColor: newColor,
+                        currentNumber: 600,
+                        drawCardPile: [...copiedDrawCardPileArray]
+                    }
                 }
 
-                //check if drawn card is playable
+                //if not special card - check if drawn card is playable
                 if(numberOfDrawnCard === state.currentNumber || colorOfDrawnCard === state.currentColor) {
                     //return new state
                     return {
@@ -595,7 +698,8 @@ const reducer = (state = initialState, action) => {
                         turn: 'Player 1',
                         playedCardsPile: [...state.playedCardsPile.slice(0, state.playedCardsPile.length), drawCard, ...state.playedCardsPile.slice(state.playedCardsPile.length)],
                         currentColor: colorOfDrawnCard,
-                        currentNumber: numberOfDrawnCard
+                        currentNumber: numberOfDrawnCard,
+                        drawCardPile: [...copiedDrawCardPileArray]
                     }
                 }
 
