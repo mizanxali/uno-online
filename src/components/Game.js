@@ -483,10 +483,12 @@ const Game = () => {
                 setDrawCardPile([...copiedDrawCardPileArray])
             }
             //else add the drawn card to player1's deck
-            //set new state
-            setTurn('Player 2')
-            setPlayer1Deck([...player1Deck.slice(0, player1Deck.length), drawCard, ...player1Deck.slice(player1Deck.length)])
-            setDrawCardPile([...copiedDrawCardPileArray])
+            else {
+                //set new state
+                setTurn('Player 2')
+                setPlayer1Deck([...player1Deck.slice(0, player1Deck.length), drawCard, ...player1Deck.slice(player1Deck.length)])
+                setDrawCardPile([...copiedDrawCardPileArray])
+            }
         }
         else {
             //remove 1 new card from drawCardPile and add it to player2's deck (immutably)
@@ -557,10 +559,12 @@ const Game = () => {
                 setDrawCardPile([...copiedDrawCardPileArray])
             }
             //else add the drawn card to player2's deck
-            //set new state
-            setTurn('Player 1')
-            setPlayer2Deck([...player2Deck.slice(0, player2Deck.length), drawCard, ...player2Deck.slice(player2Deck.length)])
-            setDrawCardPile([...copiedDrawCardPileArray])
+            else {
+                //set new state
+                setTurn('Player 1')
+                setPlayer2Deck([...player2Deck.slice(0, player2Deck.length), drawCard, ...player2Deck.slice(player2Deck.length)])
+                setDrawCardPile([...copiedDrawCardPileArray])
+            }
         }
     }
     
