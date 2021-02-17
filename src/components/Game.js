@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react'
 import PACK_OF_CARDS from '../utils/packOfCards'
 import shuffleArray from '../utils/shuffleArray'
 
-import './Game.css'
-
 //NUMBER CODES FOR ACTION CARDS
 //SKIP - 404
 //DRAW 2 - 252
@@ -22,14 +20,6 @@ const Game = () => {
     const [currentNumber, setCurrentNumber] = useState('')
     const [playedCardsPile, setPlayedCardsPile] = useState([])
     const [drawCardPile, setDrawCardPile] = useState([])
-
-    const checkGameOver = (arr) => {
-        return arr.length === 1
-    }
-    
-    const checkWinner = (arr, player) => {
-        return arr.length === 1 ? player : ''
-    }
 
     //runs once on component mount
     useEffect(() => {
@@ -73,6 +63,15 @@ const Game = () => {
         setPlayedCardsPile([...playedCardsPile])
         setDrawCardPile([...drawCardPile])
     }, [])
+
+    //some util functions
+    const checkGameOver = (arr) => {
+        return arr.length === 1
+    }
+    
+    const checkWinner = (arr, player) => {
+        return arr.length === 1 ? player : ''
+    }
     
     const onCardPlayedHandler = (played_card) => {
         //extract player who played the card
@@ -421,18 +420,18 @@ const Game = () => {
             const copiedDrawCardPileArray = [...drawCardPile]
             //pull out last element from it
             const drawCard = copiedDrawCardPileArray.pop()
-            console.log(drawCard);
-            
             //extract number and color of drawn card
             const colorOfDrawnCard = drawCard.charAt(drawCard.length - 1)
             let numberOfDrawnCard = drawCard.charAt(0)
-            if(drawCard === 'skipR' || drawCard === 'skipG' || drawCard === 'skipB' || drawCard === 'skipY') {
+            if(colorOfDrawnCard === currentColor && (drawCard === 'skipR' || drawCard === 'skipG' || drawCard === 'skipB' || drawCard === 'skipY')) {
+                alert(`You drew ${drawCard}. It was played for you.`)
                 //set new state
                 setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), drawCard, ...playedCardsPile.slice(playedCardsPile.length)])
                 setCurrentColor(colorOfDrawnCard)
                 setCurrentNumber(404)
             }
-            if(drawCard === 'D2R' || drawCard === 'D2G' || drawCard === 'D2B' || drawCard === 'D2Y') {
+            else if(colorOfDrawnCard === currentColor && (drawCard === 'D2R' || drawCard === 'D2G' || drawCard === 'D2B' || drawCard === 'D2Y')) {
+                alert(`You drew ${drawCard}. It was played for you.`)
                 //remove 2 new cards from drawCardPile and add them to player2's deck (immutably)
                 //make a copy of drawCardPile array
                 const copiedDrawCardPileArray = [...drawCardPile]
@@ -446,7 +445,8 @@ const Game = () => {
                 setCurrentNumber(252)
                 setDrawCardPile([...copiedDrawCardPileArray])
             }
-            if(drawCard === 'W') {
+            else if(drawCard === 'W') {
+                alert(`You drew ${drawCard}. It was played for you.`)
                 //ask for new color
                 const newColor = prompt('Enter first letter of new color in uppercase (R/G/B/Y)')
                 //set new state
@@ -455,7 +455,8 @@ const Game = () => {
                 setCurrentColor(newColor)
                 setCurrentNumber(300)
             }
-            if(drawCard === 'D4W') {
+            else if(drawCard === 'D4W') {
+                alert(`You drew ${drawCard}. It was played for you.`)
                 //ask for new color
                 const newColor = prompt('Enter first letter of new color in uppercase (R/G/B/Y)')
                 //remove 2 new cards from drawCardPile and add them to player1's deck (immutably)
@@ -474,7 +475,8 @@ const Game = () => {
                 setDrawCardPile([...copiedDrawCardPileArray])
             }
             //if not action card - check if drawn card is playable
-            if(numberOfDrawnCard === currentNumber || colorOfDrawnCard === currentColor) {
+            else if(numberOfDrawnCard === currentNumber || colorOfDrawnCard === currentColor) {
+                alert(`You drew ${drawCard}. It was played for you.`)
                 //set new state
                 setTurn('Player 2')
                 setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), drawCard, ...playedCardsPile.slice(playedCardsPile.length)])
@@ -484,6 +486,7 @@ const Game = () => {
             }
             //else add the drawn card to player1's deck
             else {
+                alert(`You drew ${drawCard}.`)
                 //set new state
                 setTurn('Player 2')
                 setPlayer1Deck([...player1Deck.slice(0, player1Deck.length), drawCard, ...player1Deck.slice(player1Deck.length)])
@@ -496,18 +499,18 @@ const Game = () => {
             const copiedDrawCardPileArray = [...drawCardPile]
             //pull out last element from it
             const drawCard = copiedDrawCardPileArray.pop()
-            console.log(drawCard);
-            
             //extract number and color of drawn card
             const colorOfDrawnCard = drawCard.charAt(drawCard.length - 1)
             let numberOfDrawnCard = drawCard.charAt(0)
-            if(drawCard === 'skipR' || drawCard === 'skipG' || drawCard === 'skipB' || drawCard === 'skipY') {
+            if(colorOfDrawnCard === currentColor && (drawCard === 'skipR' || drawCard === 'skipG' || drawCard === 'skipB' || drawCard === 'skipY')) {
+                alert(`You drew ${drawCard}. It was played for you.`)
                 //set new state
                 setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), drawCard, ...playedCardsPile.slice(playedCardsPile.length)])
                 setCurrentColor(colorOfDrawnCard)
                 setCurrentNumber(404)
             }
-            if(drawCard === 'D2R' || drawCard === 'D2G' || drawCard === 'D2B' || drawCard === 'D2Y') {
+            else if(colorOfDrawnCard === currentColor && (drawCard === 'D2R' || drawCard === 'D2G' || drawCard === 'D2B' || drawCard === 'D2Y')) {
+                alert(`You drew ${drawCard}. It was played for you.`)
                 //remove 2 new cards from drawCardPile and add them to player2's deck (immutably)
                 //make a copy of drawCardPile array
                 const copiedDrawCardPileArray = [...drawCardPile]
@@ -521,7 +524,8 @@ const Game = () => {
                 setCurrentNumber(252)
                 setDrawCardPile([...copiedDrawCardPileArray])
             }
-            if(drawCard === 'W') {
+            else if(drawCard === 'W') {
+                alert(`You drew ${drawCard}. It was played for you.`)
                 //ask for new color
                 const newColor = prompt('Enter first letter of new color in uppercase (R/G/B/Y)')
                 //set new state
@@ -530,7 +534,8 @@ const Game = () => {
                 setCurrentColor(newColor)
                 setCurrentNumber(300)
             }
-            if(drawCard === 'D4W') {
+            else if(drawCard === 'D4W') {
+                alert(`You drew ${drawCard}. It was played for you.`)
                 //ask for new color
                 const newColor = prompt('Enter first letter of new color in uppercase (R/G/B/Y)')
                 //remove 2 new cards from drawCardPile and add them to player1's deck (immutably)
@@ -548,9 +553,9 @@ const Game = () => {
                 setCurrentNumber(600)
                 setDrawCardPile([...copiedDrawCardPileArray])
             }
-
             //if not action card - check if drawn card is playable
-            if(numberOfDrawnCard === currentNumber || colorOfDrawnCard === currentColor) {
+            else if(numberOfDrawnCard === currentNumber || colorOfDrawnCard === currentColor) {
+                alert(`You drew ${drawCard}. It was played for you.`)
                 //set new state
                 setTurn('Player 1')
                 setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), drawCard, ...playedCardsPile.slice(playedCardsPile.length)])
@@ -560,6 +565,7 @@ const Game = () => {
             }
             //else add the drawn card to player2's deck
             else {
+                alert(`You drew ${drawCard}.`)
                 //set new state
                 setTurn('Player 1')
                 setPlayer2Deck([...player2Deck.slice(0, player2Deck.length), drawCard, ...player2Deck.slice(player2Deck.length)])
