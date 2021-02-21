@@ -1,0 +1,24 @@
+{
+  "name": "uno-online",
+  "version": "1.0.0",
+  "description": "Online multiplayer card game",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mizanxali/uno-online.git"
+  },
+  "author": "Mizan Ali",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mizanxali/uno-online/issues"
+  },
+  "homepage": "https://github.com/mizanxali/uno-online#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "socket.io": "^3.1.1"
+  }
+}
