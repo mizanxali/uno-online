@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import PACK_OF_CARDS from '../utils/packOfCards'
 import shuffleArray from '../utils/shuffleArray'
+import io from 'socket.io-client'
 
 //NUMBER CODES FOR ACTION CARDS
 //SKIP - 404
@@ -8,7 +9,22 @@ import shuffleArray from '../utils/shuffleArray'
 //WILD - 300
 //DRAW 4 WILD - 600
 
+let socket
+const ENDPOINT = 'http://localhost:5000'
+
 const Game = () => {
+
+
+    useEffect(() => {
+        const connectionOptions =  {
+            "forceNew" : true,
+            "reconnectionAttempts": "Infinity", 
+            "timeout" : 10000,                  
+            "transports" : ["websocket"]
+        }
+        socket = io.connect(ENDPOINT, connectionOptions)
+        console.log(socket);
+    }, [])
 
     //initialize game state
     const [gameOver, setGameOver] = useState(true)
