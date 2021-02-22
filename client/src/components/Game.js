@@ -70,14 +70,51 @@ const Game = () => {
         const drawCardPile = shuffledCards
 
         //set initial state
-        setGameOver(false)
-        setTurn('Player 1')
-        setPlayer1Deck([...player1Deck])
-        setPlayer2Deck([...player2Deck])
-        setCurrentColor(playedCardsPile[0].charAt(1))
-        setCurrentNumber(playedCardsPile[0].charAt(0))
-        setPlayedCardsPile([...playedCardsPile])
-        setDrawCardPile([...drawCardPile])
+        // setGameOver(false)
+        // setTurn('Player 1')
+        // setPlayer1Deck([...player1Deck])
+        // setPlayer2Deck([...player2Deck])
+        // setCurrentColor(playedCardsPile[0].charAt(1))
+        // setCurrentNumber(playedCardsPile[0].charAt(0))
+        // setPlayedCardsPile([...playedCardsPile])
+        // setDrawCardPile([...drawCardPile])
+        //send this state to server
+        socket.emit('initGameState', {
+            gameOver: false,
+            turn: 'Player 1',
+            player1Deck: [...player1Deck],
+            player2Deck: [...player2Deck],
+            currentColor: playedCardsPile[0].charAt(1),
+            currentNumber: playedCardsPile[0].charAt(0),
+            playedCardsPile: [...playedCardsPile],
+            drawCardPile: [...drawCardPile]
+        })
+    }, [])
+
+    useEffect(() => {
+        socket.on('initGameState', ({ gameOver, turn, player1Deck, player2Deck, currentColor, currentNumber, playedCardsPile, drawCardPile }) => {
+            setGameOver(gameOver)
+            setTurn(turn)
+            setPlayer1Deck(player1Deck)
+            setPlayer2Deck(player2Deck)
+            setCurrentColor(currentColor)
+            setCurrentNumber(currentNumber)
+            setPlayedCardsPile(playedCardsPile)
+            setDrawCardPile(drawCardPile)
+        })
+
+        socket.on('updateGameState', ({ gameOver, winner, turn, player1Deck, player2Deck, currentColor, currentNumber, playedCardsPile, drawCardPile }) => {
+            gameOver && setGameOver(gameOver)
+            winner && setWinner(winner)
+            turn && setTurn(turn)
+            player1Deck && setPlayer1Deck(player1Deck)
+            player2Deck && setPlayer2Deck(player2Deck)
+            currentColor && setCurrentColor(currentColor)
+            currentNumber && setCurrentNumber(currentNumber)
+            playedCardsPile && setPlayedCardsPile(playedCardsPile)
+            drawCardPile && setDrawCardPile(drawCardPile)
+        })
+
     }, [])
 
     //some util functions
@@ -107,26 +144,46 @@ const Game = () => {
                         //then update turn, currentColor and currentNumber
                         const removeIndex = player1Deck.indexOf(played_card)
                         //set new state
-                        setGameOver(checkGameOver(player1Deck))
-                        setWinner(checkWinner(player1Deck, 'Player 1'))
-                        setTurn('Player 2')
-                        setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)])
-                        setPlayer1Deck([...player1Deck.slice(0, removeIndex), ...player1Deck.slice(removeIndex + 1)])
-                        setCurrentColor(colorOfPlayedCard)
-                        setCurrentNumber(numberOfPlayedCard)
+                        // setGameOver(checkGameOver(player1Deck))
+                        // setWinner(checkWinner(player1Deck, 'Player 1'))
+                        // setTurn('Player 2')
+                        // setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)])
+                        // setPlayer1Deck([...player1Deck.slice(0, removeIndex), ...player1Deck.slice(removeIndex + 1)])
+                        // setCurrentColor(colorOfPlayedCard)
+                        // setCurrentNumber(numberOfPlayedCard)
+                        //send this state to server
+                        socket.emit('updateGameState', {
+                            gameOver: checkGameOver(player1Deck),
+                            winner: checkWinner(player1Deck, 'Player 1'),
+                            turn: 'Player 2',
+                            playedCardsPile: [...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)],
+                            player1Deck: [...player1Deck.slice(0, removeIndex), ...player1Deck.slice(removeIndex + 1)],
+                            currentColor: colorOfPlayedCard,
+                            currentNumber: numberOfPlayedCard
+                        })
                     }
                     else {
                         //remove the played card from player2's deck and add it to playedCardsPile (immutably)
                         //then update turn, currentColor and currentNumber
                         const removeIndex = player2Deck.indexOf(played_card)
                         //set new state    
-                        setGameOver(checkGameOver(player2Deck))
-                        setWinner(checkWinner(player1Deck, 'Player 2'))
-                        setTurn('Player 1')
-                        setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)])
-                        setPlayer2Deck([...player2Deck.slice(0, removeIndex), ...player2Deck.slice(removeIndex + 1)])
-                        setCurrentColor(colorOfPlayedCard)
-                        setCurrentNumber(numberOfPlayedCard)
+                        // setGameOver(checkGameOver(player2Deck))
+                        // setWinner(checkWinner(player2Deck, 'Player 2'))
+                        // setTurn('Player 1')
+                        // setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)])
+                        // setPlayer2Deck([...player2Deck.slice(0, removeIndex), ...player2Deck.slice(removeIndex + 1)])
+                        // setCurrentColor(colorOfPlayedCard)
+                        // setCurrentNumber(numberOfPlayedCard)
+                        //send this state to server
+                        socket.emit('updateGameState', {
+                            gameOver: checkGameOver(player2Deck),
+                            winner: checkWinner(player2Deck, 'Player 2'),
+                            turn: 'Player 1',
+                            playedCardsPile: [...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)],
+                            player2Deck: [...player2Deck.slice(0, removeIndex), ...player2Deck.slice(removeIndex + 1)],
+                            currentColor: colorOfPlayedCard,
+                            currentNumber: numberOfPlayedCard
+                        })
                     }
                 }
                 //check for number match
@@ -138,13 +195,23 @@ const Game = () => {
                         //then update turn, currentColor and currentNumber
                         const removeIndex = player1Deck.indexOf(played_card)
                         //set new state
-                        setGameOver(checkGameOver(player1Deck))
-                        setWinner(checkWinner(player1Deck, 'Player 1'))
-                        setTurn('Player 2')
-                        setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)])
-                        setPlayer1Deck([...player1Deck.slice(0, removeIndex), ...player1Deck.slice(removeIndex + 1)])
-                        setCurrentColor(colorOfPlayedCard)
-                        setCurrentNumber(numberOfPlayedCard)
+                        // setGameOver(checkGameOver(player1Deck))
+                        // setWinner(checkWinner(player1Deck, 'Player 1'))
+                        // setTurn('Player 2')
+                        // setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)])
+                        // setPlayer1Deck([...player1Deck.slice(0, removeIndex), ...player1Deck.slice(removeIndex + 1)])
+                        // setCurrentColor(colorOfPlayedCard)
+                        // setCurrentNumber(numberOfPlayedCard)
+                        //send this state to server
+                        socket.emit('updateGameState', {
+                            gameOver: checkGameOver(player1Deck),
+                            winner: checkWinner(player1Deck, 'Player 1'),
+                            turn: 'Player 2',
+                            playedCardsPile: [...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)],
+                            player1Deck: [...player1Deck.slice(0, removeIndex), ...player1Deck.slice(removeIndex + 1)],
+                            currentColor: colorOfPlayedCard,
+                            currentNumber: numberOfPlayedCard
+                        })
                     }
                     else {
                         //remove the played card from player2's deck and add it to playedCardsPile (immutably)
@@ -152,12 +219,22 @@ const Game = () => {
                         const removeIndex = player2Deck.indexOf(played_card)
                         //set new state
                         setGameOver(checkGameOver(player2Deck))
-                        setWinner(checkWinner(player1Deck, 'Player 2'))
+                        setWinner(checkWinner(player2Deck, 'Player 2'))
                         setTurn('Player 1')
                         setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)])
                         setPlayer2Deck([...player2Deck.slice(0, removeIndex), ...player2Deck.slice(removeIndex + 1)])
                         setCurrentColor(colorOfPlayedCard)
                         setCurrentNumber(numberOfPlayedCard)
+                        //send this state to server
+                        socket.emit('updateGameState', {
+                            gameOver: checkGameOver(player2Deck),
+                            winner: checkWinner(player2Deck, 'Player 2'),
+                            turn: 'Player 1',
+                            playedCardsPile: [...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)],
+                            player2Deck: [...player2Deck.slice(0, removeIndex), ...player2Deck.slice(removeIndex + 1)],
+                            currentColor: colorOfPlayedCard,
+                            currentNumber: numberOfPlayedCard
+                        })
                     }
                 }
 
@@ -180,24 +257,42 @@ const Game = () => {
                         //then update currentColor and currentNumber
                         const removeIndex = player1Deck.indexOf(played_card)
                         //set new state
-                        setGameOver(checkGameOver(player1Deck))
-                        setWinner(checkWinner(player1Deck, 'Player 1'))
-                        setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)])
-                        setPlayer1Deck([...player1Deck.slice(0, removeIndex), ...player1Deck.slice(removeIndex + 1)])
-                        setCurrentColor(colorOfPlayedCard)
-                        setCurrentNumber(404)
+                        // setGameOver(checkGameOver(player1Deck))
+                        // setWinner(checkWinner(player1Deck, 'Player 1'))
+                        // setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)])
+                        // setPlayer1Deck([...player1Deck.slice(0, removeIndex), ...player1Deck.slice(removeIndex + 1)])
+                        // setCurrentColor(colorOfPlayedCard)
+                        // setCurrentNumber(404)
+                        //send this state to server
+                        socket.emit('updateGameState', {
+                            gameOver: checkGameOver(player1Deck),
+                            winner: checkWinner(player1Deck, 'Player 1'),
+                            playedCardsPile: [...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)],
+                            player1Deck: [...player1Deck.slice(0, removeIndex), ...player1Deck.slice(removeIndex + 1)],
+                            currentColor: colorOfPlayedCard,
+                            currentNumber: 404
+                        })
                     }
                     else {
                         //remove the played card from player2's deck and add it to playedCardsPile (immutably)
                         //then update currentColor and currentNumber
                         const removeIndex = player2Deck.indexOf(played_card)
                         //set new state
-                        setGameOver(checkGameOver(player2Deck))
-                        setWinner(checkWinner(player1Deck, 'Player 2'))
-                        setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)])
-                        setPlayer2Deck([...player2Deck.slice(0, removeIndex), ...player2Deck.slice(removeIndex + 1)])
-                        setCurrentColor(colorOfPlayedCard)
-                        setCurrentNumber(404)
+                        // setGameOver(checkGameOver(player2Deck))
+                        // setWinner(checkWinner(player2Deck, 'Player 2'))
+                        // setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)])
+                        // setPlayer2Deck([...player2Deck.slice(0, removeIndex), ...player2Deck.slice(removeIndex + 1)])
+                        // setCurrentColor(colorOfPlayedCard)
+                        // setCurrentNumber(404)
+                        //send this state to server
+                        socket.emit('updateGameState', {
+                            gameOver: checkGameOver(player2Deck),
+                            winner: checkWinner(player2Deck, 'Player 2'),
+                            playedCardsPile: [...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)],
+                            player2Deck: [...player2Deck.slice(0, removeIndex), ...player2Deck.slice(removeIndex + 1)],
+                            currentColor: colorOfPlayedCard,
+                            currentNumber: 404
+                        })
                     }
                 }
                 //check for number match - if skip card played on skip card
@@ -209,24 +304,42 @@ const Game = () => {
                         //then update currentColor and currentNumber - turn will remain same
                         const removeIndex = player1Deck.indexOf(played_card)
                         //set new state
-                        setGameOver(checkGameOver(player1Deck))
-                        setWinner(checkWinner(player1Deck, 'Player 1'))
-                        setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)])
-                        setPlayer1Deck([...player1Deck.slice(0, removeIndex), ...player1Deck.slice(removeIndex + 1)])
-                        setCurrentColor(colorOfPlayedCard)
-                        setCurrentNumber(404)
+                        // setGameOver(checkGameOver(player1Deck))
+                        // setWinner(checkWinner(player1Deck, 'Player 1'))
+                        // setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)])
+                        // setPlayer1Deck([...player1Deck.slice(0, removeIndex), ...player1Deck.slice(removeIndex + 1)])
+                        // setCurrentColor(colorOfPlayedCard)
+                        // setCurrentNumber(404)
+                        //send this state to server
+                        socket.emit('updateGameState', {
+                            gameOver: checkGameOver(player1Deck),
+                            winner: checkWinner(player1Deck, 'Player 1'),
+                            playedCardsPile: [...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)],
+                            player1Deck: [...player1Deck.slice(0, removeIndex), ...player1Deck.slice(removeIndex + 1)],
+                            currentColor: colorOfPlayedCard,
+                            currentNumber: 404
+                        })
                     }
                     else {
                         //remove the played card from player2's deck and add it to playedCardsPile (immutably)
                         //then update currentColor and currentNumber - turn will remain same
                         const removeIndex = player2Deck.indexOf(played_card)
                         //set new state
-                        setGameOver(checkGameOver(player2Deck))
-                        setWinner(checkWinner(player1Deck, 'Player 2'))
-                        setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)])
-                        setPlayer2Deck([...player2Deck.slice(0, removeIndex), ...player2Deck.slice(removeIndex + 1)])
-                        setCurrentColor(colorOfPlayedCard)
-                        setCurrentNumber(404)
+                        // setGameOver(checkGameOver(player2Deck))
+                        // setWinner(checkWinner(player2Deck, 'Player 2'))
+                        // setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)])
+                        // setPlayer2Deck([...player2Deck.slice(0, removeIndex), ...player2Deck.slice(removeIndex + 1)])
+                        // setCurrentColor(colorOfPlayedCard)
+                        // setCurrentNumber(404)
+                        //send this state to server
+                        socket.emit('updateGameState', {
+                            gameOver: checkGameOver(player2Deck),
+                            winner: checkWinner(player2Deck, 'Player 2'),
+                            playedCardsPile: [...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)],
+                            player2Deck: [...player2Deck.slice(0, removeIndex), ...player2Deck.slice(removeIndex + 1)],
+                            currentColor: colorOfPlayedCard,
+                            currentNumber: 404
+                        })
                     }
                 }
                 //if no color or number match, invalid move - do not update state
@@ -262,6 +375,17 @@ const Game = () => {
                         setCurrentColor(colorOfPlayedCard)
                         setCurrentNumber(252)
                         setDrawCardPile([...copiedDrawCardPileArray])
+                        //send this state to server
+                        socket.emit('updateGameState', {
+                            gameOver: checkGameOver(player1Deck),
+                            winner: checkWinner(player1Deck, 'Player 1'),
+                            playedCardsPile: [...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)],
+                            player1Deck: [...player1Deck.slice(0, removeIndex), ...player1Deck.slice(removeIndex + 1)],
+                            player2Deck: [...player2Deck.slice(0, player2Deck.length), drawCard1, drawCard2, ...player2Deck.slice(player2Deck.length)],
+                            currentColor: colorOfPlayedCard,
+                            currentNumber: 252,
+                            drawCardPile: [...copiedDrawCardPileArray]
+                        })
                     }
                     else {
                         //remove the played card from player2's deck and add it to playedCardsPile (immutably)
@@ -274,14 +398,25 @@ const Game = () => {
                         const drawCard1 = copiedDrawCardPileArray.pop()
                         const drawCard2 = copiedDrawCardPileArray.pop()
                         //set new state
-                        setGameOver(checkGameOver(player2Deck))
-                        setWinner(checkWinner(player1Deck, 'Player 2'))
-                        setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)])
-                        setPlayer2Deck([...player2Deck.slice(0, removeIndex), ...player2Deck.slice(removeIndex + 1)])
-                        setPlayer1Deck([...player1Deck.slice(0, player1Deck.length), drawCard1, drawCard2, ...player1Deck.slice(player1Deck.length)])
-                        setCurrentColor(colorOfPlayedCard)
-                        setCurrentNumber(252)
-                        setDrawCardPile([...copiedDrawCardPileArray])
+                        // setGameOver(checkGameOver(player2Deck))
+                        // setWinner(checkWinner(player2Deck, 'Player 2'))
+                        // setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)])
+                        // setPlayer2Deck([...player2Deck.slice(0, removeIndex), ...player2Deck.slice(removeIndex + 1)])
+                        // setPlayer1Deck([...player1Deck.slice(0, player1Deck.length), drawCard1, drawCard2, ...player1Deck.slice(player1Deck.length)])
+                        // setCurrentColor(colorOfPlayedCard)
+                        // setCurrentNumber(252)
+                        // setDrawCardPile([...copiedDrawCardPileArray])
+                        //send this state to server
+                        socket.emit('updateGameState', {
+                            gameOver: checkGameOver(player2Deck),
+                            winner: checkWinner(player2Deck, 'Player 2'),
+                            playedCardsPile: [...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)],
+                            player2Deck: [...player2Deck.slice(0, removeIndex), ...player2Deck.slice(removeIndex + 1)],
+                            player1Deck: [...player1Deck.slice(0, player1Deck.length), drawCard1, drawCard2, ...player1Deck.slice(player1Deck.length)],
+                            currentColor: colorOfPlayedCard,
+                            currentNumber: 252,
+                            drawCardPile: [...copiedDrawCardPileArray]
+                        })
                     }
                 }
                 //check for number match - if draw 2 card played on draw 2 card
@@ -299,14 +434,25 @@ const Game = () => {
                         const drawCard1 = copiedDrawCardPileArray.pop()
                         const drawCard2 = copiedDrawCardPileArray.pop()
                         //set new state
-                        setGameOver(checkGameOver(player1Deck))
-                        setWinner(checkWinner(player1Deck, 'Player 1'))
-                        setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)])
-                        setPlayer1Deck([...player1Deck.slice(0, removeIndex), ...player1Deck.slice(removeIndex + 1)])
-                        setPlayer2Deck([...player2Deck.slice(0, player2Deck.length), drawCard1, drawCard2, ...player2Deck.slice(player2Deck.length)])
-                        setCurrentColor(colorOfPlayedCard)
-                        setCurrentNumber(252)
-                        setDrawCardPile([...copiedDrawCardPileArray])
+                        // setGameOver(checkGameOver(player1Deck))
+                        // setWinner(checkWinner(player1Deck, 'Player 1'))
+                        // setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)])
+                        // setPlayer1Deck([...player1Deck.slice(0, removeIndex), ...player1Deck.slice(removeIndex + 1)])
+                        // setPlayer2Deck([...player2Deck.slice(0, player2Deck.length), drawCard1, drawCard2, ...player2Deck.slice(player2Deck.length)])
+                        // setCurrentColor(colorOfPlayedCard)
+                        // setCurrentNumber(252)
+                        // setDrawCardPile([...copiedDrawCardPileArray])
+                        //send this state to server
+                        socket.emit('updateGameState', {
+                            gameOver: checkGameOver(player1Deck),
+                            winner: checkWinner(player1Deck, 'Player 1'),
+                            playedCardsPile: [...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)],
+                            player1Deck: [...player1Deck.slice(0, removeIndex), ...player1Deck.slice(removeIndex + 1)],
+                            player2Deck: [...player2Deck.slice(0, player2Deck.length), drawCard1, drawCard2, ...player2Deck.slice(player2Deck.length)],
+                            currentColor: colorOfPlayedCard,
+                            currentNumber: 252,
+                            drawCardPile: [...copiedDrawCardPileArray]
+                        })
                     }
                     else {
                         //remove the played card from player2's deck and add it to playedCardsPile (immutably)
@@ -319,14 +465,25 @@ const Game = () => {
                         const drawCard1 = copiedDrawCardPileArray.pop()
                         const drawCard2 = copiedDrawCardPileArray.pop()
                         //set new state
-                        setGameOver(checkGameOver(player2Deck))
-                        setWinner(checkWinner(player1Deck, 'Player 2'))
-                        setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)])
-                        setPlayer2Deck([...player2Deck.slice(0, removeIndex), ...player2Deck.slice(removeIndex + 1)])
-                        setPlayer1Deck([...player1Deck.slice(0, player1Deck.length), drawCard1, drawCard2, ...player1Deck.slice(player1Deck.length)])
-                        setCurrentColor(colorOfPlayedCard)
-                        setCurrentNumber(252)
-                        setDrawCardPile([...copiedDrawCardPileArray])
+                        // setGameOver(checkGameOver(player2Deck))
+                        // setWinner(checkWinner(player2Deck, 'Player 2'))
+                        // setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)])
+                        // setPlayer2Deck([...player2Deck.slice(0, removeIndex), ...player2Deck.slice(removeIndex + 1)])
+                        // setPlayer1Deck([...player1Deck.slice(0, player1Deck.length), drawCard1, drawCard2, ...player1Deck.slice(player1Deck.length)])
+                        // setCurrentColor(colorOfPlayedCard)
+                        // setCurrentNumber(252)
+                        // setDrawCardPile([...copiedDrawCardPileArray])
+                        //send this state to server
+                        socket.emit('updateGameState', {
+                            gameOver: checkGameOver(player2Deck),
+                            winner: checkWinner(player2Deck, 'Player 2'),
+                            playedCardsPile: [...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)],
+                            player2Deck: [...player2Deck.slice(0, removeIndex), ...player2Deck.slice(removeIndex + 1)],
+                            player1Deck: [...player1Deck.slice(0, player1Deck.length), drawCard1, drawCard2, ...player1Deck.slice(player1Deck.length)],
+                            currentColor: colorOfPlayedCard,
+                            currentNumber: 252,
+                            drawCardPile: [...copiedDrawCardPileArray]
+                        })
                     }
                 }
                 //if no color or number match, invalid move - do not update state
@@ -352,6 +509,16 @@ const Game = () => {
                     setPlayer1Deck([...player1Deck.slice(0, removeIndex), ...player1Deck.slice(removeIndex + 1)])
                     setCurrentColor(newColor)
                     setCurrentNumber(300)
+                    //send this state to server
+                    socket.emit('updateGameState', {
+                        gameOver: checkGameOver(player1Deck),
+                        winner: checkWinner(player1Deck, 'Player 1'),
+                        turn: 'Player 2',
+                        playedCardsPile: [...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)],
+                        player1Deck: [...player1Deck.slice(0, removeIndex), ...player1Deck.slice(removeIndex + 1)],
+                        currentColor: newColor,
+                        currentNumber: 300
+                    })
                 }
                 else {
                     //ask for new color
@@ -360,13 +527,23 @@ const Game = () => {
                     const removeIndex = player2Deck.indexOf(played_card)
                     //then update turn, currentColor and currentNumber
                     //set new state
-                    setGameOver(checkGameOver(player2Deck))
-                    setWinner(checkWinner(player1Deck, 'Player 1'))
-                    setTurn('Player 1')
-                    setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)])
-                    setPlayer2Deck([...player2Deck.slice(0, removeIndex), ...player2Deck.slice(removeIndex + 1)])
-                    setCurrentColor(newColor)
-                    setCurrentNumber(300)
+                    // setGameOver(checkGameOver(player2Deck))
+                    // setWinner(checkWinner(player2Deck, 'Player 2'))
+                    // setTurn('Player 1')
+                    // setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)])
+                    // setPlayer2Deck([...player2Deck.slice(0, removeIndex), ...player2Deck.slice(removeIndex + 1)])
+                    // setCurrentColor(newColor)
+                    // setCurrentNumber(300)
+                    //send this state to server
+                    socket.emit('updateGameState', {
+                        gameOver: checkGameOver(player2Deck),
+                        winner: checkWinner(player2Deck, 'Player 2'),
+                        turn: 'Player 2',
+                        playedCardsPile: [...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)],
+                        player2Deck: [...player2Deck.slice(0, removeIndex), ...player2Deck.slice(removeIndex + 1)],
+                        currentColor: newColor,
+                        currentNumber: 300
+                    })
                 }
                 break;
             }
@@ -388,14 +565,25 @@ const Game = () => {
                     const drawCard4 = copiedDrawCardPileArray.pop()
                     //then update currentColor and currentNumber - turn will remain same
                     //set new state
-                    setGameOver(checkGameOver(player1Deck))
-                    setWinner(checkWinner(player1Deck, 'Player 1'))
-                    setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)])
-                    setPlayer1Deck([...player1Deck.slice(0, removeIndex), ...player1Deck.slice(removeIndex + 1)])
-                    setPlayer2Deck([...player2Deck.slice(0, player2Deck.length), drawCard1, drawCard2, drawCard3, drawCard4, ...player2Deck.slice(player2Deck.length)])
-                    setCurrentColor(newColor)
-                    setCurrentNumber(600)
-                    setDrawCardPile([...copiedDrawCardPileArray])
+                    // setGameOver(checkGameOver(player1Deck))
+                    // setWinner(checkWinner(player1Deck, 'Player 1'))
+                    // setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)])
+                    // setPlayer1Deck([...player1Deck.slice(0, removeIndex), ...player1Deck.slice(removeIndex + 1)])
+                    // setPlayer2Deck([...player2Deck.slice(0, player2Deck.length), drawCard1, drawCard2, drawCard3, drawCard4, ...player2Deck.slice(player2Deck.length)])
+                    // setCurrentColor(newColor)
+                    // setCurrentNumber(600)
+                    // setDrawCardPile([...copiedDrawCardPileArray])
+                    //send this state to server
+                    socket.emit('updateGameState', {
+                        gameOver: checkGameOver(player1Deck),
+                        winner: checkWinner(player1Deck, 'Player 1'),
+                        playedCardsPile: [...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)],
+                        player1Deck: [...player1Deck.slice(0, removeIndex), ...player1Deck.slice(removeIndex + 1)],
+                        player2Deck: [...player2Deck.slice(0, player2Deck.length), drawCard1, drawCard2, drawCard3, drawCard4, ...player2Deck.slice(player2Deck.length)],
+                        currentColor: newColor,
+                        currentNumber: 600,
+                        drawCardPile: [...copiedDrawCardPileArray]
+                    })
                 }
                 else {
                     //ask for new color
@@ -412,14 +600,25 @@ const Game = () => {
                     const drawCard4 = copiedDrawCardPileArray.pop()
                     //then update currentColor and currentNumber - turn will remain same
                     //set new state
-                    setGameOver(checkGameOver(player2Deck))
-                    setWinner(checkWinner(player1Deck, 'Player 1'))
-                    setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)])
-                    setPlayer2Deck([...player2Deck.slice(0, removeIndex), ...player2Deck.slice(removeIndex + 1)])
-                    setPlayer1Deck([...player1Deck.slice(0, player1Deck.length), drawCard1, drawCard2, drawCard3, drawCard4, ...player1Deck.slice(player1Deck.length)])
-                    setCurrentColor(newColor)
-                    setCurrentNumber(600)
-                    setDrawCardPile([...copiedDrawCardPileArray])
+                    // setGameOver(checkGameOver(player2Deck))
+                    // setWinner(checkWinner(player2Deck, 'Player 2'))
+                    // setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)])
+                    // setPlayer2Deck([...player2Deck.slice(0, removeIndex), ...player2Deck.slice(removeIndex + 1)])
+                    // setPlayer1Deck([...player1Deck.slice(0, player1Deck.length), drawCard1, drawCard2, drawCard3, drawCard4, ...player1Deck.slice(player1Deck.length)])
+                    // setCurrentColor(newColor)
+                    // setCurrentNumber(600)
+                    // setDrawCardPile([...copiedDrawCardPileArray])
+                    //send this state to server
+                    socket.emit('updateGameState', {
+                        gameOver: checkGameOver(player2Deck),
+                        winner: checkWinner(player2Deck, 'Player 2'),
+                        playedCardsPile: [...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)],
+                        player2Deck: [...player2Deck.slice(0, removeIndex), ...player2Deck.slice(removeIndex + 1)],
+                        player1Deck: [...player1Deck.slice(0, player1Deck.length), drawCard1, drawCard2, drawCard3, drawCard4, ...player1Deck.slice(player1Deck.length)],
+                        currentColor: newColor,
+                        currentNumber: 600,
+                        drawCardPile: [...copiedDrawCardPileArray]
+                    })
                 }
             }
             break;
@@ -442,9 +641,17 @@ const Game = () => {
             if(colorOfDrawnCard === currentColor && (drawCard === 'skipR' || drawCard === 'skipG' || drawCard === 'skipB' || drawCard === 'skipY')) {
                 alert(`You drew ${drawCard}. It was played for you.`)
                 //set new state
-                setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), drawCard, ...playedCardsPile.slice(playedCardsPile.length)])
-                setCurrentColor(colorOfDrawnCard)
-                setCurrentNumber(404)
+                // setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), drawCard, ...playedCardsPile.slice(playedCardsPile.length)])
+                // setCurrentColor(colorOfDrawnCard)
+                // setCurrentNumber(404)
+                // setDrawCardPile([...copiedDrawCardPileArray])
+                //send this state to server
+                socket.emit('updateGameState', {
+                    playedCardsPile: [...playedCardsPile.slice(0, playedCardsPile.length), drawCard, ...playedCardsPile.slice(playedCardsPile.length)],
+                    currentColor: colorOfDrawnCard,
+                    currentNumber: 404,
+                    drawCardPile: [...copiedDrawCardPileArray]
+                })
             }
             else if(colorOfDrawnCard === currentColor && (drawCard === 'D2R' || drawCard === 'D2G' || drawCard === 'D2B' || drawCard === 'D2Y')) {
                 alert(`You drew ${drawCard}. It was played for you.`)
@@ -455,21 +662,38 @@ const Game = () => {
                 const drawCard1 = copiedDrawCardPileArray.pop()
                 const drawCard2 = copiedDrawCardPileArray.pop()
                 //set new state
-                setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), drawCard, ...playedCardsPile.slice(playedCardsPile.length)])
-                setPlayer2Deck([...player2Deck.slice(0, player2Deck.length), drawCard1, drawCard2, ...player2Deck.slice(player2Deck.length)])
-                setCurrentColor(colorOfDrawnCard)
-                setCurrentNumber(252)
-                setDrawCardPile([...copiedDrawCardPileArray])
+                // setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), drawCard, ...playedCardsPile.slice(playedCardsPile.length)])
+                // setPlayer2Deck([...player2Deck.slice(0, player2Deck.length), drawCard1, drawCard2, ...player2Deck.slice(player2Deck.length)])
+                // setCurrentColor(colorOfDrawnCard)
+                // setCurrentNumber(252)
+                // setDrawCardPile([...copiedDrawCardPileArray])
+                //send this state to server
+                socket.emit('updateGameState', {
+                    playedCardsPile: [...playedCardsPile.slice(0, playedCardsPile.length), drawCard, ...playedCardsPile.slice(playedCardsPile.length)],
+                    player2Deck: [...player2Deck.slice(0, player2Deck.length), drawCard1, drawCard2, ...player2Deck.slice(player2Deck.length)],
+                    currentColor: colorOfDrawnCard,
+                    currentNumber: 252,
+                    drawCardPile: [...copiedDrawCardPileArray]
+                })
             }
             else if(drawCard === 'W') {
                 alert(`You drew ${drawCard}. It was played for you.`)
                 //ask for new color
                 const newColor = prompt('Enter first letter of new color in uppercase (R/G/B/Y)')
                 //set new state
-                setTurn('Player 2')
-                setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), drawCard, ...playedCardsPile.slice(playedCardsPile.length)])
-                setCurrentColor(newColor)
-                setCurrentNumber(300)
+                // setTurn('Player 2')
+                // setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), drawCard, ...playedCardsPile.slice(playedCardsPile.length)])
+                // setCurrentColor(newColor)
+                // setCurrentNumber(300)
+                // setDrawCardPile([...copiedDrawCardPileArray])
+                //send this state to server
+                socket.emit('updateGameState', {
+                    turn: 'Player 2',
+                    playedCardsPile: [...playedCardsPile.slice(0, playedCardsPile.length), drawCard, ...playedCardsPile.slice(playedCardsPile.length)],
+                    currentColor: newColor,
+                    currentNumber: 300,
+                    drawCardPile: [...copiedDrawCardPileArray]
+                })
             }
             else if(drawCard === 'D4W') {
                 alert(`You drew ${drawCard}. It was played for you.`)
@@ -484,29 +708,51 @@ const Game = () => {
                 const drawCard3 = copiedDrawCardPileArray.pop()
                 const drawCard4 = copiedDrawCardPileArray.pop()
                 //set new state
-                setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), drawCard, ...playedCardsPile.slice(playedCardsPile.length)])
-                setPlayer1Deck([...player1Deck.slice(0, player1Deck.length), drawCard1, drawCard2, drawCard3, drawCard4, ...player1Deck.slice(player1Deck.length)])
-                setCurrentColor(newColor)
-                setCurrentNumber(600)
-                setDrawCardPile([...copiedDrawCardPileArray])
+                // setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), drawCard, ...playedCardsPile.slice(playedCardsPile.length)])
+                // setPlayer1Deck([...player1Deck.slice(0, player1Deck.length), drawCard1, drawCard2, drawCard3, drawCard4, ...player1Deck.slice(player1Deck.length)])
+                // setCurrentColor(newColor)
+                // setCurrentNumber(600)
+                // setDrawCardPile([...copiedDrawCardPileArray])
+                //send this state to server
+                socket.emit('updateGameState', {
+                    playedCardsPile: [...playedCardsPile.slice(0, playedCardsPile.length), drawCard, ...playedCardsPile.slice(playedCardsPile.length)],
+                    player1Deck: [...player1Deck.slice(0, player1Deck.length), drawCard1, drawCard2, drawCard3, drawCard4, ...player1Deck.slice(player1Deck.length)],
+                    currentColor: newColor,
+                    currentNumber: 600,
+                    drawCardPile: [...copiedDrawCardPileArray]
+                })
             }
             //if not action card - check if drawn card is playable
             else if(numberOfDrawnCard === currentNumber || colorOfDrawnCard === currentColor) {
                 alert(`You drew ${drawCard}. It was played for you.`)
                 //set new state
-                setTurn('Player 2')
-                setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), drawCard, ...playedCardsPile.slice(playedCardsPile.length)])
-                setCurrentColor(colorOfDrawnCard)
-                setCurrentNumber(numberOfDrawnCard)
-                setDrawCardPile([...copiedDrawCardPileArray])
+                // setTurn('Player 2')
+                // setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), drawCard, ...playedCardsPile.slice(playedCardsPile.length)])
+                // setCurrentColor(colorOfDrawnCard)
+                // setCurrentNumber(numberOfDrawnCard)
+                // setDrawCardPile([...copiedDrawCardPileArray])
+                //send this state to server
+                socket.emit('updateGameState', {
+                    turn: 'Player 2',
+                    playedCardsPile: [...playedCardsPile.slice(0, playedCardsPile.length), drawCard, ...playedCardsPile.slice(playedCardsPile.length)],
+                    currentColor: colorOfDrawnCard,
+                    currentNumber: numberOfDrawnCard,
+                    drawCardPile: [...copiedDrawCardPileArray]
+                })
             }
             //else add the drawn card to player1's deck
             else {
                 alert(`You drew ${drawCard}.`)
                 //set new state
-                setTurn('Player 2')
-                setPlayer1Deck([...player1Deck.slice(0, player1Deck.length), drawCard, ...player1Deck.slice(player1Deck.length)])
-                setDrawCardPile([...copiedDrawCardPileArray])
+                // setTurn('Player 2')
+                // setPlayer1Deck([...player1Deck.slice(0, player1Deck.length), drawCard, ...player1Deck.slice(player1Deck.length)])
+                // setDrawCardPile([...copiedDrawCardPileArray])
+                //send this state to server
+                socket.emit('updateGameState', {
+                    turn: 'Player 2',
+                    player1Deck: [...player1Deck.slice(0, player1Deck.length), drawCard, ...player1Deck.slice(player1Deck.length)],
+                    drawCardPile: [...copiedDrawCardPileArray]
+                })
             }
         }
         else {
@@ -521,9 +767,17 @@ const Game = () => {
             if(colorOfDrawnCard === currentColor && (drawCard === 'skipR' || drawCard === 'skipG' || drawCard === 'skipB' || drawCard === 'skipY')) {
                 alert(`You drew ${drawCard}. It was played for you.`)
                 //set new state
-                setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), drawCard, ...playedCardsPile.slice(playedCardsPile.length)])
-                setCurrentColor(colorOfDrawnCard)
-                setCurrentNumber(404)
+                // setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), drawCard, ...playedCardsPile.slice(playedCardsPile.length)])
+                // setCurrentColor(colorOfDrawnCard)
+                // setCurrentNumber(404)
+                // setDrawCardPile([...copiedDrawCardPileArray])
+                //send this state to server
+                socket.emit('updateGameState', {
+                    playedCardsPile: [...playedCardsPile.slice(0, playedCardsPile.length), drawCard, ...playedCardsPile.slice(playedCardsPile.length)],
+                    currentColor: colorOfDrawnCard,
+                    currentNumber: 404,
+                    drawCardPile: [...copiedDrawCardPileArray]
+                })
             }
             else if(colorOfDrawnCard === currentColor && (drawCard === 'D2R' || drawCard === 'D2G' || drawCard === 'D2B' || drawCard === 'D2Y')) {
                 alert(`You drew ${drawCard}. It was played for you.`)
@@ -534,21 +788,38 @@ const Game = () => {
                 const drawCard1 = copiedDrawCardPileArray.pop()
                 const drawCard2 = copiedDrawCardPileArray.pop()
                 //set new state
-                setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), drawCard, ...playedCardsPile.slice(playedCardsPile.length)])
-                setPlayer2Deck([...player2Deck.slice(0, player2Deck.length), drawCard1, drawCard2, ...player2Deck.slice(player2Deck.length)])
-                setCurrentColor(colorOfDrawnCard)
-                setCurrentNumber(252)
-                setDrawCardPile([...copiedDrawCardPileArray])
+                // setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), drawCard, ...playedCardsPile.slice(playedCardsPile.length)])
+                // setPlayer2Deck([...player2Deck.slice(0, player2Deck.length), drawCard1, drawCard2, ...player2Deck.slice(player2Deck.length)])
+                // setCurrentColor(colorOfDrawnCard)
+                // setCurrentNumber(252)
+                // setDrawCardPile([...copiedDrawCardPileArray])
+                //send this state to server
+                socket.emit('updateGameState', {
+                    playedCardsPile: [...playedCardsPile.slice(0, playedCardsPile.length), drawCard, ...playedCardsPile.slice(playedCardsPile.length)],
+                    player2Deck: [...player2Deck.slice(0, player2Deck.length), drawCard1, drawCard2, ...player2Deck.slice(player2Deck.length)],
+                    currentColor: colorOfDrawnCard,
+                    currentNumber: 252,
+                    drawCardPile: [...copiedDrawCardPileArray]
+                })
             }
             else if(drawCard === 'W') {
                 alert(`You drew ${drawCard}. It was played for you.`)
                 //ask for new color
                 const newColor = prompt('Enter first letter of new color in uppercase (R/G/B/Y)')
                 //set new state
-                setTurn('Player 1')
-                setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), drawCard, ...playedCardsPile.slice(playedCardsPile.length)])
-                setCurrentColor(newColor)
-                setCurrentNumber(300)
+                // setTurn('Player 1')
+                // setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), drawCard, ...playedCardsPile.slice(playedCardsPile.length)])
+                // setCurrentColor(newColor)
+                // setCurrentNumber(300)
+                // setDrawCardPile([...copiedDrawCardPileArray])
+                //send this state to server
+                socket.emit('updateGameState', {
+                    turn: 'Player 1',
+                    playedCardsPile: [...playedCardsPile.slice(0, playedCardsPile.length), drawCard, ...playedCardsPile.slice(playedCardsPile.length)],
+                    currentColor: newColor,
+                    currentNumber: 300,
+                    drawCardPile: [...copiedDrawCardPileArray]
+                })
             }
             else if(drawCard === 'D4W') {
                 alert(`You drew ${drawCard}. It was played for you.`)
@@ -563,35 +834,57 @@ const Game = () => {
                 const drawCard3 = copiedDrawCardPileArray.pop()
                 const drawCard4 = copiedDrawCardPileArray.pop()
                 //set new state
-                setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), drawCard, ...playedCardsPile.slice(playedCardsPile.length)])
-                setPlayer1Deck([...player1Deck.slice(0, player1Deck.length), drawCard1, drawCard2, drawCard3, drawCard4, ...player1Deck.slice(player1Deck.length)])
-                setCurrentColor(newColor)
-                setCurrentNumber(600)
-                setDrawCardPile([...copiedDrawCardPileArray])
+                // setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), drawCard, ...playedCardsPile.slice(playedCardsPile.length)])
+                // setPlayer1Deck([...player1Deck.slice(0, player1Deck.length), drawCard1, drawCard2, drawCard3, drawCard4, ...player1Deck.slice(player1Deck.length)])
+                // setCurrentColor(newColor)
+                // setCurrentNumber(600)
+                // setDrawCardPile([...copiedDrawCardPileArray])
+                //send this state to server
+                socket.emit('updateGameState', {
+                    playedCardsPile: [...playedCardsPile.slice(0, playedCardsPile.length), drawCard, ...playedCardsPile.slice(playedCardsPile.length)],
+                    player1Deck: [...player1Deck.slice(0, player1Deck.length), drawCard1, drawCard2, drawCard3, drawCard4, ...player1Deck.slice(player1Deck.length)],
+                    currentColor: newColor,
+                    currentNumber: 600,
+                    drawCardPile: [...copiedDrawCardPileArray]
+                })
             }
             //if not action card - check if drawn card is playable
             else if(numberOfDrawnCard === currentNumber || colorOfDrawnCard === currentColor) {
                 alert(`You drew ${drawCard}. It was played for you.`)
                 //set new state
-                setTurn('Player 1')
-                setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), drawCard, ...playedCardsPile.slice(playedCardsPile.length)])
-                setCurrentColor(colorOfDrawnCard)
-                setCurrentNumber(numberOfDrawnCard)
-                setDrawCardPile([...copiedDrawCardPileArray])
+                // setTurn('Player 1')
+                // setPlayedCardsPile([...playedCardsPile.slice(0, playedCardsPile.length), drawCard, ...playedCardsPile.slice(playedCardsPile.length)])
+                // setCurrentColor(colorOfDrawnCard)
+                // setCurrentNumber(numberOfDrawnCard)
+                // setDrawCardPile([...copiedDrawCardPileArray])
+                //send this state to server
+                socket.emit('updateGameState', {
+                    turn: 'Player 1',
+                    playedCardsPile: [...playedCardsPile.slice(0, playedCardsPile.length), drawCard, ...playedCardsPile.slice(playedCardsPile.length)],
+                    currentColor: colorOfDrawnCard,
+                    currentNumber: numberOfDrawnCard,
+                    drawCardPile: [...copiedDrawCardPileArray]
+                })
             }
             //else add the drawn card to player2's deck
             else {
                 alert(`You drew ${drawCard}.`)
                 //set new state
-                setTurn('Player 1')
-                setPlayer2Deck([...player2Deck.slice(0, player2Deck.length), drawCard, ...player2Deck.slice(player2Deck.length)])
-                setDrawCardPile([...copiedDrawCardPileArray])
+                // setTurn('Player 1')
+                // setPlayer2Deck([...player2Deck.slice(0, player2Deck.length), drawCard, ...player2Deck.slice(player2Deck.length)])
+                // setDrawCardPile([...copiedDrawCardPileArray])
+                //send this state to server
+                socket.emit('updateGameState', {
+                    turn: 'Player 1',
+                    player2Deck: [...player2Deck.slice(0, player2Deck.length), drawCard, ...player2Deck.slice(player2Deck.length)],
+                    drawCardPile: [...copiedDrawCardPileArray]
+                })
             }
         }
     }
     
     return (
-        gameOver ? <div><h1>GAME FORFEITED</h1>{winner !== '' && <><h1>GAME OVER</h1><h2>{winner} wins!</h2></>}<a href='/'>Home</a></div> :
+        gameOver ? <div>{winner !== '' && <><h1>GAME OVER</h1><h2>{winner} wins!</h2></>}<a href='/'>Home</a></div> :
         <div className='Game'>
             <h1>Turn: {turn}</h1>
             <div className='player1Deck' style={turn === 'Player 1' ? null : {pointerEvents: 'none'}}>
