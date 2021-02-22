@@ -701,6 +701,7 @@ const Game = (props) => {
     
     return (
         (!roomFull) ? <>
+        <h1>Game Code: {room}</h1>
 
         {users.length===2 ? <>
 
@@ -737,12 +738,6 @@ const Game = (props) => {
                 <button onClick={onCardDrawnHandler}>DRAW CARD</button>
             </div> }
             <hr />
-            <div>
-                <h1>Users in room:</h1>
-                {users.map(user => {
-                    return <h6>{user.name}</h6>
-                })}
-            </div>
             <a href='/'>Home</a>
         </div>}
 
