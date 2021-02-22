@@ -14,6 +14,14 @@ app.use(cors())
 io.on('connection', socket => {
     console.log('connection made')
 
+    socket.on('initGameState', gameState => {
+        io.emit('initGameState', gameState)
+    })
+
+    socket.on('updateGameState', gameState => {
+        io.emit('updateGameState', gameState)
+    })
+
     socket.on('disconnect', () => {
         console.log('connection lost')
     })
