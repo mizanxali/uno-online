@@ -4,7 +4,8 @@
   "description": "Online multiplayer card game",
   "main": "server.js",
   "scripts": {
-    "start": "node server"
+    "start": "node server",
+    "client": "npm start --prefix client"
   },
   "repository": {
     "type": "git",
