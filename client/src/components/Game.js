@@ -71,10 +71,10 @@ const Game = (props) => {
         let startingCardIndex
         while(true) {
             startingCardIndex = Math.floor(Math.random() * 94)
-            if(shuffledCards[startingCardIndex]==='skipR' || shuffledCards[startingCardIndex]==='revR' || shuffledCards[startingCardIndex]==='D2R' ||
-            shuffledCards[startingCardIndex]==='skipG' || shuffledCards[startingCardIndex]==='revG' || shuffledCards[startingCardIndex]==='D2G' ||
-            shuffledCards[startingCardIndex]==='skipB' || shuffledCards[startingCardIndex]==='revB' || shuffledCards[startingCardIndex]==='D2B' ||
-            shuffledCards[startingCardIndex]==='skipY' || shuffledCards[startingCardIndex]==='revY' || shuffledCards[startingCardIndex]==='D2Y' ||
+            if(shuffledCards[startingCardIndex]==='skipR' || shuffledCards[startingCardIndex]==='_R' || shuffledCards[startingCardIndex]==='D2R' ||
+            shuffledCards[startingCardIndex]==='skipG' || shuffledCards[startingCardIndex]==='_G' || shuffledCards[startingCardIndex]==='D2G' ||
+            shuffledCards[startingCardIndex]==='skipB' || shuffledCards[startingCardIndex]==='_B' || shuffledCards[startingCardIndex]==='D2B' ||
+            shuffledCards[startingCardIndex]==='skipY' || shuffledCards[startingCardIndex]==='_Y' || shuffledCards[startingCardIndex]==='D2Y' ||
             shuffledCards[startingCardIndex]==='W' || shuffledCards[startingCardIndex]==='D4W') {
                 continue;
             }
@@ -148,7 +148,7 @@ const Game = (props) => {
         const cardPlayedBy = turn
         switch(played_card) {
             //if card played was a number card
-            case '0R': case '1R': case '2R': case '3R': case '4R': case '5R': case '6R': case '7R': case '8R': case '9R': case 'revR': case '0G': case '1G': case '2G': case '3G': case '4G': case '5G': case '6G': case '7G': case '8G': case '9G': case 'revG': case '0B': case '1B': case '2B': case '3B': case '4B': case '5B': case '6B': case '7B': case '8B': case '9B': case 'revB': case '0Y': case '1Y': case '2Y': case '3Y': case '4Y': case '5Y': case '6Y': case '7Y': case '8Y': case '9Y': case 'revY': {
+            case '0R': case '1R': case '2R': case '3R': case '4R': case '5R': case '6R': case '7R': case '8R': case '9R': case '_R': case '0G': case '1G': case '2G': case '3G': case '4G': case '5G': case '6G': case '7G': case '8G': case '9G': case '_G': case '0B': case '1B': case '2B': case '3B': case '4B': case '5B': case '6B': case '7B': case '8B': case '9B': case '_B': case '0Y': case '1Y': case '2Y': case '3Y': case '4Y': case '5Y': case '6Y': case '7Y': case '8Y': case '9Y': case '_Y': {
                 //extract number and color of played card
                 const numberOfPlayedCard = played_card.charAt(0)
                 const colorOfPlayedCard = played_card.charAt(1)
@@ -555,6 +555,7 @@ const Game = (props) => {
                 const newColor = prompt('Enter first letter of new color in uppercase (R/G/B/Y)')
                 //send new state to server
                 socket.emit('updateGameState', {
+                    turn: 'Player 2',
                     playedCardsPile: [...playedCardsPile.slice(0, playedCardsPile.length), drawCard, ...playedCardsPile.slice(playedCardsPile.length)],
                     currentColor: newColor,
                     currentNumber: 300,
@@ -647,6 +648,7 @@ const Game = (props) => {
                 const newColor = prompt('Enter first letter of new color in uppercase (R/G/B/Y)')
                 //send new state to server
                 socket.emit('updateGameState', {
+                    turn: 'Player 1',
                     playedCardsPile: [...playedCardsPile.slice(0, playedCardsPile.length), drawCard, ...playedCardsPile.slice(playedCardsPile.length)],
                     currentColor: newColor,
                     currentNumber: 300,
@@ -706,7 +708,7 @@ const Game = (props) => {
 
                 {users.length===2 ? <>
 
-                    {gameOver ? <div>{winner !== '' && <><h1>GAME OVER</h1><h2>{winner} wins!</h2></>}<a href='/'>Home</a></div> :
+                    {gameOver ? <div>{winner !== '' && <><h1>GAME OVER</h1><h2>{winner} wins!</h2></>}</div> :
                     <div className='Game'>
                         <h1>Turn: {turn}</h1>
                         
