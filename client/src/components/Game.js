@@ -700,84 +700,87 @@ const Game = (props) => {
     }
     
     return (
-        (!roomFull) ? <>
-            <h1>Game Code: {room}</h1>
+        <>
+            {(!roomFull) ? <>
+                <h1>Game Code: {room}</h1>
 
-            {users.length===2 ? <>
+                {users.length===2 ? <>
 
-                {gameOver ? <div>{winner !== '' && <><h1>GAME OVER</h1><h2>{winner} wins!</h2></>}<a href='/'>Home</a></div> :
-                <div className='Game'>
-                    <h1>Turn: {turn}</h1>
-                    
-                    {currentUser === 'Player 1' && <>
-                    <div className='player1Deck' style={turn === 'Player 1' ? null : {pointerEvents: 'none'}}>
-                        {player1Deck.map((item) => (
+                    {gameOver ? <div>{winner !== '' && <><h1>GAME OVER</h1><h2>{winner} wins!</h2></>}<a href='/'>Home</a></div> :
+                    <div className='Game'>
+                        <h1>Turn: {turn}</h1>
+                        
+                        {currentUser === 'Player 1' && <>
+                        <div className='player1Deck' style={turn === 'Player 1' ? null : {pointerEvents: 'none'}}>
+                            {player1Deck.map((item) => (
+                                <img
+                                    onClick={() => onCardPlayedHandler(item)}
+                                    src={require(`../assets/cards-front/${item}.png`).default}
+                                    width='100px'
+                                    />
+                            ))}
+                            <button onClick={onCardDrawnHandler}>DRAW CARD</button>
+                        </div>
+                        <hr />
+                        <div>
+                            {playedCardsPile && playedCardsPile.length>0 &&
                             <img
-                                onClick={() => onCardPlayedHandler(item)}
-                                src={require(`../assets/cards-front/${item}.png`).default}
+                                src={require(`../assets/cards-front/${playedCardsPile[playedCardsPile.length-1]}.png`).default}
                                 width='100px'
-                                />
-                        ))}
-                        <button onClick={onCardDrawnHandler}>DRAW CARD</button>
-                    </div>
-                    <hr />
-                    <div>
-                        {playedCardsPile && playedCardsPile.length>0 &&
-                        <img
-                            src={require(`../assets/cards-front/${playedCardsPile[playedCardsPile.length-1]}.png`).default}
-                            width='100px'
-                            /> }
-                    </div>
-                    <hr />
-                    <div className='player2Deck' style={turn === 'Player 1' ? {pointerEvents: 'none'} : null}>
-                        {player2Deck.map((item) => (
+                                /> }
+                        </div>
+                        <hr />
+                        <div className='player2Deck' style={{pointerEvents: 'none'}}>
+                            {player2Deck.map((item) => (
+                                <img
+                                    onClick={() => onCardPlayedHandler(item)}
+                                    src={require(`../assets/card-back.png`).default}
+                                    width='100px'
+                                    />
+                            ))}
+                            <button onClick={onCardDrawnHandler}>DRAW CARD</button>
+                        </div> </> }
+
+                        {currentUser === 'Player 2' && <>
+                        <div className='player1Deck' style={{pointerEvents: 'none'}}>
+                            {player1Deck.map((item) => (
+                                <img
+                                    onClick={() => onCardPlayedHandler(item)}
+                                    src={require(`../assets/card-back.png`).default}
+                                    width='100px'
+                                    />
+                            ))}
+                            <button onClick={onCardDrawnHandler}>DRAW CARD</button>
+                        </div>
+                        <hr />
+                        <div>
+                            {playedCardsPile && playedCardsPile.length>0 &&
                             <img
-                                onClick={() => onCardPlayedHandler(item)}
-                                src={require(`../assets/card-back.png`).default}
+                                src={require(`../assets/cards-front/${playedCardsPile[playedCardsPile.length-1]}.png`).default}
                                 width='100px'
-                                />
-                        ))}
-                        <button onClick={onCardDrawnHandler}>DRAW CARD</button>
-                    </div> </> }
+                                /> }
+                        </div>
+                        <hr />
+                        <div className='player2Deck' style={turn === 'Player 1' ? {pointerEvents: 'none'} : null}>
+                            {player2Deck.map((item) => (
+                                <img
+                                    onClick={() => onCardPlayedHandler(item)}
+                                    src={require(`../assets/cards-front/${item}.png`).default}
+                                    width='100px'
+                                    />
+                            ))}
+                            <button onClick={onCardDrawnHandler}>DRAW CARD</button>
+                        </div> </> }
 
-                    {currentUser === 'Player 2' && <>
-                    <div className='player1Deck' style={turn === 'Player 1' ? null : {pointerEvents: 'none'}}>
-                        {player1Deck.map((item) => (
-                            <img
-                                onClick={() => onCardPlayedHandler(item)}
-                                src={require(`../assets/card-back.png`).default}
-                                width='100px'
-                                />
-                        ))}
-                        <button onClick={onCardDrawnHandler}>DRAW CARD</button>
-                    </div>
-                    <hr />
-                    <div>
-                        {playedCardsPile && playedCardsPile.length>0 &&
-                        <img
-                            src={require(`../assets/cards-front/${playedCardsPile[playedCardsPile.length-1]}.png`).default}
-                            width='100px'
-                            /> }
-                    </div>
-                    <hr />
-                    <div className='player2Deck' style={turn === 'Player 1' ? {pointerEvents: 'none'} : null}>
-                        {player2Deck.map((item) => (
-                            <img
-                                onClick={() => onCardPlayedHandler(item)}
-                                src={require(`../assets/cards-front/${item}.png`).default}
-                                width='100px'
-                                />
-                        ))}
-                        <button onClick={onCardDrawnHandler}>DRAW CARD</button>
-                    </div> </> }
+                    </div> }
 
-                    <hr />
-                    <a href='/'>Home</a>
-                </div> }
+                </> : <h1>Waiting for other player</h1> }
 
-            </> : <h1>Waiting for other player</h1> }
+            </> : <h1>Room full</h1> }
 
-        </> : <h1>Room full</h1>
+            <hr />
+            <a href='/'>Home</a>
+        </>
     )
 }
 
