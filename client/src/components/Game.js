@@ -3,6 +3,7 @@ import PACK_OF_CARDS from '../utils/packOfCards'
 import shuffleArray from '../utils/shuffleArray'
 import io from 'socket.io-client'
 import queryString from 'query-string'
+import { Redirect } from 'react-router-dom'
 
 //NUMBER CODES FOR ACTION CARDS
 //SKIP - 404
@@ -706,7 +707,11 @@ const Game = (props) => {
             {(!roomFull) ? <>
                 <h1>Game Code: {room}</h1>
 
-                {users.length===2 ? <>
+                {users.length===1 && currentUser === 'Player 2' && <h1>Player 1 has left the game</h1> }
+
+                {users.length===1 && currentUser === 'Player 1' && <h1>Waiting for Player 2</h1> }
+
+                {users.length===2 && <>
 
                     {gameOver ? <div>{winner !== '' && <><h1>GAME OVER</h1><h2>{winner} wins!</h2></>}</div> :
                     <div className='Game'>
@@ -776,7 +781,7 @@ const Game = (props) => {
 
                     </div> }
 
-                </> : <h1>Waiting for other player</h1> }
+                </> }
 
             </> : <h1>Room full</h1> }
 
