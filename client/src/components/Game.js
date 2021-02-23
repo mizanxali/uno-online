@@ -71,10 +71,10 @@ const Game = (props) => {
         let startingCardIndex
         while(true) {
             startingCardIndex = Math.floor(Math.random() * 94)
-            if(shuffledCards[startingCardIndex]==='skipR' || shuffledCards[startingCardIndex]==='#R' || shuffledCards[startingCardIndex]==='D2R' ||
-            shuffledCards[startingCardIndex]==='skipG' || shuffledCards[startingCardIndex]==='#G' || shuffledCards[startingCardIndex]==='D2G' ||
-            shuffledCards[startingCardIndex]==='skipB' || shuffledCards[startingCardIndex]==='#B' || shuffledCards[startingCardIndex]==='D2B' ||
-            shuffledCards[startingCardIndex]==='skipY' || shuffledCards[startingCardIndex]==='#Y' || shuffledCards[startingCardIndex]==='D2Y' ||
+            if(shuffledCards[startingCardIndex]==='skipR' || shuffledCards[startingCardIndex]==='revR' || shuffledCards[startingCardIndex]==='D2R' ||
+            shuffledCards[startingCardIndex]==='skipG' || shuffledCards[startingCardIndex]==='revG' || shuffledCards[startingCardIndex]==='D2G' ||
+            shuffledCards[startingCardIndex]==='skipB' || shuffledCards[startingCardIndex]==='revB' || shuffledCards[startingCardIndex]==='D2B' ||
+            shuffledCards[startingCardIndex]==='skipY' || shuffledCards[startingCardIndex]==='revY' || shuffledCards[startingCardIndex]==='D2Y' ||
             shuffledCards[startingCardIndex]==='W' || shuffledCards[startingCardIndex]==='D4W') {
                 continue;
             }
@@ -148,7 +148,7 @@ const Game = (props) => {
         const cardPlayedBy = turn
         switch(played_card) {
             //if card played was a number card
-            case '0R': case '1R': case '2R': case '3R': case '4R': case '5R': case '6R': case '7R': case '8R': case '9R': case '#R': case '0G': case '1G': case '2G': case '3G': case '4G': case '5G': case '6G': case '7G': case '8G': case '9G': case '#G': case '0B': case '1B': case '2B': case '3B': case '4B': case '5B': case '6B': case '7B': case '8B': case '9B': case '#B': case '0Y': case '1Y': case '2Y': case '3Y': case '4Y': case '5Y': case '6Y': case '7Y': case '8Y': case '9Y': case '#Y': {
+            case '0R': case '1R': case '2R': case '3R': case '4R': case '5R': case '6R': case '7R': case '8R': case '9R': case 'revR': case '0G': case '1G': case '2G': case '3G': case '4G': case '5G': case '6G': case '7G': case '8G': case '9G': case 'revG': case '0B': case '1B': case '2B': case '3B': case '4B': case '5B': case '6B': case '7B': case '8B': case '9B': case 'revB': case '0Y': case '1Y': case '2Y': case '3Y': case '4Y': case '5Y': case '6Y': case '7Y': case '8Y': case '9Y': case 'revY': {
                 //extract number and color of played card
                 const numberOfPlayedCard = played_card.charAt(0)
                 const colorOfPlayedCard = played_card.charAt(1)
@@ -701,47 +701,81 @@ const Game = (props) => {
     
     return (
         (!roomFull) ? <>
-        <h1>Game Code: {room}</h1>
+            <h1>Game Code: {room}</h1>
 
-        {users.length===2 ? <>
+            {users.length===2 ? <>
 
-        {gameOver ? <div>{winner !== '' && <><h1>GAME OVER</h1><h2>{winner} wins!</h2></>}<a href='/'>Home</a></div> :
-        <div className='Game'>
-            <h1>Turn: {turn}</h1>
-            {currentUser === 'Player 1' && 
-            <div className='player1Deck' style={turn === 'Player 1' ? null : {pointerEvents: 'none'}}>
-                {player1Deck.map((item) => (
-                    <span
-                    onClick={() => onCardPlayedHandler(item)}
-                    className='card'>
-                        {item}
-                    </span>
-                ))}
-                <button onClick={onCardDrawnHandler}>DRAW CARD</button>
-            </div> }
-            <hr />
-            <div>
-                <h1>Current Card: {playedCardsPile[playedCardsPile.length-1]}</h1>
-                <h2>Current Color: {currentColor}</h2>
-                
-            </div>
-            <hr />
-            {currentUser === 'Player 2' && 
-            <div className='player2Deck' style={turn === 'Player 1' ? {pointerEvents: 'none'} : null}>
-                {player2Deck.map((item) => (
-                    <span
-                    onClick={() => onCardPlayedHandler(item)}
-                    className='card'>
-                        {item}
-                    </span>
-                ))}
-                <button onClick={onCardDrawnHandler}>DRAW CARD</button>
-            </div> }
-            <hr />
-            <a href='/'>Home</a>
-        </div>}
+                {gameOver ? <div>{winner !== '' && <><h1>GAME OVER</h1><h2>{winner} wins!</h2></>}<a href='/'>Home</a></div> :
+                <div className='Game'>
+                    <h1>Turn: {turn}</h1>
+                    
+                    {currentUser === 'Player 1' && <>
+                    <div className='player1Deck' style={turn === 'Player 1' ? null : {pointerEvents: 'none'}}>
+                        {player1Deck.map((item) => (
+                            <img
+                                onClick={() => onCardPlayedHandler(item)}
+                                src={require(`../assets/cards-front/${item}.png`).default}
+                                width='100px'
+                                />
+                        ))}
+                        <button onClick={onCardDrawnHandler}>DRAW CARD</button>
+                    </div>
+                    <hr />
+                    <div>
+                        {playedCardsPile && playedCardsPile.length>0 &&
+                        <img
+                            src={require(`../assets/cards-front/${playedCardsPile[playedCardsPile.length-1]}.png`).default}
+                            width='100px'
+                            /> }
+                    </div>
+                    <hr />
+                    <div className='player2Deck' style={turn === 'Player 1' ? {pointerEvents: 'none'} : null}>
+                        {player2Deck.map((item) => (
+                            <img
+                                onClick={() => onCardPlayedHandler(item)}
+                                src={require(`../assets/card-back.png`).default}
+                                width='100px'
+                                />
+                        ))}
+                        <button onClick={onCardDrawnHandler}>DRAW CARD</button>
+                    </div> </> }
 
-        </> : <h1>Waiting for other player</h1> }
+                    {currentUser === 'Player 2' && <>
+                    <div className='player1Deck' style={turn === 'Player 1' ? null : {pointerEvents: 'none'}}>
+                        {player1Deck.map((item) => (
+                            <img
+                                onClick={() => onCardPlayedHandler(item)}
+                                src={require(`../assets/card-back.png`).default}
+                                width='100px'
+                                />
+                        ))}
+                        <button onClick={onCardDrawnHandler}>DRAW CARD</button>
+                    </div>
+                    <hr />
+                    <div>
+                        {playedCardsPile && playedCardsPile.length>0 &&
+                        <img
+                            src={require(`../assets/cards-front/${playedCardsPile[playedCardsPile.length-1]}.png`).default}
+                            width='100px'
+                            /> }
+                    </div>
+                    <hr />
+                    <div className='player2Deck' style={turn === 'Player 1' ? {pointerEvents: 'none'} : null}>
+                        {player2Deck.map((item) => (
+                            <img
+                                onClick={() => onCardPlayedHandler(item)}
+                                src={require(`../assets/cards-front/${item}.png`).default}
+                                width='100px'
+                                />
+                        ))}
+                        <button onClick={onCardDrawnHandler}>DRAW CARD</button>
+                    </div> </> }
+
+                    <hr />
+                    <a href='/'>Home</a>
+                </div> }
+
+            </> : <h1>Waiting for other player</h1> }
 
         </> : <h1>Room full</h1>
     )
