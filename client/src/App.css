@@ -3,7 +3,19 @@
 }
 
 a {
-  color: white;
+  color: #ffffff;
+}
+
+.Homepage {
+  background-image: url('./assets/Landing-Page.gif');
+  background-size: cover;
+  margin: 0;
+  height: 100vh;
+}
+
+.homepage-menu {
+  position: relative;
+  top: 100px;
 }
 
 .Game {

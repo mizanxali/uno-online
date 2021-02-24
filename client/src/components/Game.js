@@ -13,6 +13,7 @@ import { Redirect } from 'react-router-dom'
 
 let socket
 const ENDPOINT = 'http://localhost:5000'
+// const ENDPOINT = 'http://192.168.0.103:5000/'
 
 const Game = (props) => {
     const data = queryString.parse(props.location.search)
@@ -801,10 +802,10 @@ const Game = (props) => {
 
                 </> }
 
-            </> : <h1 style={{margin: '0'}}>Room full</h1> }
+            </> : <h1>Room full</h1> }
 
             <br />
-            <a href='/'>Forfeit Game</a>
+            <a href='/'>Quit</a>
         </div>
     )
 }
