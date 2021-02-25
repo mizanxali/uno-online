@@ -8,11 +8,17 @@ const Homepage = () => {
     return (
         <div className='Homepage'>
             <div className='homepage-menu'>
-                <h1>UNO</h1>
-                <div><input type='text' placeholder='Game Code' onChange={(event) => setRoomCode(event.target.value)} /></div>
-                <Link to={`/play?roomCode=${roomCode}`}><button>JOIN GAME</button></Link>
-                <h1>OR</h1>
-                <Link to={`/play?roomCode=${randomCodeGenerator(5)}`}><button>CREATE GAME</button></Link>
+                <img src={require('../assets/logo.png').default} width='200px' />
+                <div className='homepage-form'>
+                    <div className='homepage-join'>
+                        <input type='text' placeholder='Game Code' onChange={(event) => setRoomCode(event.target.value)} />
+                        <Link to={`/play?roomCode=${roomCode}`}><button class="game-button green">JOIN GAME</button></Link>
+                    </div>
+                    <h1>OR</h1>
+                    <div className='homepage-create'>
+                        <Link to={`/play?roomCode=${randomCodeGenerator(5)}`}><button class="game-button orange">CREATE GAME</button></Link>
+                    </div>
+                </div>
             </div>
         </div>
     )

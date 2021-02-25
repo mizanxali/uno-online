@@ -4,6 +4,7 @@ import shuffleArray from '../utils/shuffleArray'
 import io from 'socket.io-client'
 import queryString from 'query-string'
 import { Redirect } from 'react-router-dom'
+import Spinner from './Spinner'
 
 //NUMBER CODES FOR ACTION CARDS
 //SKIP - 404
@@ -1167,7 +1168,7 @@ const Game = (props) => {
     }
     
     return (
-        <div className={`Game backgroundColor${currentColor}`}>
+        <div className={`Game backgroundColorR backgroundColor${currentColor}`}>
             {(!roomFull) ? <>
 
                 <div className='topInfo'>
@@ -1183,10 +1184,7 @@ const Game = (props) => {
 
                     {gameOver ? <div>{winner !== '' && <><h1>GAME OVER</h1><h2>{winner} wins!</h2></>}</div> :
                     <div>
-                        {currentUser === 'Player 1' && <>
-                        
-                        {turn==='Player 2' && <h1>Waiting for Player 2 to play!</h1>}
-                        
+                        {currentUser === 'Player 1' && <>    
                         <div className='player1Deck' style={turn === 'Player 1' ? null : {pointerEvents: 'none'}}>
                             <p className='playerDeckText'>Player 1</p>
                             {player1Deck.map((item, i) => (
@@ -1199,14 +1197,14 @@ const Game = (props) => {
                             ))}
                         </div>
                         <br />
-                        <div>
+                        <div className='middleInfo' style={turn === 'Player 2' ? {pointerEvents: 'none'} : null}>
+                            <button className='game-button' disabled={turn !== 'Player 1'} onClick={onCardDrawnHandler}>DRAW CARD</button>
                             {playedCardsPile && playedCardsPile.length>0 &&
                             <img
                                 className='Card'
                                 src={require(`../assets/cards-front/${playedCardsPile[playedCardsPile.length-1]}.png`).default}
                                 /> }
-                            <button disabled={turn !== 'Player 1'} onClick={onCardDrawnHandler}>DRAW CARD</button>
-                            <button disabled={turn !== 'Player 1'} onClick={() => setUnoButtonPressed(!isUnoButtonPressed)}>UNO</button>
+                            <button className='game-button orange' disabled={turn !== 'Player 1'} onClick={() => setUnoButtonPressed(!isUnoButtonPressed)}>UNO</button>
                         </div>
                         <br />
                         <div className='player2Deck' style={{pointerEvents: 'none'}}>
@@ -1219,12 +1217,10 @@ const Game = (props) => {
                                     src={require(`../assets/card-back.png`).default}
                                     />
                             ))}
+                            {turn==='Player 2' && <Spinner />}
                         </div> </> }
 
                         {currentUser === 'Player 2' && <>
-                        
-                        {turn==='Player 1' && <h1>Waiting for Player 1 to play!</h1>}
-                        
                         <div className='player1Deck' style={{pointerEvents: 'none'}}>
                             <p className='playerDeckText'>Player 1</p>
                             {player1Deck.map((item, i) => (
@@ -1235,16 +1231,17 @@ const Game = (props) => {
                                     src={require(`../assets/card-back.png`).default}
                                     />
                             ))}
+                            {turn==='Player 1' && <Spinner />}
                         </div>
                         <br />
-                        <div>
+                        <div className='middleInfo' style={turn === 'Player 1' ? {pointerEvents: 'none'} : null}>
+                            <button className='game-button' disabled={turn !== 'Player 2'} onClick={onCardDrawnHandler}>DRAW CARD</button>
                             {playedCardsPile && playedCardsPile.length>0 &&
                             <img
                                 className='Card'
                                 src={require(`../assets/cards-front/${playedCardsPile[playedCardsPile.length-1]}.png`).default}
                                 /> }
-                            <button disabled={turn !== 'Player 2'} onClick={onCardDrawnHandler}>DRAW CARD</button>
-                            <button disabled={turn !== 'Player 2'} onClick={() => setUnoButtonPressed(!isUnoButtonPressed)}>UNO</button>
+                            <button className='game-button orange' disabled={turn !== 'Player 2'} onClick={() => setUnoButtonPressed(!isUnoButtonPressed)}>UNO</button>
                         </div>
                         <br />
                         <div className='player2Deck' style={turn === 'Player 1' ? {pointerEvents: 'none'} : null}>
@@ -1256,16 +1253,14 @@ const Game = (props) => {
                                     onClick={() => onCardPlayedHandler(item)}
                                     src={require(`../assets/cards-front/${item}.png`).default}
                                     />
-                            ))}  
+                            ))}
                         </div> </> }
                     </div> }
-
                 </> }
-
             </> : <h1>Room full</h1> }
 
             <br />
-            <a href='/'>Quit</a>
+            <a href='/'><button class="game-button red">QUIT</button></a>
         </div>
     )
 }
