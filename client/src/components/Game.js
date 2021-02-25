@@ -116,8 +116,7 @@ const Game = (props) => {
             setDrawCardPile(drawCardPile)
         })
 
-        socket.on('updateGameState', ({ isUnoButtonPressed, gameOver, winner, turn, player1Deck, player2Deck, currentColor, currentNumber, playedCardsPile, drawCardPile }) => {
-            isUnoButtonPressed && setUnoButtonPressed(isUnoButtonPressed)
+        socket.on('updateGameState', ({ gameOver, winner, turn, player1Deck, player2Deck, currentColor, currentNumber, playedCardsPile, drawCardPile }) => {
             gameOver && setGameOver(gameOver)
             winner && setWinner(winner)
             turn && setTurn(turn)
@@ -127,6 +126,7 @@ const Game = (props) => {
             currentNumber && setCurrentNumber(currentNumber)
             playedCardsPile && setPlayedCardsPile(playedCardsPile)
             drawCardPile && setDrawCardPile(drawCardPile)
+            setUnoButtonPressed(false)
         })
 
         socket.on("roomData", ({ users }) => {
@@ -145,16 +145,6 @@ const Game = (props) => {
     
     const checkWinner = (arr, player) => {
         return arr.length === 1 ? player : ''
-    }
-
-    const changeBackgroundColor = (id) => {
-        const backgroundColorIds = [0, 1, 2, 3, 4]
-        const newBackgroundColorIds = backgroundColorIds.filter(item => item!=id)
-        const gameDiv = document.querySelector('.Game')
-        newBackgroundColorIds.forEach(item => {
-            gameDiv.classList.remove(`backgroundColor${item}`)
-        })
-        gameDiv.classList.add(`backgroundColor${id}`)
     }
 
     //driver functions
@@ -179,7 +169,7 @@ const Game = (props) => {
                         //if two cards remaining check if player pressed UNO button
                         //if not pressed add 2 cards as penalty
                         if(player1Deck.length===2 && !isUnoButtonPressed) {
-                            alert('Oops! You forgot to press UNO')
+                            alert('Oops! You forgot to press UNO. You drew 2 cards as penalty.')
                             //make a copy of drawCardPile array
                             const copiedDrawCardPileArray = [...drawCardPile]
                             //pull out last two elements from it
@@ -192,7 +182,6 @@ const Game = (props) => {
 
                             //send new state to server
                             socket.emit('updateGameState', {
-                                isUnoButtonPressed: false,
                                 gameOver: checkGameOver(player1Deck),
                                 winner: checkWinner(player1Deck, 'Player 1'),
                                 turn: 'Player 2',
@@ -206,7 +195,6 @@ const Game = (props) => {
                         else {
                             //send new state to server
                             socket.emit('updateGameState', {
-                                isUnoButtonPressed: false,
                                 gameOver: checkGameOver(player1Deck),
                                 winner: checkWinner(player1Deck, 'Player 1'),
                                 turn: 'Player 2',
@@ -225,7 +213,7 @@ const Game = (props) => {
                         //if two cards remaining check if player pressed UNO button
                         //if not pressed add 2 cards as penalty
                         if(player2Deck.length===2 && !isUnoButtonPressed) {
-                            alert('Oops! You forgot to press UNO')
+                            alert('Oops! You forgot to press UNO. You drew 2 cards as penalty.')
                             //make a copy of drawCardPile array
                             const copiedDrawCardPileArray = [...drawCardPile]
                             //pull out last two elements from it
@@ -274,7 +262,7 @@ const Game = (props) => {
                         //if two cards remaining check if player pressed UNO button
                         //if not pressed add 2 cards as penalty
                         if(player1Deck.length===2 && !isUnoButtonPressed) {
-                            alert('Oops! You forgot to press UNO')
+                            alert('Oops! You forgot to press UNO. You drew 2 cards as penalty.')
                             //make a copy of drawCardPile array
                             const copiedDrawCardPileArray = [...drawCardPile]
                             //pull out last two elements from it
@@ -287,7 +275,6 @@ const Game = (props) => {
 
                             //send new state to server
                             socket.emit('updateGameState', {
-                                isUnoButtonPressed: false,
                                 gameOver: checkGameOver(player1Deck),
                                 winner: checkWinner(player1Deck, 'Player 1'),
                                 turn: 'Player 2',
@@ -301,7 +288,6 @@ const Game = (props) => {
                         else {
                             //send new state to server
                             socket.emit('updateGameState', {
-                                isUnoButtonPressed: false,
                                 gameOver: checkGameOver(player1Deck),
                                 winner: checkWinner(player1Deck, 'Player 1'),
                                 turn: 'Player 2',
@@ -319,7 +305,7 @@ const Game = (props) => {
                         //if two cards remaining check if player pressed UNO button
                         //if not pressed add 2 cards as penalty
                         if(player2Deck.length===2 && !isUnoButtonPressed) {
-                            alert('Oops! You forgot to press UNO')
+                            alert('Oops! You forgot to press UNO. You drew 2 cards as penalty.')
                             //make a copy of drawCardPile array
                             const copiedDrawCardPileArray = [...drawCardPile]
                             //pull out last two elements from it
@@ -378,7 +364,7 @@ const Game = (props) => {
                         //if two cards remaining check if player pressed UNO button
                         //if not pressed add 2 cards as penalty
                         if(player1Deck.length===2 && !isUnoButtonPressed) {
-                            alert('Oops! You forgot to press UNO')
+                            alert('Oops! You forgot to press UNO. You drew 2 cards as penalty.')
                             //make a copy of drawCardPile array
                             const copiedDrawCardPileArray = [...drawCardPile]
                             //pull out last two elements from it
@@ -391,7 +377,6 @@ const Game = (props) => {
 
                             //send new state to server
                             socket.emit('updateGameState', {
-                                isUnoButtonPressed: false,
                                 gameOver: checkGameOver(player1Deck),
                                 winner: checkWinner(player1Deck, 'Player 1'),
                                 playedCardsPile: [...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)],
@@ -404,7 +389,6 @@ const Game = (props) => {
                         else {
                             //send new state to server
                             socket.emit('updateGameState', {
-                                isUnoButtonPressed: false,
                                 gameOver: checkGameOver(player1Deck),
                                 winner: checkWinner(player1Deck, 'Player 1'),
                                 playedCardsPile: [...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)],
@@ -422,7 +406,7 @@ const Game = (props) => {
                         //if two cards remaining check if player pressed UNO button
                         //if not pressed add 2 cards as penalty
                         if(player2Deck.length===2 && !isUnoButtonPressed) {
-                            alert('Oops! You forgot to press UNO')
+                            alert('Oops! You forgot to press UNO. You drew 2 cards as penalty.')
                             //make a copy of drawCardPile array
                             const copiedDrawCardPileArray = [...drawCardPile]
                             //pull out last two elements from it
@@ -469,7 +453,7 @@ const Game = (props) => {
                         //if two cards remaining check if player pressed UNO button
                         //if not pressed add 2 cards as penalty
                         if(player1Deck.length===2 && !isUnoButtonPressed) {
-                            alert('Oops! You forgot to press UNO')
+                            alert('Oops! You forgot to press UNO. You drew 2 cards as penalty.')
                             //make a copy of drawCardPile array
                             const copiedDrawCardPileArray = [...drawCardPile]
                             //pull out last two elements from it
@@ -482,7 +466,6 @@ const Game = (props) => {
 
                             //send new state to server
                             socket.emit('updateGameState', {
-                                isUnoButtonPressed: false,
                                 gameOver: checkGameOver(player1Deck),
                                 winner: checkWinner(player1Deck, 'Player 1'),
                                 playedCardsPile: [...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)],
@@ -495,7 +478,6 @@ const Game = (props) => {
                         else {
                             //send new state to server
                             socket.emit('updateGameState', {
-                                isUnoButtonPressed: false,
                                 gameOver: checkGameOver(player1Deck),
                                 winner: checkWinner(player1Deck, 'Player 1'),
                                 playedCardsPile: [...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)],
@@ -513,7 +495,7 @@ const Game = (props) => {
                         //if two cards remaining check if player pressed UNO button
                         //if not pressed add 2 cards as penalty
                         if(player2Deck.length===2 && !isUnoButtonPressed) {
-                            alert('Oops! You forgot to press UNO')
+                            alert('Oops! You forgot to press UNO. You drew 2 cards as penalty.')
                             //make a copy of drawCardPile array
                             const copiedDrawCardPileArray = [...drawCardPile]
                             //pull out last two elements from it
@@ -576,7 +558,7 @@ const Game = (props) => {
                         //if two cards remaining check if player pressed UNO button
                         //if not pressed add 2 cards as penalty
                         if(player1Deck.length===2 && !isUnoButtonPressed) {
-                            alert('Oops! You forgot to press UNO')
+                            alert('Oops! You forgot to press UNO. You drew 2 cards as penalty.')
                             //pull out last two elements from drawCardPile
                             const drawCard1X = copiedDrawCardPileArray.pop()
                             const drawCard2X = copiedDrawCardPileArray.pop()
@@ -587,7 +569,6 @@ const Game = (props) => {
 
                             //send new state to server
                             socket.emit('updateGameState', {
-                                isUnoButtonPressed: false,
                                 gameOver: checkGameOver(player1Deck),
                                 winner: checkWinner(player1Deck, 'Player 1'),
                                 playedCardsPile: [...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)],
@@ -601,7 +582,6 @@ const Game = (props) => {
                         else {
                             //send new state to server
                             socket.emit('updateGameState', {
-                                isUnoButtonPressed: false,
                                 gameOver: checkGameOver(player1Deck),
                                 winner: checkWinner(player1Deck, 'Player 1'),
                                 playedCardsPile: [...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)],
@@ -627,7 +607,7 @@ const Game = (props) => {
                         //if two cards remaining check if player pressed UNO button
                         //if not pressed add 2 cards as penalty
                         if(player2Deck.length===2 && !isUnoButtonPressed) {
-                            alert('Oops! You forgot to press UNO')
+                            alert('Oops! You forgot to press UNO. You drew 2 cards as penalty.')
                             //pull out last two elements from drawCardPile
                             const drawCard1X = copiedDrawCardPileArray.pop()
                             const drawCard2X = copiedDrawCardPileArray.pop()
@@ -681,7 +661,7 @@ const Game = (props) => {
                         //if two cards remaining check if player pressed UNO button
                         //if not pressed add 2 cards as penalty
                         if(player1Deck.length===2 && !isUnoButtonPressed) {
-                            alert('Oops! You forgot to press UNO')
+                            alert('Oops! You forgot to press UNO. You drew 2 cards as penalty.')
                             //pull out last two elements from drawCardPile
                             const drawCard1X = copiedDrawCardPileArray.pop()
                             const drawCard2X = copiedDrawCardPileArray.pop()
@@ -692,7 +672,6 @@ const Game = (props) => {
 
                             //send new state to server
                             socket.emit('updateGameState', {
-                                isUnoButtonPressed: false,
                                 gameOver: checkGameOver(player1Deck),
                                 winner: checkWinner(player1Deck, 'Player 1'),
                                 playedCardsPile: [...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)],
@@ -706,7 +685,6 @@ const Game = (props) => {
                         else {
                             //send new state to server
                             socket.emit('updateGameState', {
-                                isUnoButtonPressed: false,
                                 gameOver: checkGameOver(player1Deck),
                                 winner: checkWinner(player1Deck, 'Player 1'),
                                 playedCardsPile: [...playedCardsPile.slice(0, playedCardsPile.length), played_card, ...playedCardsPile.slice(playedCardsPile.length)],
@@ -732,7 +710,7 @@ const Game = (props) => {
                         //if two cards remaining check if player pressed UNO button
                         //if not pressed add 2 cards as penalty
                         if(player2Deck.length===2 && !isUnoButtonPressed) {
-                            alert('Oops! You forgot to press UNO')
+                            alert('Oops! You forgot to press UNO. You drew 2 cards as penalty.')
                             //pull out last two elements from drawCardPile
                             const drawCard1X = copiedDrawCardPileArray.pop()
                             const drawCard2X = copiedDrawCardPileArray.pop()
@@ -787,7 +765,7 @@ const Game = (props) => {
                     //if two cards remaining check if player pressed UNO button
                     //if not pressed add 2 cards as penalty
                     if(player1Deck.length===2 && !isUnoButtonPressed) {
-                        alert('Oops! You forgot to press UNO')
+                        alert('Oops! You forgot to press UNO. You drew 2 cards as penalty.')
                         //make a copy of drawCardPile array
                         const copiedDrawCardPileArray = [...drawCardPile]
                         //pull out last two elements from it
@@ -833,7 +811,7 @@ const Game = (props) => {
                     //if two cards remaining check if player pressed UNO button
                     //if not pressed add 2 cards as penalty
                     if(player2Deck.length===2 && !isUnoButtonPressed) {
-                        alert('Oops! You forgot to press UNO')
+                        alert('Oops! You forgot to press UNO. You drew 2 cards as penalty.')
                         //make a copy of drawCardPile array
                         const copiedDrawCardPileArray = [...drawCardPile]
                         //pull out last two elements from it
@@ -892,7 +870,7 @@ const Game = (props) => {
                     //if two cards remaining check if player pressed UNO button
                     //if not pressed add 2 cards as penalty
                     if(player1Deck.length===2 && !isUnoButtonPressed) {
-                        alert('Oops! You forgot to press UNO')
+                        alert('Oops! You forgot to press UNO. You drew 2 cards as penalty.')
                         //pull out last two elements from drawCardPile
                         const drawCard1X = copiedDrawCardPileArray.pop()
                         const drawCard2X = copiedDrawCardPileArray.pop()
@@ -956,7 +934,7 @@ const Game = (props) => {
                     //if two cards remaining check if player pressed UNO button
                     //if not pressed add 2 cards as penalty
                     if(player2Deck.length===2 && !isUnoButtonPressed) {
-                        alert('Oops! You forgot to press UNO')
+                        alert('Oops! You forgot to press UNO. You drew 2 cards as penalty.')
                         //pull out last two elements from drawCardPile
                         const drawCard1X = copiedDrawCardPileArray.pop()
                         const drawCard2X = copiedDrawCardPileArray.pop()
@@ -1189,13 +1167,12 @@ const Game = (props) => {
     }
     
     return (
-        <div className='Game backgroundColor0'>
+        <div className={`Game backgroundColor${currentColor}`}>
             {(!roomFull) ? <>
 
                 <div className='topInfo'>
-                    <h1>Logo here</h1>
+                    <img src={require('../assets/logo.png').default} />
                     <h1>Game Code: {room}</h1>
-                    <div><div onClick={() => changeBackgroundColor(0)} className='square color0' /><div onClick={() => changeBackgroundColor(1)} className='square color1' /><div onClick={() => changeBackgroundColor(2)} className='square color2' /><div onClick={() => changeBackgroundColor(3)} className='square color3' /><div onClick={() => changeBackgroundColor(4)} className='square color4' /></div>
                 </div>
 
                 {users.length===1 && currentUser === 'Player 2' && <h1 className='topInfoText'>Player 1 has left the game.</h1> }
@@ -1207,10 +1184,11 @@ const Game = (props) => {
                     {gameOver ? <div>{winner !== '' && <><h1>GAME OVER</h1><h2>{winner} wins!</h2></>}</div> :
                     <div>
                         {currentUser === 'Player 1' && <>
-                        <div className='waitingForPlayer'>
-                            {turn==='Player 2' && <h1 className='topInfoText'>Waiting for Player 2 to play!</h1>}
-                        </div>
+                        
+                        {turn==='Player 2' && <h1>Waiting for Player 2 to play!</h1>}
+                        
                         <div className='player1Deck' style={turn === 'Player 1' ? null : {pointerEvents: 'none'}}>
+                            <p className='playerDeckText'>Player 1</p>
                             {player1Deck.map((item, i) => (
                                 <img
                                     key={i}
@@ -1228,10 +1206,11 @@ const Game = (props) => {
                                 src={require(`../assets/cards-front/${playedCardsPile[playedCardsPile.length-1]}.png`).default}
                                 /> }
                             <button disabled={turn !== 'Player 1'} onClick={onCardDrawnHandler}>DRAW CARD</button>
-                            <button onClick={() => setUnoButtonPressed(!isUnoButtonPressed)}>UNO</button>
+                            <button disabled={turn !== 'Player 1'} onClick={() => setUnoButtonPressed(!isUnoButtonPressed)}>UNO</button>
                         </div>
                         <br />
                         <div className='player2Deck' style={{pointerEvents: 'none'}}>
+                            <p className='playerDeckText'>Player 2</p>
                             {player2Deck.map((item, i) => (
                                 <img
                                     key={i}
@@ -1243,8 +1222,11 @@ const Game = (props) => {
                         </div> </> }
 
                         {currentUser === 'Player 2' && <>
+                        
                         {turn==='Player 1' && <h1>Waiting for Player 1 to play!</h1>}
+                        
                         <div className='player1Deck' style={{pointerEvents: 'none'}}>
+                            <p className='playerDeckText'>Player 1</p>
                             {player1Deck.map((item, i) => (
                                 <img
                                     key={i}
@@ -1262,10 +1244,11 @@ const Game = (props) => {
                                 src={require(`../assets/cards-front/${playedCardsPile[playedCardsPile.length-1]}.png`).default}
                                 /> }
                             <button disabled={turn !== 'Player 2'} onClick={onCardDrawnHandler}>DRAW CARD</button>
-                            <button onClick={() => setUnoButtonPressed(!isUnoButtonPressed)}>UNO</button>
+                            <button disabled={turn !== 'Player 2'} onClick={() => setUnoButtonPressed(!isUnoButtonPressed)}>UNO</button>
                         </div>
                         <br />
                         <div className='player2Deck' style={turn === 'Player 1' ? {pointerEvents: 'none'} : null}>
+                            <p className='playerDeckText'>Player 2</p>
                             {player2Deck.map((item, i) => (
                                 <img
                                     key={i}
@@ -1273,7 +1256,7 @@ const Game = (props) => {
                                     onClick={() => onCardPlayedHandler(item)}
                                     src={require(`../assets/cards-front/${item}.png`).default}
                                     />
-                            ))}                            
+                            ))}  
                         </div> </> }
                     </div> }
 

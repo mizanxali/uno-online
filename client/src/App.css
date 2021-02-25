@@ -24,24 +24,20 @@ a {
   height: 100vh;
 }
 
-.backgroundColor0 {
-  background-image: url('./assets/backgrounds/bg0.png');
+.backgroundColorR {
+  background-image: url('./assets/backgrounds/bgR.png');
 }
 
-.backgroundColor1 {
-  background-image: url('./assets/backgrounds/bg1.png');
+.backgroundColorG {
+  background-image: url('./assets/backgrounds/bgG.png');
 }
 
-.backgroundColor2 {
-  background-image: url('./assets/backgrounds/bg2.png');
+.backgroundColorB {
+  background-image: url('./assets/backgrounds/bgB.png');
 }
 
-.backgroundColor3 {
-  background-image: url('./assets/backgrounds/bg3.png');
-}
-
-.backgroundColor4 {
-  background-image: url('./assets/backgrounds/bg4.png');
+.backgroundColorY {
+  background-image: url('./assets/backgrounds/bgY.png');
 }
 
 .Card {
@@ -55,41 +51,20 @@ a {
   flex-direction: row;
   justify-content: space-between;
   padding: 0 60px;
+  height: 100px;
+}
+
+.topInfo>img {
+  width: 7%;
+  margin: 0;
+  padding: 0;
 }
 
 .topInfo>h1 {
   color: white;
   margin-top: 10px;
   font-size: 1.8rem;
-}
-
-.square {
-  height: 20px;
-  width: 20px;
-  display: inline-block;
-  margin: 20px 2px;
-  cursor: pointer;
-  border-radius: 10%;
-}
-
-.color0 {
-  background-color: #8e251d;
-}
-
-.color1 {
-  background-color: #48406a;
-}
-
-.color2 {
-  background-color: #406a4b;
-}
-
-.color3 {
-  background-color: #40686a;
-}
-
-.color4 {
-  background-color: #23873f;
+  padding-top: 2%;
 }
 
 .topInfoText {
@@ -97,10 +72,16 @@ a {
   font-size: 2rem;
   margin: 0;
 }
-
+/* 
 .waitingForPlayer {
   height: 80px;
   font-size: 1.5rem;
+} */
+
+.player1Deck {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .player1Deck>img {
@@ -112,6 +93,12 @@ a {
   opacity: 1;
 }
 
+.player2Deck {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+}
+
 .player2Deck>img {
   transition: transform 350ms;
 }
@@ -119,4 +106,10 @@ a {
 .player2Deck>img:hover {
   transform: scale(1.08);
   opacity: 1;
+}
+
+.playerDeckText {
+  color: white;
+  font-size: 2rem;
+  margin: 0 20px;
 }
