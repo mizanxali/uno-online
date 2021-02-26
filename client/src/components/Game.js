@@ -403,7 +403,7 @@ const Game = (props) => {
                             updatedPlayer1Deck.push(drawCard1)
                             updatedPlayer1Deck.push(drawCard2)
 
-                            playSkipCardSound()
+                            !isSoundMuted && playSkipCardSound()
                             //send new state to server
                             socket.emit('updateGameState', {
                                 gameOver: checkGameOver(player1Deck),
@@ -416,7 +416,7 @@ const Game = (props) => {
                             })
                         }
                         else {
-                            playSkipCardSound()
+                            !isSoundMuted && playSkipCardSound()
                             //send new state to server
                             socket.emit('updateGameState', {
                                 gameOver: checkGameOver(player1Deck),
@@ -447,7 +447,7 @@ const Game = (props) => {
                             updatedPlayer2Deck.push(drawCard1)
                             updatedPlayer2Deck.push(drawCard2)
 
-                            playSkipCardSound()
+                            !isSoundMuted && playSkipCardSound()
                             //send new state to server
                             socket.emit('updateGameState', {
                                 gameOver: checkGameOver(player2Deck),
@@ -460,7 +460,7 @@ const Game = (props) => {
                             })
                         }
                         else {
-                            playSkipCardSound()
+                            !isSoundMuted && playSkipCardSound()
                             //send new state to server
                             socket.emit('updateGameState', {
                                 gameOver: checkGameOver(player2Deck),
@@ -496,7 +496,7 @@ const Game = (props) => {
                             updatedPlayer1Deck.push(drawCard1)
                             updatedPlayer1Deck.push(drawCard2)
 
-                            playSkipCardSound()
+                            !isSoundMuted && playSkipCardSound()
                             //send new state to server
                             socket.emit('updateGameState', {
                                 gameOver: checkGameOver(player1Deck),
@@ -509,7 +509,7 @@ const Game = (props) => {
                             })
                         }
                         else {
-                            playSkipCardSound()
+                            !isSoundMuted && playSkipCardSound()
                             //send new state to server
                             socket.emit('updateGameState', {
                                 gameOver: checkGameOver(player1Deck),
@@ -540,7 +540,7 @@ const Game = (props) => {
                             updatedPlayer2Deck.push(drawCard1)
                             updatedPlayer2Deck.push(drawCard2)
 
-                            playSkipCardSound()
+                            !isSoundMuted && playSkipCardSound()
                             //send new state to server
                             socket.emit('updateGameState', {
                                 gameOver: checkGameOver(player2Deck),
@@ -553,7 +553,7 @@ const Game = (props) => {
                             })
                         }
                         else {
-                            playSkipCardSound()
+                            !isSoundMuted && playSkipCardSound()
                             //send new state to server
                             socket.emit('updateGameState', {
                                 gameOver: checkGameOver(player2Deck),
