@@ -67,6 +67,8 @@ const Game = (props) => {
     const [drawCardPile, setDrawCardPile] = useState([])
 
     const [isUnoButtonPressed, setUnoButtonPressed] = useState(false)
+    const [isSoundMuted, setSoundMuted] = useState(false)
+    const [isMusicMuted, setMusicMuted] = useState(false)
 
     const [playUnoSound] = useSound(unoSound)
     const [playShufflingSound] = useSound(shufflingSound)
@@ -135,6 +137,7 @@ const Game = (props) => {
 
         socket.on('updateGameState', ({ gameOver, winner, turn, player1Deck, player2Deck, currentColor, currentNumber, playedCardsPile, drawCardPile }) => {
             gameOver && setGameOver(gameOver)
+            gameOver===true && playGameOverSound()
             winner && setWinner(winner)
             turn && setTurn(turn)
             player1Deck && setPlayer1Deck(player1Deck)
@@ -197,7 +200,7 @@ const Game = (props) => {
                             updatedPlayer1Deck.push(drawCard1)
                             updatedPlayer1Deck.push(drawCard2)
 
-                            playShufflingSound()
+                            !isSoundMuted && playShufflingSound()
                             //send new state to server
                             socket.emit('updateGameState', {
                                 gameOver: checkGameOver(player1Deck),
@@ -211,7 +214,7 @@ const Game = (props) => {
                             })
                         }
                         else {
-                            playShufflingSound()
+                            !isSoundMuted && playShufflingSound()
                             //send new state to server
                             socket.emit('updateGameState', {
                                 gameOver: checkGameOver(player1Deck),
@@ -243,7 +246,7 @@ const Game = (props) => {
                             updatedPlayer2Deck.push(drawCard1)
                             updatedPlayer2Deck.push(drawCard2)
 
-                            playShufflingSound()
+                            !isSoundMuted && playShufflingSound()
                             //send new state to server
                             socket.emit('updateGameState', {
                                 gameOver: checkGameOver(player2Deck),
@@ -257,7 +260,7 @@ const Game = (props) => {
                             })
                         }
                         else {
-                            playShufflingSound()
+                            !isSoundMuted && playShufflingSound()
                             //send new state to server
                             socket.emit('updateGameState', {
                                 gameOver: checkGameOver(player2Deck),
@@ -294,7 +297,7 @@ const Game = (props) => {
                             updatedPlayer1Deck.push(drawCard1)
                             updatedPlayer1Deck.push(drawCard2)
 
-                            playShufflingSound()
+                            !isSoundMuted && playShufflingSound()
                             //send new state to server
                             socket.emit('updateGameState', {
                                 gameOver: checkGameOver(player1Deck),
@@ -308,7 +311,7 @@ const Game = (props) => {
                             })
                         }
                         else {
-                            playShufflingSound()
+                            !isSoundMuted && playShufflingSound()
                             //send new state to server
                             socket.emit('updateGameState', {
                                 gameOver: checkGameOver(player1Deck),
@@ -339,7 +342,7 @@ const Game = (props) => {
                             updatedPlayer2Deck.push(drawCard1)
                             updatedPlayer2Deck.push(drawCard2)
 
-                            playShufflingSound()
+                            !isSoundMuted && playShufflingSound()
                             //send new state to server
                             socket.emit('updateGameState', {
                                 gameOver: checkGameOver(player2Deck),
@@ -353,7 +356,7 @@ const Game = (props) => {
                             })
                         }
                         else {
-                            playShufflingSound()
+                            !isSoundMuted && playShufflingSound()
                             //send new state to server
                             socket.emit('updateGameState', {
                                 gameOver: checkGameOver(player2Deck),
@@ -600,7 +603,7 @@ const Game = (props) => {
                             updatedPlayer1Deck.push(drawCard1X)
                             updatedPlayer1Deck.push(drawCard2X)
 
-                            playDraw2CardSound()
+                            !isSoundMuted && playDraw2CardSound()
                             //send new state to server
                             socket.emit('updateGameState', {
                                 gameOver: checkGameOver(player1Deck),
@@ -614,7 +617,7 @@ const Game = (props) => {
                             })
                         }
                         else {
-                            playDraw2CardSound()
+                            !isSoundMuted && playDraw2CardSound()
                             //send new state to server
                             socket.emit('updateGameState', {
                                 gameOver: checkGameOver(player1Deck),
@@ -651,7 +654,7 @@ const Game = (props) => {
                             updatedPlayer2Deck.push(drawCard1X)
                             updatedPlayer2Deck.push(drawCard2X)
 
-                            playDraw2CardSound()
+                            !isSoundMuted && playDraw2CardSound()
                             //send new state to server
                             socket.emit('updateGameState', {
                                 gameOver: checkGameOver(player2Deck),
@@ -665,7 +668,7 @@ const Game = (props) => {
                             })
                         }
                         else {
-                            playDraw2CardSound()
+                            !isSoundMuted && playDraw2CardSound()
                             //send new state to server
                             socket.emit('updateGameState', {
                                 gameOver: checkGameOver(player2Deck),
@@ -707,7 +710,7 @@ const Game = (props) => {
                             updatedPlayer1Deck.push(drawCard1X)
                             updatedPlayer1Deck.push(drawCard2X)
 
-                            playDraw2CardSound()
+                            !isSoundMuted && playDraw2CardSound()
                             //send new state to server
                             socket.emit('updateGameState', {
                                 gameOver: checkGameOver(player1Deck),
@@ -721,7 +724,7 @@ const Game = (props) => {
                             })
                         }
                         else {
-                            playDraw2CardSound()
+                            !isSoundMuted && playDraw2CardSound()
                             //send new state to server
                             socket.emit('updateGameState', {
                                 gameOver: checkGameOver(player1Deck),
@@ -758,7 +761,7 @@ const Game = (props) => {
                             updatedPlayer2Deck.push(drawCard1X)
                             updatedPlayer2Deck.push(drawCard2X)
 
-                            playDraw2CardSound()
+                            !isSoundMuted && playDraw2CardSound()
                             //send new state to server
                             socket.emit('updateGameState', {
                                 gameOver: checkGameOver(player2Deck),
@@ -772,7 +775,7 @@ const Game = (props) => {
                             })
                         }
                         else {
-                            playDraw2CardSound()
+                            !isSoundMuted && playDraw2CardSound()
                             //send new state to server
                             socket.emit('updateGameState', {
                                 gameOver: checkGameOver(player2Deck),
@@ -817,7 +820,7 @@ const Game = (props) => {
                         updatedPlayer1Deck.push(drawCard1)
                         updatedPlayer1Deck.push(drawCard2)
 
-                        playWildCardSound()
+                        !isSoundMuted && playWildCardSound()
                         //send new state to server
                         socket.emit('updateGameState', {
                             gameOver: checkGameOver(player1Deck),
@@ -831,7 +834,7 @@ const Game = (props) => {
                         })
                     }
                     else {
-                        playWildCardSound()
+                        !isSoundMuted && playWildCardSound()
 
                         //send new state to server
                         socket.emit('updateGameState', {
@@ -865,7 +868,7 @@ const Game = (props) => {
                         const updatedPlayer2Deck = [...player2Deck.slice(0, removeIndex), ...player2Deck.slice(removeIndex + 1)]
                         updatedPlayer2Deck.push(drawCard1)
                         updatedPlayer2Deck.push(drawCard2)
-                        playWildCardSound()
+                        !isSoundMuted && playWildCardSound()
 
                         //send new state to server
                         socket.emit('updateGameState', {
@@ -880,7 +883,7 @@ const Game = (props) => {
                         })
                     }
                     else {
-                        playWildCardSound()
+                        !isSoundMuted && playWildCardSound()
 
                         //send new state to server
                         socket.emit('updateGameState', {
@@ -926,7 +929,7 @@ const Game = (props) => {
                         updatedPlayer1Deck.push(drawCard1X)
                         updatedPlayer1Deck.push(drawCard2X)
 
-                        playDraw4CardSound()
+                        !isSoundMuted && playDraw4CardSound()
 
                         //send new state to server
                         socket.emit('updateGameState', {
@@ -941,7 +944,7 @@ const Game = (props) => {
                         })
                     }
                     else {
-                        playDraw4CardSound()
+                        !isSoundMuted && playDraw4CardSound()
 
                         //send new state to server
                         socket.emit('updateGameState', {
@@ -970,7 +973,7 @@ const Game = (props) => {
                     const drawCard3 = copiedDrawCardPileArray.pop()
                     const drawCard4 = copiedDrawCardPileArray.pop()
                     //then update currentColor and currentNumber - turn will remain same
-                    playDraw4CardSound()
+                    !isSoundMuted && playDraw4CardSound()
 
                     //send new state to server
                     socket.emit('updateGameState', {
@@ -996,7 +999,7 @@ const Game = (props) => {
                         updatedPlayer2Deck.push(drawCard1X)
                         updatedPlayer2Deck.push(drawCard2X)
 
-                        playDraw4CardSound()
+                        !isSoundMuted && playDraw4CardSound()
 
                         //send new state to server
                         socket.emit('updateGameState', {
@@ -1011,7 +1014,7 @@ const Game = (props) => {
                         })
                     }
                     else {
-                        playDraw4CardSound()
+                        !isSoundMuted && playDraw4CardSound()
 
                         //send new state to server
                         socket.emit('updateGameState', {
@@ -1046,7 +1049,7 @@ const Game = (props) => {
             let numberOfDrawnCard = drawCard.charAt(0)
             if(colorOfDrawnCard === currentColor && (drawCard === 'skipR' || drawCard === 'skipG' || drawCard === 'skipB' || drawCard === 'skipY')) {
                 alert(`You drew ${drawCard}. It was played for you.`)
-                playShufflingSound()
+                !isSoundMuted && playShufflingSound()
                 //send new state to server
                 socket.emit('updateGameState', {
                     playedCardsPile: [...playedCardsPile.slice(0, playedCardsPile.length), drawCard, ...playedCardsPile.slice(playedCardsPile.length)],
@@ -1063,7 +1066,7 @@ const Game = (props) => {
                 //pull out last two elements from it
                 const drawCard1 = copiedDrawCardPileArray.pop()
                 const drawCard2 = copiedDrawCardPileArray.pop()
-                playDraw2CardSound()
+                !isSoundMuted && playDraw2CardSound()
                 //send new state to server
                 socket.emit('updateGameState', {
                     playedCardsPile: [...playedCardsPile.slice(0, playedCardsPile.length), drawCard, ...playedCardsPile.slice(playedCardsPile.length)],
@@ -1077,7 +1080,7 @@ const Game = (props) => {
                 alert(`You drew ${drawCard}. It was played for you.`)
                 //ask for new color
                 const newColor = prompt('Enter first letter of new color in uppercase (R/G/B/Y)')
-                playWildCardSound()
+                !isSoundMuted && playWildCardSound()
                 //send new state to server
                 socket.emit('updateGameState', {
                     turn: 'Player 2',
@@ -1099,7 +1102,7 @@ const Game = (props) => {
                 const drawCard2 = copiedDrawCardPileArray.pop()
                 const drawCard3 = copiedDrawCardPileArray.pop()
                 const drawCard4 = copiedDrawCardPileArray.pop()
-                playDraw4CardSound()
+                !isSoundMuted && playDraw4CardSound()
                 //send new state to server
                 socket.emit('updateGameState', {
                     playedCardsPile: [...playedCardsPile.slice(0, playedCardsPile.length), drawCard, ...playedCardsPile.slice(playedCardsPile.length)],
@@ -1112,7 +1115,7 @@ const Game = (props) => {
             //if not action card - check if drawn card is playable
             else if(numberOfDrawnCard === currentNumber || colorOfDrawnCard === currentColor) {
                 alert(`You drew ${drawCard}. It was played for you.`)
-                playShufflingSound()
+                !isSoundMuted && playShufflingSound()
                 //send new state to server
                 socket.emit('updateGameState', {
                     turn: 'Player 2',
@@ -1124,8 +1127,7 @@ const Game = (props) => {
             }
             //else add the drawn card to player1's deck
             else {
-                alert(`You drew ${drawCard}.`)
-                playShufflingSound()
+                !isSoundMuted && playShufflingSound()
                 //send new state to server
                 socket.emit('updateGameState', {
                     turn: 'Player 2',
@@ -1145,7 +1147,7 @@ const Game = (props) => {
             let numberOfDrawnCard = drawCard.charAt(0)
             if(colorOfDrawnCard === currentColor && (drawCard === 'skipR' || drawCard === 'skipG' || drawCard === 'skipB' || drawCard === 'skipY')) {
                 alert(`You drew ${drawCard}. It was played for you.`)
-                playShufflingSound()
+                !isSoundMuted && playShufflingSound()
                 //send new state to server
                 socket.emit('updateGameState', {
                     playedCardsPile: [...playedCardsPile.slice(0, playedCardsPile.length), drawCard, ...playedCardsPile.slice(playedCardsPile.length)],
@@ -1162,7 +1164,7 @@ const Game = (props) => {
                 //pull out last two elements from it
                 const drawCard1 = copiedDrawCardPileArray.pop()
                 const drawCard2 = copiedDrawCardPileArray.pop()
-                playDraw2CardSound()
+                !isSoundMuted && playDraw2CardSound()
                 //send new state to server
                 socket.emit('updateGameState', {
                     playedCardsPile: [...playedCardsPile.slice(0, playedCardsPile.length), drawCard, ...playedCardsPile.slice(playedCardsPile.length)],
@@ -1176,7 +1178,7 @@ const Game = (props) => {
                 alert(`You drew ${drawCard}. It was played for you.`)
                 //ask for new color
                 const newColor = prompt('Enter first letter of new color in uppercase (R/G/B/Y)')
-                playWildCardSound()
+                !isSoundMuted && playWildCardSound()
                 //send new state to server
                 socket.emit('updateGameState', {
                     turn: 'Player 1',
@@ -1198,7 +1200,7 @@ const Game = (props) => {
                 const drawCard2 = copiedDrawCardPileArray.pop()
                 const drawCard3 = copiedDrawCardPileArray.pop()
                 const drawCard4 = copiedDrawCardPileArray.pop()
-                playDraw4CardSound()
+                !isSoundMuted && playDraw4CardSound()
                 //send new state to server
                 socket.emit('updateGameState', {
                     playedCardsPile: [...playedCardsPile.slice(0, playedCardsPile.length), drawCard, ...playedCardsPile.slice(playedCardsPile.length)],
@@ -1211,7 +1213,7 @@ const Game = (props) => {
             //if not action card - check if drawn card is playable
             else if(numberOfDrawnCard === currentNumber || colorOfDrawnCard === currentColor) {
                 alert(`You drew ${drawCard}. It was played for you.`)
-                playShufflingSound()
+                !isSoundMuted && playShufflingSound()
                 //send new state to server
                 socket.emit('updateGameState', {
                     turn: 'Player 1',
@@ -1223,8 +1225,7 @@ const Game = (props) => {
             }
             //else add the drawn card to player2's deck
             else {
-                alert(`You drew ${drawCard}.`)
-                playShufflingSound()
+                !isSoundMuted && playShufflingSound()
                 //send new state to server
                 socket.emit('updateGameState', {
                     turn: 'Player 1',
@@ -1242,6 +1243,10 @@ const Game = (props) => {
                 <div className='topInfo'>
                     <img src={require('../assets/logo.png').default} />
                     <h1>Game Code: {room}</h1>
+                    <span>
+                        <button className='game-button green' onClick={() => setSoundMuted(!isSoundMuted)}>{isSoundMuted ? <span class="material-icons">volume_off</span> : <span class="material-icons">volume_up</span>}</button>
+                        <button className='game-button green' onClick={() => setMusicMuted(!isMusicMuted)}>{isMusicMuted ? <span class="material-icons">music_off</span> : <span class="material-icons">music_note</span>}</button>
+                    </span>
                 </div>
 
                 {users.length===1 && currentUser === 'Player 2' && <h1 className='topInfoText'>Player 1 has left the game.</h1> }
