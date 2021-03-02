@@ -1,1 +1,1 @@
-Online multiplayer card game.
+Two player online game of UNO.

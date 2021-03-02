@@ -185,7 +185,6 @@ const Game = (props) => {
                         //remove the played card from player1's deck and add it to playedCardsPile (immutably)
                         //then update turn, currentColor and currentNumber
                         const removeIndex = player1Deck.indexOf(played_card)
-
                         //if two cards remaining check if player pressed UNO button
                         //if not pressed add 2 cards as penalty
                         if(player1Deck.length===2 && !isUnoButtonPressed) {
@@ -195,11 +194,9 @@ const Game = (props) => {
                             //pull out last two elements from it
                             const drawCard1 = copiedDrawCardPileArray.pop()
                             const drawCard2 = copiedDrawCardPileArray.pop()
-
                             const updatedPlayer1Deck = [...player1Deck.slice(0, removeIndex), ...player1Deck.slice(removeIndex + 1)]
                             updatedPlayer1Deck.push(drawCard1)
                             updatedPlayer1Deck.push(drawCard2)
-
                             !isSoundMuted && playShufflingSound()
                             //send new state to server
                             socket.emit('updateGameState', {
@@ -231,7 +228,6 @@ const Game = (props) => {
                         //remove the played card from player2's deck and add it to playedCardsPile (immutably)
                         //then update turn, currentColor and currentNumber
                         const removeIndex = player2Deck.indexOf(played_card)
-
                         //if two cards remaining check if player pressed UNO button
                         //if not pressed add 2 cards as penalty
                         if(player2Deck.length===2 && !isUnoButtonPressed) {
@@ -241,11 +237,9 @@ const Game = (props) => {
                             //pull out last two elements from it
                             const drawCard1 = copiedDrawCardPileArray.pop()
                             const drawCard2 = copiedDrawCardPileArray.pop()
-
                             const updatedPlayer2Deck = [...player2Deck.slice(0, removeIndex), ...player2Deck.slice(removeIndex + 1)]
                             updatedPlayer2Deck.push(drawCard1)
                             updatedPlayer2Deck.push(drawCard2)
-
                             !isSoundMuted && playShufflingSound()
                             //send new state to server
                             socket.emit('updateGameState', {
@@ -282,7 +276,6 @@ const Game = (props) => {
                         //remove the played card from player1's deck and add it to playedCardsPile (immutably)
                         //then update turn, currentColor and currentNumber
                         const removeIndex = player1Deck.indexOf(played_card)
-
                         //if two cards remaining check if player pressed UNO button
                         //if not pressed add 2 cards as penalty
                         if(player1Deck.length===2 && !isUnoButtonPressed) {
@@ -292,11 +285,9 @@ const Game = (props) => {
                             //pull out last two elements from it
                             const drawCard1 = copiedDrawCardPileArray.pop()
                             const drawCard2 = copiedDrawCardPileArray.pop()
-
                             const updatedPlayer1Deck = [...player1Deck.slice(0, removeIndex), ...player1Deck.slice(removeIndex + 1)]
                             updatedPlayer1Deck.push(drawCard1)
                             updatedPlayer1Deck.push(drawCard2)
-
                             !isSoundMuted && playShufflingSound()
                             //send new state to server
                             socket.emit('updateGameState', {
@@ -337,11 +328,9 @@ const Game = (props) => {
                             //pull out last two elements from it
                             const drawCard1 = copiedDrawCardPileArray.pop()
                             const drawCard2 = copiedDrawCardPileArray.pop()
-
                             const updatedPlayer2Deck = [...player2Deck.slice(0, removeIndex), ...player2Deck.slice(removeIndex + 1)]
                             updatedPlayer2Deck.push(drawCard1)
                             updatedPlayer2Deck.push(drawCard2)
-
                             !isSoundMuted && playShufflingSound()
                             //send new state to server
                             socket.emit('updateGameState', {
@@ -388,7 +377,6 @@ const Game = (props) => {
                         //remove the played card from player1's deck and add it to playedCardsPile (immutably)
                         //then update currentColor and currentNumber
                         const removeIndex = player1Deck.indexOf(played_card)
-
                         //if two cards remaining check if player pressed UNO button
                         //if not pressed add 2 cards as penalty
                         if(player1Deck.length===2 && !isUnoButtonPressed) {
@@ -398,11 +386,9 @@ const Game = (props) => {
                             //pull out last two elements from it
                             const drawCard1 = copiedDrawCardPileArray.pop()
                             const drawCard2 = copiedDrawCardPileArray.pop()
-
                             const updatedPlayer1Deck = [...player1Deck.slice(0, removeIndex), ...player1Deck.slice(removeIndex + 1)]
                             updatedPlayer1Deck.push(drawCard1)
                             updatedPlayer1Deck.push(drawCard2)
-
                             !isSoundMuted && playSkipCardSound()
                             //send new state to server
                             socket.emit('updateGameState', {
@@ -432,7 +418,6 @@ const Game = (props) => {
                         //remove the played card from player2's deck and add it to playedCardsPile (immutably)
                         //then update currentColor and currentNumber
                         const removeIndex = player2Deck.indexOf(played_card)
-
                         //if two cards remaining check if player pressed UNO button
                         //if not pressed add 2 cards as penalty
                         if(player2Deck.length===2 && !isUnoButtonPressed) {
@@ -442,11 +427,9 @@ const Game = (props) => {
                             //pull out last two elements from it
                             const drawCard1 = copiedDrawCardPileArray.pop()
                             const drawCard2 = copiedDrawCardPileArray.pop()
-
                             const updatedPlayer2Deck = [...player2Deck.slice(0, removeIndex), ...player2Deck.slice(removeIndex + 1)]
                             updatedPlayer2Deck.push(drawCard1)
                             updatedPlayer2Deck.push(drawCard2)
-
                             !isSoundMuted && playSkipCardSound()
                             //send new state to server
                             socket.emit('updateGameState', {
@@ -481,7 +464,6 @@ const Game = (props) => {
                         //remove the played card from player1's deck and add it to playedCardsPile (immutably)
                         //then update currentColor and currentNumber - turn will remain same
                         const removeIndex = player1Deck.indexOf(played_card)
-                        
                         //if two cards remaining check if player pressed UNO button
                         //if not pressed add 2 cards as penalty
                         if(player1Deck.length===2 && !isUnoButtonPressed) {
@@ -491,11 +473,9 @@ const Game = (props) => {
                             //pull out last two elements from it
                             const drawCard1 = copiedDrawCardPileArray.pop()
                             const drawCard2 = copiedDrawCardPileArray.pop()
-
                             const updatedPlayer1Deck = [...player1Deck.slice(0, removeIndex), ...player1Deck.slice(removeIndex + 1)]
                             updatedPlayer1Deck.push(drawCard1)
                             updatedPlayer1Deck.push(drawCard2)
-
                             !isSoundMuted && playSkipCardSound()
                             //send new state to server
                             socket.emit('updateGameState', {
@@ -525,7 +505,6 @@ const Game = (props) => {
                         //remove the played card from player2's deck and add it to playedCardsPile (immutably)
                         //then update currentColor and currentNumber - turn will remain same
                         const removeIndex = player2Deck.indexOf(played_card)
-                        
                         //if two cards remaining check if player pressed UNO button
                         //if not pressed add 2 cards as penalty
                         if(player2Deck.length===2 && !isUnoButtonPressed) {
@@ -535,11 +514,9 @@ const Game = (props) => {
                             //pull out last two elements from it
                             const drawCard1 = copiedDrawCardPileArray.pop()
                             const drawCard2 = copiedDrawCardPileArray.pop()
-
                             const updatedPlayer2Deck = [...player2Deck.slice(0, removeIndex), ...player2Deck.slice(removeIndex + 1)]
                             updatedPlayer2Deck.push(drawCard1)
                             updatedPlayer2Deck.push(drawCard2)
-
                             !isSoundMuted && playSkipCardSound()
                             //send new state to server
                             socket.emit('updateGameState', {
@@ -590,7 +567,6 @@ const Game = (props) => {
                         //pull out last two elements from it
                         const drawCard1 = copiedDrawCardPileArray.pop()
                         const drawCard2 = copiedDrawCardPileArray.pop()
-
                         //if two cards remaining check if player pressed UNO button
                         //if not pressed add 2 cards as penalty
                         if(player1Deck.length===2 && !isUnoButtonPressed) {
@@ -598,7 +574,6 @@ const Game = (props) => {
                             //pull out last two elements from drawCardPile
                             const drawCard1X = copiedDrawCardPileArray.pop()
                             const drawCard2X = copiedDrawCardPileArray.pop()
-
                             const updatedPlayer1Deck = [...player1Deck.slice(0, removeIndex), ...player1Deck.slice(removeIndex + 1)]
                             updatedPlayer1Deck.push(drawCard1X)
                             updatedPlayer1Deck.push(drawCard2X)
@@ -641,7 +616,6 @@ const Game = (props) => {
                         //pull out last two elements from it
                         const drawCard1 = copiedDrawCardPileArray.pop()
                         const drawCard2 = copiedDrawCardPileArray.pop()
-
                         //if two cards remaining check if player pressed UNO button
                         //if not pressed add 2 cards as penalty
                         if(player2Deck.length===2 && !isUnoButtonPressed) {
@@ -649,11 +623,9 @@ const Game = (props) => {
                             //pull out last two elements from drawCardPile
                             const drawCard1X = copiedDrawCardPileArray.pop()
                             const drawCard2X = copiedDrawCardPileArray.pop()
-
                             const updatedPlayer2Deck = [...player2Deck.slice(0, removeIndex), ...player2Deck.slice(removeIndex + 1)]
                             updatedPlayer2Deck.push(drawCard1X)
                             updatedPlayer2Deck.push(drawCard2X)
-
                             !isSoundMuted && playDraw2CardSound()
                             //send new state to server
                             socket.emit('updateGameState', {
@@ -697,7 +669,6 @@ const Game = (props) => {
                         //pull out last two elements from it
                         const drawCard1 = copiedDrawCardPileArray.pop()
                         const drawCard2 = copiedDrawCardPileArray.pop()
-
                         //if two cards remaining check if player pressed UNO button
                         //if not pressed add 2 cards as penalty
                         if(player1Deck.length===2 && !isUnoButtonPressed) {
@@ -705,11 +676,9 @@ const Game = (props) => {
                             //pull out last two elements from drawCardPile
                             const drawCard1X = copiedDrawCardPileArray.pop()
                             const drawCard2X = copiedDrawCardPileArray.pop()
-
                             const updatedPlayer1Deck = [...player1Deck.slice(0, removeIndex), ...player1Deck.slice(removeIndex + 1)]
                             updatedPlayer1Deck.push(drawCard1X)
                             updatedPlayer1Deck.push(drawCard2X)
-
                             !isSoundMuted && playDraw2CardSound()
                             //send new state to server
                             socket.emit('updateGameState', {
@@ -748,7 +717,6 @@ const Game = (props) => {
                         //pull out last two elements from it
                         const drawCard1 = copiedDrawCardPileArray.pop()
                         const drawCard2 = copiedDrawCardPileArray.pop()
-                        
                         //if two cards remaining check if player pressed UNO button
                         //if not pressed add 2 cards as penalty
                         if(player2Deck.length===2 && !isUnoButtonPressed) {
@@ -756,11 +724,9 @@ const Game = (props) => {
                             //pull out last two elements from drawCardPile
                             const drawCard1X = copiedDrawCardPileArray.pop()
                             const drawCard2X = copiedDrawCardPileArray.pop()
-
                             const updatedPlayer2Deck = [...player2Deck.slice(0, removeIndex), ...player2Deck.slice(removeIndex + 1)]
                             updatedPlayer2Deck.push(drawCard1X)
                             updatedPlayer2Deck.push(drawCard2X)
-
                             !isSoundMuted && playDraw2CardSound()
                             //send new state to server
                             socket.emit('updateGameState', {
@@ -805,7 +771,6 @@ const Game = (props) => {
                     //remove the played card from player1's deck and add it to playedCardsPile (immutably)
                     const removeIndex = player1Deck.indexOf(played_card)
                     //then update turn, currentColor and currentNumber
-
                     //if two cards remaining check if player pressed UNO button
                     //if not pressed add 2 cards as penalty
                     if(player1Deck.length===2 && !isUnoButtonPressed) {
@@ -815,11 +780,9 @@ const Game = (props) => {
                         //pull out last two elements from it
                         const drawCard1 = copiedDrawCardPileArray.pop()
                         const drawCard2 = copiedDrawCardPileArray.pop()
-
                         const updatedPlayer1Deck = [...player1Deck.slice(0, removeIndex), ...player1Deck.slice(removeIndex + 1)]
                         updatedPlayer1Deck.push(drawCard1)
                         updatedPlayer1Deck.push(drawCard2)
-
                         !isSoundMuted && playWildCardSound()
                         //send new state to server
                         socket.emit('updateGameState', {
@@ -835,7 +798,6 @@ const Game = (props) => {
                     }
                     else {
                         !isSoundMuted && playWildCardSound()
-
                         //send new state to server
                         socket.emit('updateGameState', {
                             gameOver: checkGameOver(player1Deck),
@@ -854,7 +816,6 @@ const Game = (props) => {
                     //remove the played card from player2's deck and add it to playedCardsPile (immutably)
                     const removeIndex = player2Deck.indexOf(played_card)
                     //then update turn, currentColor and currentNumber
-
                     //if two cards remaining check if player pressed UNO button
                     //if not pressed add 2 cards as penalty
                     if(player2Deck.length===2 && !isUnoButtonPressed) {
@@ -864,12 +825,10 @@ const Game = (props) => {
                         //pull out last two elements from it
                         const drawCard1 = copiedDrawCardPileArray.pop()
                         const drawCard2 = copiedDrawCardPileArray.pop()
-
                         const updatedPlayer2Deck = [...player2Deck.slice(0, removeIndex), ...player2Deck.slice(removeIndex + 1)]
                         updatedPlayer2Deck.push(drawCard1)
                         updatedPlayer2Deck.push(drawCard2)
                         !isSoundMuted && playWildCardSound()
-
                         //send new state to server
                         socket.emit('updateGameState', {
                             gameOver: checkGameOver(player2Deck),
@@ -884,7 +843,6 @@ const Game = (props) => {
                     }
                     else {
                         !isSoundMuted && playWildCardSound()
-
                         //send new state to server
                         socket.emit('updateGameState', {
                             gameOver: checkGameOver(player2Deck),
@@ -916,7 +874,6 @@ const Game = (props) => {
                     const drawCard3 = copiedDrawCardPileArray.pop()
                     const drawCard4 = copiedDrawCardPileArray.pop()
                     //then update currentColor and currentNumber - turn will remain same
-
                     //if two cards remaining check if player pressed UNO button
                     //if not pressed add 2 cards as penalty
                     if(player1Deck.length===2 && !isUnoButtonPressed) {
@@ -924,13 +881,10 @@ const Game = (props) => {
                         //pull out last two elements from drawCardPile
                         const drawCard1X = copiedDrawCardPileArray.pop()
                         const drawCard2X = copiedDrawCardPileArray.pop()
-
                         const updatedPlayer1Deck = [...player1Deck.slice(0, removeIndex), ...player1Deck.slice(removeIndex + 1)]
                         updatedPlayer1Deck.push(drawCard1X)
                         updatedPlayer1Deck.push(drawCard2X)
-
                         !isSoundMuted && playDraw4CardSound()
-
                         //send new state to server
                         socket.emit('updateGameState', {
                             gameOver: checkGameOver(player1Deck),
@@ -945,7 +899,6 @@ const Game = (props) => {
                     }
                     else {
                         !isSoundMuted && playDraw4CardSound()
-
                         //send new state to server
                         socket.emit('updateGameState', {
                             gameOver: checkGameOver(player1Deck),
@@ -974,7 +927,6 @@ const Game = (props) => {
                     const drawCard4 = copiedDrawCardPileArray.pop()
                     //then update currentColor and currentNumber - turn will remain same
                     !isSoundMuted && playDraw4CardSound()
-
                     //send new state to server
                     socket.emit('updateGameState', {
                         gameOver: checkGameOver(player2Deck),
@@ -986,7 +938,6 @@ const Game = (props) => {
                         currentNumber: 600,
                         drawCardPile: [...copiedDrawCardPileArray]
                     })
-
                     //if two cards remaining check if player pressed UNO button
                     //if not pressed add 2 cards as penalty
                     if(player2Deck.length===2 && !isUnoButtonPressed) {
@@ -994,13 +945,10 @@ const Game = (props) => {
                         //pull out last two elements from drawCardPile
                         const drawCard1X = copiedDrawCardPileArray.pop()
                         const drawCard2X = copiedDrawCardPileArray.pop()
-
                         const updatedPlayer2Deck = [...player2Deck.slice(0, removeIndex), ...player2Deck.slice(removeIndex + 1)]
                         updatedPlayer2Deck.push(drawCard1X)
                         updatedPlayer2Deck.push(drawCard2X)
-
                         !isSoundMuted && playDraw4CardSound()
-
                         //send new state to server
                         socket.emit('updateGameState', {
                             gameOver: checkGameOver(player2Deck),
@@ -1015,7 +963,6 @@ const Game = (props) => {
                     }
                     else {
                         !isSoundMuted && playDraw4CardSound()
-
                         //send new state to server
                         socket.emit('updateGameState', {
                             gameOver: checkGameOver(player2Deck),
@@ -1258,16 +1205,17 @@ const Game = (props) => {
                     {gameOver ? <div>{winner !== '' && <><h1>GAME OVER</h1><h2>{winner} wins!</h2></>}</div> :
                     <div>
                         {currentUser === 'Player 1' && <>    
-                        <div className='player1Deck' style={turn === 'Player 1' ? null : {pointerEvents: 'none'}}>
-                            <p className='playerDeckText'>Player 1</p>
-                            {player1Deck.map((item, i) => (
+                        <div className='player2Deck' style={{pointerEvents: 'none'}}>
+                            <p className='playerDeckText'>Player 2</p>
+                            {player2Deck.map((item, i) => (
                                 <img
                                     key={i}
                                     className='Card'
                                     onClick={() => onCardPlayedHandler(item)}
-                                    src={require(`../assets/cards-front/${item}.png`).default}
+                                    src={require(`../assets/card-back.png`).default}
                                     />
                             ))}
+                            {turn==='Player 2' && <Spinner />}
                         </div>
                         <br />
                         <div className='middleInfo' style={turn === 'Player 2' ? {pointerEvents: 'none'} : null}>
@@ -1283,17 +1231,16 @@ const Game = (props) => {
                             }}>UNO</button>
                         </div>
                         <br />
-                        <div className='player2Deck' style={{pointerEvents: 'none'}}>
-                            <p className='playerDeckText'>Player 2</p>
-                            {player2Deck.map((item, i) => (
+                        <div className='player1Deck' style={turn === 'Player 1' ? null : {pointerEvents: 'none'}}>
+                            <p className='playerDeckText'>Player 1</p>
+                            {player1Deck.map((item, i) => (
                                 <img
                                     key={i}
                                     className='Card'
                                     onClick={() => onCardPlayedHandler(item)}
-                                    src={require(`../assets/card-back.png`).default}
+                                    src={require(`../assets/cards-front/${item}.png`).default}
                                     />
                             ))}
-                            {turn==='Player 2' && <Spinner />}
                         </div> </> }
 
                         {currentUser === 'Player 2' && <>
