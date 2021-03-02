@@ -6,6 +6,7 @@ import queryString from 'query-string'
 import Spinner from './Spinner'
 import useSound from 'use-sound'
 
+import bgMusic from '../assets/sounds/game-bg-music.mp3'
 import unoSound from '../assets/sounds/uno-sound.mp3'
 import shufflingSound from '../assets/sounds/shuffling-cards-1.mp3'
 import skipCardSound from '../assets/sounds/skip-sound.mp3'
@@ -70,8 +71,9 @@ const Game = (props) => {
 
     const [isUnoButtonPressed, setUnoButtonPressed] = useState(false)
     const [isSoundMuted, setSoundMuted] = useState(false)
-    const [isMusicMuted, setMusicMuted] = useState(false)
+    const [isMusicMuted, setMusicMuted] = useState(true)
 
+    const [playBBgMusic, { pause }] = useSound(bgMusic, { loop: true })
     const [playUnoSound] = useSound(unoSound)
     const [playShufflingSound] = useSound(shufflingSound)
     const [playSkipCardSound] = useSound(skipCardSound)
@@ -1217,8 +1219,14 @@ const Game = (props) => {
                     <img src={require('../assets/logo.png').default} />
                     <h1>Game Code: {room}</h1>
                     <span>
-                        <button className='game-button green' onClick={() => setSoundMuted(!isSoundMuted)}>{isSoundMuted ? <span class="material-icons">volume_off</span> : <span class="material-icons">volume_up</span>}</button>
-                        <button className='game-button green' onClick={() => setMusicMuted(!isMusicMuted)}>{isMusicMuted ? <span class="material-icons">music_off</span> : <span class="material-icons">music_note</span>}</button>
+                        <button className='game-button green' onClick={() => setSoundMuted(!isSoundMuted)}>{isSoundMuted ? <span className="material-icons">volume_off</span> : <span className="material-icons">volume_up</span>}</button>
+                        <button className='game-button green' onClick={() => {
+                            if(isMusicMuted)
+                                playBBgMusic()
+                            else
+                                pause()
+                            setMusicMuted(!isMusicMuted)
+                        }}>{isMusicMuted ? <span className="material-icons">music_off</span> : <span className="material-icons">music_note</span>}</button>
                     </span>
                 </div>
 
@@ -1366,7 +1374,7 @@ const Game = (props) => {
             </> : <h1>Room full</h1> }
 
             <br />
-            <a href='/'><button class="game-button red">QUIT</button></a>
+            <a href='/'><button className="game-button red">QUIT</button></a>
         </div>
     )
 }
