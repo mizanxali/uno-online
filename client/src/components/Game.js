@@ -767,7 +767,7 @@ const Game = (props) => {
                 //check who played the card and return new state accordingly
                 if(cardPlayedBy === 'Player 1') {
                     //ask for new color
-                    const newColor = prompt('Enter first letter of new color in uppercase (R/G/B/Y)')
+                    const newColor = prompt('Enter first letter of new color (R/G/B/Y)').toUpperCase()
                     //remove the played card from player1's deck and add it to playedCardsPile (immutably)
                     const removeIndex = player1Deck.indexOf(played_card)
                     //then update turn, currentColor and currentNumber
@@ -812,7 +812,7 @@ const Game = (props) => {
                 }
                 else {
                     //ask for new color
-                    const newColor = prompt('Enter first letter of new color in uppercase (R/G/B/Y)')
+                    const newColor = prompt('Enter first letter of new color (R/G/B/Y)').toUpperCase()
                     //remove the played card from player2's deck and add it to playedCardsPile (immutably)
                     const removeIndex = player2Deck.indexOf(played_card)
                     //then update turn, currentColor and currentNumber
@@ -862,7 +862,7 @@ const Game = (props) => {
                 //check who played the card and return new state accordingly
                 if(cardPlayedBy === 'Player 1') {
                     //ask for new color
-                    const newColor = prompt('Enter first letter of new color in uppercase (R/G/B/Y)')
+                    const newColor = prompt('Enter first letter of new color (R/G/B/Y)').toUpperCase()
                     //remove the played card from player1's deck and add it to playedCardsPile (immutably)
                     const removeIndex = player1Deck.indexOf(played_card)
                     //remove 2 new cards from drawCardPile and add them to player2's deck (immutably)
@@ -914,7 +914,7 @@ const Game = (props) => {
                 }
                 else {
                     //ask for new color
-                    const newColor = prompt('Enter first letter of new color in uppercase (R/G/B/Y)')
+                    const newColor = prompt('Enter first letter of new color (R/G/B/Y)').toUpperCase()
                     //remove the played card from player2's deck and add it to playedCardsPile (immutably)
                     const removeIndex = player2Deck.indexOf(played_card)
                     //remove 2 new cards from drawCardPile and add them to player1's deck (immutably)
@@ -1026,7 +1026,7 @@ const Game = (props) => {
             else if(drawCard === 'W') {
                 alert(`You drew ${drawCard}. It was played for you.`)
                 //ask for new color
-                const newColor = prompt('Enter first letter of new color in uppercase (R/G/B/Y)')
+                const newColor = prompt('Enter first letter of new color (R/G/B/Y)').toUpperCase()
                 !isSoundMuted && playWildCardSound()
                 //send new state to server
                 socket.emit('updateGameState', {
@@ -1040,7 +1040,7 @@ const Game = (props) => {
             else if(drawCard === 'D4W') {
                 alert(`You drew ${drawCard}. It was played for you.`)
                 //ask for new color
-                const newColor = prompt('Enter first letter of new color in uppercase (R/G/B/Y)')
+                const newColor = prompt('Enter first letter of new color (R/G/B/Y)').toUpperCase()
                 //remove 2 new cards from drawCardPile and add them to player2's deck (immutably)
                 //make a copy of drawCardPile array
                 const copiedDrawCardPileArray = [...drawCardPile]
@@ -1124,7 +1124,7 @@ const Game = (props) => {
             else if(drawCard === 'W') {
                 alert(`You drew ${drawCard}. It was played for you.`)
                 //ask for new color
-                const newColor = prompt('Enter first letter of new color in uppercase (R/G/B/Y)')
+                const newColor = prompt('Enter first letter of new color (R/G/B/Y)').toUpperCase()
                 !isSoundMuted && playWildCardSound()
                 //send new state to server
                 socket.emit('updateGameState', {
@@ -1138,7 +1138,7 @@ const Game = (props) => {
             else if(drawCard === 'D4W') {
                 alert(`You drew ${drawCard}. It was played for you.`)
                 //ask for new color
-                const newColor = prompt('Enter first letter of new color in uppercase (R/G/B/Y)')
+                const newColor = prompt('Enter first letter of new color (R/G/B/Y)').toUpperCase()
                 //remove 2 new cards from drawCardPile and add them to player1's deck (immutably)
                 //make a copy of drawCardPile array
                 const copiedDrawCardPileArray = [...drawCardPile]
