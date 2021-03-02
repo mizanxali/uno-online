@@ -21,8 +21,8 @@ import gameOverSound from '../assets/sounds/game-over-sound.mp3'
 //DRAW 4 WILD - 600
 
 let socket
-const ENDPOINT = 'http://localhost:5000'
-// const ENDPOINT = 'http://192.168.0.103:5000/'
+// const ENDPOINT = 'http://localhost:5000'
+const ENDPOINT = 'https://uno-online-multiplayer.herokuapp.com/'
 
 const Game = (props) => {
     const data = queryString.parse(props.location.search)
