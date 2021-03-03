@@ -315,7 +315,7 @@ a {
 	padding-top: 5px;
 	display: inline-block;
 }
-.chat-head img{
+.chat-head span{
 	cursor: pointer;
 	float: right;
 	width: 25px;

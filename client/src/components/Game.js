@@ -69,6 +69,7 @@ const Game = (props) => {
     const [playedCardsPile, setPlayedCardsPile] = useState([])
     const [drawCardPile, setDrawCardPile] = useState([])
 
+    const [isChatBoxHidden, setChatBoxHidden] = useState(true)
     const [isUnoButtonPressed, setUnoButtonPressed] = useState(false)
     const [isSoundMuted, setSoundMuted] = useState(false)
     const [isMusicMuted, setMusicMuted] = useState(true)
@@ -180,10 +181,14 @@ const Game = (props) => {
 
     const toggleChatBox = () => {
         const chatBody = document.querySelector('.chat-body')
-        if(chatBody.style.display === 'none')
+        if(isChatBoxHidden) {
             chatBody.style.display = 'block'
-        else
+            setChatBoxHidden(false)
+        }
+        else {
             chatBody.style.display = 'none'
+            setChatBoxHidden(true)
+        }
     }
 
     const sendMessage= (event) => {
@@ -605,7 +610,6 @@ const Game = (props) => {
                             const updatedPlayer1Deck = [...player1Deck.slice(0, removeIndex), ...player1Deck.slice(removeIndex + 1)]
                             updatedPlayer1Deck.push(drawCard1X)
                             updatedPlayer1Deck.push(drawCard2X)
-
                             !isSoundMuted && playDraw2CardSound()
                             //send new state to server
                             socket.emit('updateGameState', {
@@ -1277,16 +1281,14 @@ const Game = (props) => {
                                     />
                             ))}
                         </div>
-                        {/* <Chat Box Div */}
+
                         <div className="chatBoxWrapper">
                             <div className="chat-box chat-box-player1">
                                 <div className="chat-head">
                                     <h2>Chat Box</h2>
-                                    <img
-                                        onClick={toggleChatBox}
-                                        src="https://maxcdn.icons8.com/windows10/PNG/16/Arrows/angle_down-16.png"
-                                        title="Expand Arrow"
-                                        width="16" />
+                                    {!isChatBoxHidden ?
+                                    <span onClick={toggleChatBox} class="material-icons">keyboard_arrow_down</span> :
+                                    <span onClick={toggleChatBox} class="material-icons">keyboard_arrow_up</span>}
                                 </div>
                                 <div className="chat-body">
                                     <div className="msg-insert">
@@ -1343,16 +1345,14 @@ const Game = (props) => {
                                     />
                             ))}
                         </div>
-                        {/* <Chat Box Div */}
+
                         <div className="chatBoxWrapper">
                             <div className="chat-box chat-box-player2">
                                 <div className="chat-head">
                                     <h2>Chat Box</h2>
-                                    <img
-                                        onClick={toggleChatBox}
-                                        src="https://maxcdn.icons8.com/windows10/PNG/16/Arrows/angle_down-16.png"
-                                        title="Expand Arrow"
-                                        width="16" />
+                                    {!isChatBoxHidden ?
+                                    <span onClick={toggleChatBox} class="material-icons">keyboard_arrow_down</span> :
+                                    <span onClick={toggleChatBox} class="material-icons">keyboard_arrow_up</span>}
                                 </div>
                                 <div className="chat-body">
                                     <div className="msg-insert">
