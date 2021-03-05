@@ -26,6 +26,7 @@ This two-player online version of the game was built with React, Socket.IO, Expr
 ## 🎮 Screenshots
 <img src="screenshots/Screenshot-1.png" alt="Screenshot 1" width="75%" align="center" />
 <img src="screenshots/Screenshot-2.png" alt="Screenshot 2" width="75%" align="center" />
+<img src="screenshots/Screenshot-3.png" alt="Screenshot 3" width="75%" align="center" />
 
 ## 🏁 Getting Started (to run game locally)
 
