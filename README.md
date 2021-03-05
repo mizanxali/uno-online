@@ -1,13 +1,15 @@
 <h1 align="center">UNO ONLINE</h1>
 <h3 align="center">Two player online game of UNO.</h3>
 
+<img src="client/src/assets/logo.png" alt="UNO Logo" width="75%" align="center" />
+
 ## 🤔 What is UNO?
 
 UNO is the classic and beloved card game that’s easy to pick up and impossible to put down! Players take turns matching a card in their hand with the current card shown on top of the deck either by color or number. Special action cards deliver game-changing moments as they each perform a function to help you defeat your opponents. These include Skips, reverses, draw twos, color-changing wild and draw four wild cards.
 
 ## ⚠️ Game Rules
 
-Read the complete rules of UNO [here]('https://www.unorules.com/).
+Read the complete rules of UNO [here](https://www.unorules.com/).
 
 ## ❓ About the game
 
@@ -36,7 +38,7 @@ Follow the steps below, after cloning the repository:
 
 ### ⏳ Installation
 
-- (At the root of the project directory, use npm to install the server-side dependencies)
+- At the root of the project directory, use npm to install the server-side dependencies
 
 ```bash
 npm install
@@ -52,7 +54,7 @@ npm start
 
 This command gets the server running on localhost port 5000.
 
-- (In a separate terminal, navigate into the client folder and use npm to install the client-side dependencies)
+- In a separate terminal, navigate into the client folder and use npm to install the client-side dependencies
 
 ```bash
 cd client
@@ -61,7 +63,7 @@ npm install
 
 This command installs all the client-side dependencies needed for the game to run locally.
 
-- (Finally, use npm to run client)
+-Finally, use npm to run client
 
 ```bash
 npm start
@@ -85,4 +87,4 @@ Contributions are what make the open source community such an amazing place to b
 
 ## ❤️ Acknowledgements
 
-* [AlexDer]('https://alexder.itch.io/') for the UNO cards assets!
+* [AlexDer](https://alexder.itch.io/) for the UNO cards assets!
