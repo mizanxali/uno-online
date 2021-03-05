@@ -6,7 +6,7 @@
 
 ## 🤔 What is UNO?
 
-UNO is the classic and beloved card game that’s easy to pick up and impossible to put down! Players take turns matching a card in their hand with the current card shown on top of the deck either by color or number. Special action cards deliver game-changing moments as they each perform a function to help you defeat your opponents. These include Skips, reverses, draw twos, color-changing wild and draw four wild cards.
+UNO is the classic and beloved card game that’s easy to pick up and impossible to put down! Players take turns matching a card in their hand with the current card shown on top of the deck either by color or number. Special action cards deliver game-changing moments as they each perform a function to help you defeat your opponents. These include skips, reverses, draw twos, color-changing wild and draw four wild cards.
 
 ## ⚠️ Game Rules
 
@@ -79,10 +79,10 @@ Head over to http://localhost:3000/ and enjoy the game! 🎉
 
 Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
-1. Fork the Project
+1. Fork the Project Repo
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
 3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
+4. Push to the Branch on your forked Repo (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
 
