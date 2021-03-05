@@ -1,7 +1,7 @@
 <h1 align="center">UNO ONLINE</h1>
 <h3 align="center">Two player online game of UNO.</h3>
 
-<img src="client/src/assets/logo.png" alt="UNO Logo" width="75%" align="center" />
+<img src="client/src/assets/logo.png" alt="UNO Logo" width="25%" align="center" />
 
 ## 🤔 What is UNO?
 
@@ -11,16 +11,16 @@ UNO is the classic and beloved card game that’s easy to pick up and impossible
 
 Read the complete rules of UNO [here](https://www.unorules.com/).
 
-## ❓ About the game
+## ❓ About the Game
 
-This two-player online version of the game was built with React, Socket.IO, Express and Node.js.
+This two-player online version of the game was built with React, Socket.IO, Express and Node.js. It currently supports two-players in each game. It also has text chat functionality to communicate with your opponent!
 
-## 🧐 How to play?
+## 🧐 How to Play?
 
 1. Once you're on the homepage of the game, you can either host a new game or join a friend's game.
 2. To host a new game, click on CREATE GAME. A game code will be generated which you can share with your friend.
 3. To join a friend's game, enter the game code given by them, and click on JOIN GAME.
-4. That's it! Enjoy the game and do not get toxic! 😄
+4. That's it! Enjoy the game and remember, no toxicity!
 
 ## 🎮 Screenshots
 <img src="screenshots/Screenshot-1.png" alt="Screenshot 1" width="75%" align="center" />
