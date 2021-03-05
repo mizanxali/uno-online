@@ -64,7 +64,7 @@ npm install
 
 This command installs all the client-side dependencies needed for the game to run locally.
 
--Finally, use npm to run client
+- Finally, use npm to run client
 
 ```bash
 npm start
