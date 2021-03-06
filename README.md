@@ -48,7 +48,7 @@ npm install
 
 This command installs all the server-side dependencies needed for the game to run locally.
 
-- (Use npm to run server)
+- Use npm to run server
 
 ```bash
 npm start
@@ -78,7 +78,7 @@ Head over to http://localhost:3000/ and enjoy the game! 🎉
 
 ## 🤝 Contributing
 
-Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are greatly appreciated. The **Issues** tab is a good place to begin!
 
 1. Fork the Project Repo
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
