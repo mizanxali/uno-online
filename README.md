@@ -38,6 +38,10 @@ Follow the steps below, after cloning the repository:
 
 - Node
 
+**For Running:**
+
+- Change socket.IO endpoint on client side. To do this, go to `client/src/components/Game.js` and change line #26 from `const ENDPOINT = 'https://uno-online-multiplayer.herokuapp.com/'` to `const ENDPOINT = 'http://localhost:5000'`
+
 ### ⏳ Installation
 
 - At the root of the project directory, use npm to install the server-side dependencies
