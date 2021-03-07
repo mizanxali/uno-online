@@ -80,11 +80,12 @@ Head over to http://localhost:3000/ and enjoy the game! 🎉
 
 Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are greatly appreciated. The **Issues** tab is a good place to begin!
 
-1. Fork the Project Repo
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch on your forked Repo (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+1. Fork the project repo
+2. Clone the forked repo on your machine
+3. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+4. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+5. Push to the branch on your forked repo (`git push origin feature/AmazingFeature`)
+6. Open a pull request
 
 
 ## ❤️ Acknowledgements
