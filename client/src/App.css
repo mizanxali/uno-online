@@ -9,7 +9,7 @@ a {
 /* Homepage */
 .Homepage {
   background-image: url('./assets/Landing-Page.gif');
-  background-size: cover;
+  background-size: 100vw 100vh;
   margin: 0;
   height: 100vh;
 }
@@ -384,4 +384,63 @@ a {
 }
 .msg-receive:hover, .msg-send:hover{
 	opacity: .9;
+}
+/*media query*/
+@media  only screen and (max-width: 480px)
+{
+
+.homepage-form {
+    flex-direction: column;
+    align-items: center;
+}
+
+.topInfo
+{
+  flex-direction: column;
+  height: auto;
+}
+.topInfoText {
+    margin-top: 51px;
+    font-size: 18px;
+}
+.topInfo>h1 {
+  font-size: 18px;
+}
+.topInfo>img {
+    width: 40px;
+}
+
+.material-icons
+{
+  font-size:16px;
+}
+
+.game-button{
+  font-size: 10px;
+  padding: 2px 9px 6px;
+}
+
+.playerDeckText{
+  font-size: 18px;
+}
+
+.player1Deck
+{
+  flex-wrap: wrap;
+}
+
+.Card
+{
+  width: 2rem;
+}
+/*chat box */
+.chat-box{
+  width: auto;
+  right: 0;
+  left: 0;
+}
+.chat-text{
+  width: 100%;
+  position: initial;
+}
 }
