@@ -14,6 +14,7 @@ import draw2CardSound from '../assets/sounds/draw2-sound.mp3'
 import wildCardSound from '../assets/sounds/wild-sound.mp3'
 import draw4CardSound from '../assets/sounds/draw4-sound.mp3'
 import gameOverSound from '../assets/sounds/game-over-sound.mp3'
+import config from '../config/config.json'
 
 //NUMBER CODES FOR ACTION CARDS
 //SKIP - 404
@@ -22,8 +23,7 @@ import gameOverSound from '../assets/sounds/game-over-sound.mp3'
 //DRAW 4 WILD - 600
 
 let socket
-// const ENDPOINT = 'http://localhost:5000'
-const ENDPOINT = 'https://uno-online-multiplayer.herokuapp.com/'
+const ENDPOINT = config.endpoint;
 
 const Game = (props) => {
     const data = queryString.parse(props.location.search)
