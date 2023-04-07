@@ -1,3 +1,5 @@
+> Update: I have run out of Heroku credits and can no longer continue to keep the game deployed. Feel free to clone the repo and run it locally on your machine. Thanks!
+
 <h1 align="center">UNO ONLINE</h1>
 <h2 align="center">Two player online game of UNO</h2>
 <h3 align="center">Live at https://uno-online-multiplayer.herokuapp.com</h3>
